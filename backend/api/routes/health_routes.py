@@ -1,0 +1,2 @@
+"""Health API routes placeholder."""
+

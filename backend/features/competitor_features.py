@@ -1,0 +1,2 @@
+"""Competitive feature generation placeholder."""
+

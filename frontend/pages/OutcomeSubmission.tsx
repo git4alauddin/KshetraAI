@@ -1,0 +1,2 @@
+// Outcome submission page placeholder.
+

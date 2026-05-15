@@ -1,0 +1,2 @@
+// Explanation panel placeholder.
+

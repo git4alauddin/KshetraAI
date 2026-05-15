@@ -1,0 +1,2 @@
+// Recommendation view page placeholder.
+

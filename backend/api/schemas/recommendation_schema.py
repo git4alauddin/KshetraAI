@@ -1,0 +1,2 @@
+"""Recommendation API schemas placeholder."""
+

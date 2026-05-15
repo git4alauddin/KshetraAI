@@ -1,0 +1,2 @@
+"""Sales feature generation placeholder."""
+

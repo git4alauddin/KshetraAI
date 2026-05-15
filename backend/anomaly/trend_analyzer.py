@@ -1,0 +1,2 @@
+"""Trend analyzer placeholder."""
+

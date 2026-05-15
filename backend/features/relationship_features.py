@@ -1,0 +1,2 @@
+"""Relationship feature generation placeholder."""
+

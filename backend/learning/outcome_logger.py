@@ -1,0 +1,2 @@
+"""Outcome logger placeholder."""
+

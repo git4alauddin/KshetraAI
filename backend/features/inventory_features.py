@@ -1,0 +1,2 @@
+"""Inventory feature generation placeholder."""
+

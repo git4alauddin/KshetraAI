@@ -1,0 +1,2 @@
+"""Entity join logic placeholder."""
+

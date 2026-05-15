@@ -1,0 +1,2 @@
+"""Value normalization placeholder."""
+
