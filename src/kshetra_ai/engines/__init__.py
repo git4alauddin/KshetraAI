@@ -1,2 +1,0 @@
-"""Intelligence engine placeholders."""
-

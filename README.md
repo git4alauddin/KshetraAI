@@ -436,10 +436,7 @@ KshetraAI/
 │   └── presentation_notes/       # Presentation notes
 ├── notebooks/                    # Exploration notebooks
 ├── scripts/                      # Local utility scripts
-├── src/                          # Lightweight Python package scaffold
-│   └── kshetra_ai/
 ├── tests/                        # Automated tests
-├── data/                         # Local scratch data workspace
 └── README.md                     # Project overview
 ```
 
@@ -458,10 +455,11 @@ Install the local package with development tools:
 
 ```powershell
 python -m pip install -U pip
-python -m pip install -e ".[dev]"
 ```
 
-Run the starter test:
+Project dependencies will be added in the backend/frontend setup files as each scoped implementation phase begins.
+
+Run tests after test tooling is added:
 
 ```powershell
 pytest
