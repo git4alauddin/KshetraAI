@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
+*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -28,3 +29,9 @@ Thumbs.db
 *.log
 coverage/
 htmlcov/
+
+# Local data files
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
