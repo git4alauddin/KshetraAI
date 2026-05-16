@@ -1,2 +1,49 @@
-# Agronomic rules placeholder.
+# Build 04 agronomic contextual decision rules.
+#
+# Rules are structured inputs for deterministic recommendation logic. They do
+# not diagnose crop disease, generate explanation text, or modify priority.
 
+rules:
+  - rule_id: AGRONOMIC_PEST_DISEASE_RISK_HIGH
+    rule_type: agronomic
+    priority_order: 10
+    conditions:
+      all:
+        - field: pest_disease_risk_score
+          operator: gte
+          value: 75
+        - field: crop_stage_risk_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Possible pest or disease pressure
+    recommended_actions:
+      - inspect_crop_symptoms
+      - discuss_crop_protection_advisory_if_symptoms_are_observed
+      - capture_field_observation_notes
+    recommended_product_category: Crop Protection
+    confidence_level: High
+    evidence_fields:
+      - pest_disease_risk_score
+      - crop_stage_risk_score
+
+  - rule_id: AGRONOMIC_WEATHER_STRESS_MONITORING
+    rule_type: agronomic
+    priority_order: 20
+    conditions:
+      all:
+        - field: weather_risk_score
+          operator: gte
+          value: 70
+        - field: ndvi_stress_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Possible weather-linked crop stress
+    recommended_actions:
+      - inspect_crop_stress_indicators
+      - discuss_preventive_crop_care_steps
+      - schedule_follow_up_if_stress_is_visible
+    recommended_product_category: Crop Care
+    confidence_level: Medium
+    evidence_fields:
+      - weather_risk_score
+      - ndvi_stress_score

@@ -34,3 +34,36 @@ classification_policy:
   min_score_inclusive: true
   max_score_inclusive: true
   fail_on_out_of_range_score: true
+
+contextual_decision:
+  supported_operators:
+    - gte
+    - lte
+    - eq
+  confidence_levels:
+    - High
+    - Medium
+    - Low
+  allowed_rule_types:
+    - agronomic
+    - inventory
+    - sales
+    - relationship
+    - competitive
+  allowed_product_categories:
+    - None
+    - Crop Care
+    - Crop Protection
+    - Relevant Seasonal SKU
+    - Seasonal Crop Input
+    - Previously Purchased Category
+    - Campaign Category
+    - Relevant Portfolio Category
+  rule_selection:
+    max_rules_per_entity: 3
+    deterministic_sort_keys:
+      - priority_order
+      - rule_id
+  safety_policy:
+    require_possible_language_for_risks: true
+    forbid_certainty_claims: true

@@ -1,2 +1,46 @@
-# Relationship rules placeholder.
+# Build 04 relationship contextual decision rules.
 
+rules:
+  - rule_id: RELATIONSHIP_FOLLOW_UP_NEED_HIGH
+    rule_type: relationship
+    priority_order: 10
+    conditions:
+      all:
+        - field: relationship_need_score
+          operator: gte
+          value: 75
+        - field: account_priority_score
+          operator: gte
+          value: 65
+    risk_or_opportunity: Relationship follow-up need
+    recommended_actions:
+      - schedule_relationship_follow_up
+      - review_open_account_context
+      - capture_retailer_feedback
+    recommended_product_category: None
+    confidence_level: High
+    evidence_fields:
+      - relationship_need_score
+      - account_priority_score
+
+  - rule_id: RELATIONSHIP_CAMPAIGN_ENGAGEMENT_OPPORTUNITY
+    rule_type: relationship
+    priority_order: 20
+    conditions:
+      all:
+        - field: campaign_engagement_score
+          operator: gte
+          value: 70
+        - field: account_priority_score
+          operator: gte
+          value: 50
+    risk_or_opportunity: Campaign engagement follow-up opportunity
+    recommended_actions:
+      - follow_up_on_recent_campaign_engagement
+      - confirm_interest_and_next_step
+      - record_campaign_response
+    recommended_product_category: Campaign Category
+    confidence_level: Medium
+    evidence_fields:
+      - campaign_engagement_score
+      - account_priority_score

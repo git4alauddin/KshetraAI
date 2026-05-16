@@ -1,2 +1,46 @@
-# Sales rules placeholder.
+# Build 04 sales opportunity contextual decision rules.
 
+rules:
+  - rule_id: SALES_SEASONAL_OPPORTUNITY_HIGH
+    rule_type: sales
+    priority_order: 10
+    conditions:
+      all:
+        - field: sales_opportunity_score
+          operator: gte
+          value: 75
+        - field: seasonal_product_relevance
+          operator: gte
+          value: 70
+    risk_or_opportunity: High seasonal sales opportunity
+    recommended_actions:
+      - discuss_seasonally_relevant_products
+      - review_expected_crop_demand
+      - propose_order_planning_conversation
+    recommended_product_category: Seasonal Crop Input
+    confidence_level: High
+    evidence_fields:
+      - sales_opportunity_score
+      - seasonal_product_relevance
+
+  - rule_id: SALES_PURCHASE_HISTORY_OPPORTUNITY
+    rule_type: sales
+    priority_order: 20
+    conditions:
+      all:
+        - field: historical_sales_score
+          operator: gte
+          value: 65
+        - field: purchase_history_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Repeat purchase opportunity
+    recommended_actions:
+      - review_recent_purchase_pattern
+      - discuss_reorder_readiness
+      - confirm_relevant_product_interest
+    recommended_product_category: Previously Purchased Category
+    confidence_level: Medium
+    evidence_fields:
+      - historical_sales_score
+      - purchase_history_score

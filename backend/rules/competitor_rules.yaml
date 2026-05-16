@@ -1,2 +1,42 @@
-# Competitor rules placeholder.
+# Build 04 competitive response contextual decision rules.
 
+rules:
+  - rule_id: COMPETITOR_PRESSURE_RESPONSE_HIGH
+    rule_type: competitive
+    priority_order: 10
+    conditions:
+      all:
+        - field: competitive_pressure_score
+          operator: gte
+          value: 75
+        - field: sales_opportunity_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Competitive pressure detected
+    recommended_actions:
+      - discuss_competitive_market_context
+      - reinforce_supported_value_proposition
+      - review_defensive_engagement_options
+    recommended_product_category: Relevant Portfolio Category
+    confidence_level: High
+    evidence_fields:
+      - competitive_pressure_score
+      - sales_opportunity_score
+
+  - rule_id: COMPETITOR_PRESSURE_MONITORING
+    rule_type: competitive
+    priority_order: 20
+    conditions:
+      all:
+        - field: competitive_pressure_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Possible competitor activity pressure
+    recommended_actions:
+      - collect_competitor_activity_feedback
+      - monitor_retailer_switching_risk
+      - plan_follow_up_if_pressure_increases
+    recommended_product_category: Relevant Portfolio Category
+    confidence_level: Medium
+    evidence_fields:
+      - competitive_pressure_score

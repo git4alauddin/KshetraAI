@@ -1,2 +1,46 @@
-# Inventory rules placeholder.
+# Build 04 inventory contextual decision rules.
 
+rules:
+  - rule_id: INVENTORY_REPLENISHMENT_NEED_HIGH
+    rule_type: inventory
+    priority_order: 10
+    conditions:
+      all:
+        - field: inventory_need_score
+          operator: gte
+          value: 75
+        - field: stockout_risk_score
+          operator: gte
+          value: 70
+    risk_or_opportunity: High inventory replenishment need
+    recommended_actions:
+      - review_current_stock_position
+      - recommend_replenishment_quantity_discussion
+      - align_restocking_with_near_term_demand
+    recommended_product_category: Relevant Seasonal SKU
+    confidence_level: High
+    evidence_fields:
+      - inventory_need_score
+      - stockout_risk_score
+
+  - rule_id: INVENTORY_FAST_MOVING_SKU_MONITORING
+    rule_type: inventory
+    priority_order: 20
+    conditions:
+      all:
+        - field: sales_velocity_score
+          operator: gte
+          value: 70
+        - field: stock_level_score
+          operator: gte
+          value: 60
+    risk_or_opportunity: Possible fast-moving stock pressure
+    recommended_actions:
+      - review_fast_moving_sku_availability
+      - check_reorder_timing
+      - plan_inventory_follow_up
+    recommended_product_category: Relevant Seasonal SKU
+    confidence_level: Medium
+    evidence_fields:
+      - sales_velocity_score
+      - stock_level_score
