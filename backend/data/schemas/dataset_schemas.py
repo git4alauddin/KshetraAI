@@ -229,6 +229,7 @@ GROWERS_SCHEMA = DatasetSchema(
         "product_name",
     ),
     nullable_columns=(
+        "grower_crop_calendar",
         "product_name",
         "product_scan_datetime",
         "campaign_attendance_date",
@@ -380,4 +381,3 @@ def get_canonical_view_sources(view_name: str) -> tuple[str, ...]:
     except KeyError as exc:
         known = ", ".join(sorted(CANONICAL_VIEW_SOURCES))
         raise KeyError(f"Unknown canonical view '{view_name}'. Known: {known}") from exc
-
