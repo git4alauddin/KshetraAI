@@ -665,3 +665,23 @@ typed,
 frontend-ready API endpoints
 without duplicating core business logic.
 ```
+
+---
+
+# 29. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 08: Implement FastAPI app entrypoint | Wire the app startup, router registration, and health-ready structure without business logic duplication. | `backend/main.py`, `backend/api/routes/health_routes.py` |
+| 2 | Build 08: Define API schemas | Create typed request and response schemas for planning, recommendations, alerts, explanations, and outcomes. | `backend/api/schemas/` |
+| 3 | Build 08: Implement planning and recommendation routes | Expose daily plan and recommendation outputs from existing engines or processed views. | `backend/api/routes/planning_routes.py`, `backend/api/routes/recommendation_routes.py` |
+| 4 | Build 08: Implement alert and explainability routes | Expose anomaly alerts and explanation outputs without recalculating core business logic in routes. | `backend/api/routes/anomaly_routes.py`, `backend/api/routes/explainability_routes.py` |
+| 5 | Build 08: Implement outcome and health routes | Accept outcome submissions and provide operational health checks with stable responses. | `backend/api/routes/outcome_routes.py`, `backend/api/routes/health_routes.py` |
+| 6 | Build 08: Add API tests | Validate route schemas, happy paths, missing input behavior, and stable response shapes. | `tests/` |
+| 7 | Build 08: Verify API integration checklist | Confirm this build exposes existing intelligence only and does not modify scoring, recommendations, alerts, explanations, or frontend behavior. | `docs/implementation/08_fastApi_backend_integration.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

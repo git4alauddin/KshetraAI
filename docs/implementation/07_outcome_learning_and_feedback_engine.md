@@ -593,9 +593,9 @@ Expected outputs:
 - outcome logger
 - feedback processor
 - recommendation tracker
-- alert validation tracker
+- analytics engine
 - metrics engine
-- recalibration signal engine
+- recalibration engine
 - outcome logs
 - performance metrics
 - recalibration suggestion logs
@@ -627,3 +627,24 @@ measures recommendation effectiveness,
 and generates human-reviewable learning signals
 without autonomously changing system behavior.
 ```
+
+---
+
+# 31. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 07: Define outcome metrics and recalibration rules | Configure measurable outcome metrics and human-reviewable recalibration signal rules. | `backend/config/outcome_metrics.yaml`, `backend/config/recalibration_rules.yaml` |
+| 2 | Build 07: Implement outcome logging | Record field outcomes and user feedback with stable schema and no autonomous model changes. | `backend/learning/outcome_logger.py` |
+| 3 | Build 07: Implement recommendation tracking | Link recommendations to acceptance, rejection, visit outcome, and follow-up results. | `backend/learning/recommendation_tracker.py` |
+| 4 | Build 07: Implement feedback processing | Normalize feedback events into deterministic learning inputs. | `backend/learning/feedback_processor.py` |
+| 5 | Build 07: Implement metrics and analytics | Calculate recommendation effectiveness, commercial outcomes, and alert validation metrics. | `backend/learning/metrics_engine.py`, `backend/learning/analytics_engine.py` |
+| 6 | Build 07: Implement recalibration signal generation | Generate human-reviewable recalibration suggestions without changing production rules automatically. | `backend/learning/recalibration_engine.py` |
+| 7 | Build 07: Add outcome learning tests | Validate outcome logging, feedback processing, metrics, recalibration suggestions, and determinism. | `tests/` |
+| 8 | Build 07: Verify outcome learning checklist | Confirm this build tracks learning only and does not alter scoring, recommendations, anomalies, explanations, APIs, or frontend logic. | `docs/implementation/07_outcome_learning_and_feedback_engine.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

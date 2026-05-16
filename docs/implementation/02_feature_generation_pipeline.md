@@ -674,3 +674,23 @@ normalized,
 and reusable intelligence signals
 for downstream decision engines.
 ```
+
+---
+
+# 32. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 02: Define feature thresholds and registry | Establish configurable thresholds and feature metadata without generating final priorities. | `backend/config/feature_thresholds.yaml`, `backend/features/feature_registry.py` |
+| 2 | Build 02: Implement agronomic feature builders | Generate weather, pest, crop-stage, and NDVI-style agronomic feature signals from processed inputs. | `backend/features/agronomic_features.py` |
+| 3 | Build 02: Implement sales and inventory feature builders | Generate deterministic sales opportunity and inventory urgency feature signals. | `backend/features/sales_features.py`, `backend/features/inventory_features.py` |
+| 4 | Build 02: Implement relationship, competitor, and travel feature builders | Generate engagement gap, competitive pressure, and lightweight travel feasibility signals. | `backend/features/relationship_features.py`, `backend/features/competitor_features.py`, `backend/features/travel_features.py` |
+| 5 | Build 02: Implement feature pipeline output views | Orchestrate feature builders into stable priority, contextual, anomaly, and registry outputs. | `backend/features/feature_pipeline.py`, `backend/pipelines/`, `datasets/processed/` |
+| 6 | Build 02: Add feature generation tests | Validate ranges, schema stability, deterministic generation, and missing-input errors. | `tests/` |
+| 7 | Build 02: Verify feature pipeline checklist | Confirm this build generated features only and did not introduce scoring, recommendations, alerts, APIs, or frontend behavior. | `docs/implementation/02_feature_generation_pipeline.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

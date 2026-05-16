@@ -494,3 +494,23 @@ explainable,
 workflow-driven,
 presentation-ready prototype.
 ```
+
+---
+
+# 25. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 10: Prepare deterministic demo scenario | Lock a stable demo scenario, expected inputs, and expected outputs for judging. | `demo/`, `docs/demo/`, `datasets/processed/` |
+| 2 | Build 10: Integrate backend and frontend workflow | Verify the full user journey from planning to recommendation, explanation, alert, and outcome submission. | `backend/`, `frontend/`, `demo/` |
+| 3 | Build 10: Add sample outputs and screenshots | Capture representative outputs and visuals for demo review without exposing private raw data. | `docs/demo/`, `demo/` |
+| 4 | Build 10: Add demo judging flow notes | Document the story, scenario steps, success metrics, and fallback path for presentation. | `docs/demo/`, `README.md` |
+| 5 | Build 10: Run integration and acceptance checks | Run backend, frontend, API, and workflow checks needed for demo confidence. | `tests/`, `demo/` |
+| 6 | Build 10: Final polish and readiness review | Clean presentation friction, verify architecture boundaries, and confirm the prototype is stable. | `README.md`, `docs/demo/`, `demo/` |
+| 7 | Build 10: Verify final demo checklist | Confirm no new intelligence logic, schema drift, or private-data exposure was introduced. | `docs/implementation/10_demo_integration_testing_final_polish.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

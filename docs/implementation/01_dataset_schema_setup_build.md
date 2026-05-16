@@ -364,3 +364,24 @@ Before accepting Build 01, review:
 # 16. Build 01 Final Statement
 
 Build 01 is successful when KshetraAI has a clean, validated, deterministic data foundation based on company-provided internal data, with controlled handling for missing external signals and no downstream intelligence logic introduced.
+
+---
+
+# 17. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 01: Define source dataset schemas | Define source file schemas, required columns, key fields, and validation metadata from real company data. | `backend/data/schemas/dataset_schemas.py` |
+| 2 | Build 01: Implement CSV source loading | Load allowed CSV sources from `private-data/` without mutating or copying raw private files. | `backend/data/loaders/csv_loader.py`, `backend/utils/data_utils.py` |
+| 3 | Build 01: Implement schema validation | Validate required files, columns, keys, dates, JSON fields, and clear failure messages. | `backend/data/validators/schema_validator.py` |
+| 4 | Build 01: Implement value normalization | Normalize IDs, dates, booleans, categorical labels, and JSON-compatible fields deterministically. | `backend/data/normalizers/value_normalizer.py` |
+| 5 | Build 01: Implement canonical entity joins | Build validated links across reps, territories, retailers, growers, visits, POS, inventory, and campaigns. | `backend/data/joins/entity_joiner.py` |
+| 6 | Build 01: Build canonical processed views | Generate the approved canonical views and validation summary under `datasets/processed/`. | `backend/pipelines/build_priority_view.py`, `backend/pipelines/build_context_view.py`, `backend/pipelines/pipeline_runner.py`, `datasets/processed/` |
+| 7 | Build 01: Add data pipeline tests | Cover schema validation, normalization, referential integrity, and deterministic output behavior. | `tests/` |
+| 8 | Build 01: Verify dataset foundation checklist | Review this build checklist and confirm no downstream logic or private-data mutation was introduced. | `docs/implementation/01_dataset_schema_setup_build.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

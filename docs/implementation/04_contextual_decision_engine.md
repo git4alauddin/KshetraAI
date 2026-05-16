@@ -433,3 +433,23 @@ Before accepting Build 04, review:
 # 18. Build 04 Final Statement
 
 Build 04 is successful when KshetraAI can deterministically convert prioritized contextual signals into safe, structured, traceable next-best-action recommendations without introducing scoring, anomaly detection, explanation generation, or frontend/API behavior.
+
+---
+
+# 19. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 04: Define contextual decision rules | Finalize deterministic rule files for agronomic, inventory, sales, relationship, and competitor contexts. | `backend/rules/`, `backend/config/decision_thresholds.yaml` |
+| 2 | Build 04: Implement contextual rule matching | Match prioritized entities to eligible rules with stable rule IDs and evidence fields. | `backend/engines/contextual_decision_engine.py` |
+| 3 | Build 04: Implement recommendation generation | Produce structured next-best-action outputs without explanation text or scoring changes. | `backend/engines/recommendation_engine.py` |
+| 4 | Build 04: Implement advisory action selection | Select safe advisory/action categories from matched context and supported evidence. | `backend/engines/advisory_engine.py`, `backend/engines/action_selector.py` |
+| 5 | Build 04: Add contextual decision trace outputs | Preserve matched rules, evidence fields, confidence labels, and deterministic trace metadata. | `backend/engines/contextual_decision_engine.py`, `backend/pipelines/`, `datasets/processed/` |
+| 6 | Build 04: Add contextual decision tests | Validate rule matching, no-match behavior, output stability, safety language, and schema consistency. | `tests/` |
+| 7 | Build 04: Verify contextual decision checklist | Confirm this build creates recommendations only and avoids scoring, anomaly, explanation, API, and frontend work. | `docs/implementation/04_contextual_decision_engine.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

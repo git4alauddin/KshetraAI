@@ -574,3 +574,23 @@ into explainable,
 ranked,
 and operationally meaningful field visit priorities.
 ```
+
+---
+
+# 30. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 03: Configure priority weights | Define deterministic component weights and priority thresholds. | `backend/config/priority_weights.yaml`, `backend/config/decision_thresholds.yaml` |
+| 2 | Build 03: Implement component scorers | Convert feature signals into bounded component scores with trace metadata. | `backend/engines/component_scorers.py` |
+| 3 | Build 03: Implement weighted priority scoring | Combine component scores into final priority scores without recommendation logic. | `backend/engines/scoring_engine.py`, `backend/engines/priority_engine.py` |
+| 4 | Build 03: Implement deterministic ranking | Rank entities with stable sorting and explicit tie-breaking. | `backend/engines/ranking_engine.py` |
+| 5 | Build 03: Implement priority classification | Assign priority bands using configured thresholds and stable labels. | `backend/engines/priority_classifier.py` |
+| 6 | Build 03: Add priority engine tests | Validate weighting, tie-breaking, classification, schema stability, and determinism. | `tests/` |
+| 7 | Build 03: Verify prioritization checklist | Confirm this build ranks priorities only and does not create recommendations, anomalies, APIs, or frontend behavior. | `docs/implementation/03_dynamic_prioritization_engine.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

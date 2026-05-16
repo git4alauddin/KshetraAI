@@ -601,7 +601,7 @@ Expected outputs:
 - evidence mapper
 - confidence engine
 - template generator
-- safety validator
+- confidence and template safety rules
 - explanation output datasets
 - explanation trace metadata
 - configurable templates
@@ -634,3 +634,23 @@ safe,
 traceable,
 and human-understandable reasoning.
 ```
+
+---
+
+# 32. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 06: Define explanation templates and confidence rules | Configure approved explanation templates, evidence requirements, and confidence-language rules. | `backend/config/explanation_templates.yaml`, `backend/config/confidence_rules.yaml` |
+| 2 | Build 06: Implement evidence mapping | Map priority, recommendation, and alert outputs back to supported evidence fields. | `backend/explainability/evidence_mapper.py`, `backend/explainability/explanation_registry.py` |
+| 3 | Build 06: Implement confidence reasoning | Convert score traces and evidence completeness into stable confidence signals. | `backend/explainability/confidence_engine.py` |
+| 4 | Build 06: Implement explanation generation | Generate deterministic, template-based explanations without uncontrolled LLM output. | `backend/explainability/explanation_engine.py`, `backend/explainability/template_generator.py` |
+| 5 | Build 06: Implement reasoning formatting | Format explanations for API/frontend consumption with stable schema and safe wording. | `backend/explainability/reasoning_formatter.py` |
+| 6 | Build 06: Add explainability tests | Validate evidence coverage, template output, confidence labels, safety language, and determinism. | `tests/` |
+| 7 | Build 06: Verify explainability checklist | Confirm this build explains existing outputs only and does not add scoring, recommendations, anomalies, APIs, or frontend logic. | `docs/implementation/06_explainability_and_trust_engine.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

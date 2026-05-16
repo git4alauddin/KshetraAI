@@ -655,3 +655,23 @@ to generate explainable,
 evidence-backed,
 and severity-ranked field alerts.
 ```
+
+---
+
+# 32. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 05: Configure anomaly thresholds and baselines | Define configurable baselines, thresholds, and severity boundaries. | `backend/config/anomaly_thresholds.yaml`, `backend/config/baselines.yaml` |
+| 2 | Build 05: Implement baseline comparison | Compare current feature signals against historical or configured baselines deterministically. | `backend/anomaly/baseline_engine.py` |
+| 3 | Build 05: Implement deviation detection | Detect meaningful positive and negative deviations without generating recommendations. | `backend/anomaly/deviation_detector.py` |
+| 4 | Build 05: Implement severity classification | Classify alert severity with stable labels and threshold behavior. | `backend/anomaly/severity_classifier.py` |
+| 5 | Build 05: Implement alert generation | Generate evidence-backed anomaly and opportunity alerts with trace metadata. | `backend/anomaly/anomaly_engine.py`, `backend/anomaly/alert_generator.py`, `backend/anomaly/trend_analyzer.py` |
+| 6 | Build 05: Add anomaly detection tests | Validate baseline comparison, threshold behavior, severity labels, alert schema, and determinism. | `tests/` |
+| 7 | Build 05: Verify anomaly detection checklist | Confirm this build generates alerts only and does not modify priority, recommendation, explanation, API, or frontend logic. | `docs/implementation/05_anomaly_and_opportunity_detection_engine.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.

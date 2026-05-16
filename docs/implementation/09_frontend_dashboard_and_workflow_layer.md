@@ -587,3 +587,23 @@ explainable,
 workflow-oriented field-force interface
 without duplicating backend logic.
 ```
+
+---
+
+# 30. Task Breakdown & Execution Order
+
+Use `docs/implementation/build_execution_prompt.md` while working through this build.
+
+Each task heading below is intended to be usable as the future commit heading. Work one task at a time: present the heading, short brief, expected file scope, and what will not be touched; then wait for explicit implementation approval.
+
+| Order | Commit Heading | Scope | Primary Files |
+|---|---|---|---|
+| 1 | Build 09: Create frontend application shell | Establish the dashboard shell, routing/layout basics, and workflow frame. | `frontend/` |
+| 2 | Build 09: Implement API client and state hooks | Connect frontend views to backend endpoints without duplicating backend business logic. | `frontend/services/`, `frontend/hooks/` |
+| 3 | Build 09: Implement daily visit plan view | Present ranked daily visit priorities and supporting context from API responses. | `frontend/pages/`, `frontend/components/priority/` |
+| 4 | Build 09: Implement recommendation and explanation views | Show next-best-action details, evidence, confidence, and explanation content from backend data. | `frontend/components/recommendations/`, `frontend/components/explainability/` |
+| 5 | Build 09: Implement alert and outcome views | Display anomaly alerts and capture outcome feedback through backend APIs. | `frontend/components/alerts/`, `frontend/components/outcomes/` |
+| 6 | Build 09: Add frontend workflow tests | Validate rendering, loading/error states, API-driven behavior, and outcome submission flow. | `frontend/`, `tests/` |
+| 7 | Build 09: Verify frontend workflow checklist | Confirm this build is UI-only and does not compute intelligence, change API schemas, or modify backend logic. | `docs/implementation/09_frontend_dashboard_and_workflow_layer.md` |
+
+Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.
