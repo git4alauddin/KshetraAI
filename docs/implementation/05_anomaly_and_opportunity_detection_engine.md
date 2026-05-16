@@ -675,3 +675,41 @@ Each task heading below is intended to be usable as the future commit heading. W
 | 7 | Build 05: Verify anomaly detection checklist | Confirm this build generates alerts only and does not modify priority, recommendation, explanation, API, or frontend logic. | `docs/implementation/05_anomaly_and_opportunity_detection_engine.md` |
 
 Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.
+
+---
+
+# 33. Build 05 Completion Verification
+
+Status: Complete
+
+Implemented scope:
+
+- Configurable anomaly thresholds in `backend/config/anomaly_thresholds.yaml`
+- Configurable baseline defaults in `backend/config/baselines.yaml`
+- Baseline comparison in `backend/anomaly/baseline_engine.py`
+- Deviation detection in `backend/anomaly/deviation_detector.py`
+- Severity classification in `backend/anomaly/severity_classifier.py`
+- Trend metadata helpers in `backend/anomaly/trend_analyzer.py`
+- Structured alert generation in `backend/anomaly/alert_generator.py`
+- End-to-end anomaly orchestration in `backend/anomaly/anomaly_engine.py`
+- Build-prefixed tests under `tests/test_build05_*.py`
+
+Verified behavior:
+
+- Baseline-enriched anomaly feature rows are generated deterministically.
+- Deviations are detected only when configured thresholds are met.
+- Severity scores and labels are derived from configurable weights and bands.
+- Alert IDs, alert ordering, output columns, and trace rows remain stable.
+- Supporting evidence is required for every generated alert.
+- Quiet inputs produce empty alert and trace outputs with stable schemas.
+- The anomaly engine covers agronomic, sales, inventory, competitive, and operational categories.
+- Full test discovery passed after the final Build 05 test hardening pass.
+
+Anti-drift confirmation:
+
+- No final priority ranking logic was added or changed.
+- No contextual recommendation or next-best-action logic was implemented.
+- No human-readable explanation generation was implemented.
+- No API or frontend behavior was implemented.
+- No ML anomaly model, autonomous prediction system, or outcome learning logic was introduced.
+- No private company data files or architecture/contract documents were modified.
