@@ -17,6 +17,8 @@ from backend.engines.component_scorers import (
     load_priority_weight_config,
     score_all_components,
 )
+from backend.engines.priority_classifier import add_priority_classification
+from backend.engines.ranking_engine import rank_priority_scores
 from backend.engines.scoring_engine import (
     PriorityScore,
     calculate_priority_score,
@@ -62,3 +64,14 @@ def build_priority_score_view(
     if "entity_id" in output.columns:
         output = output.sort_values("entity_id", kind="mergesort")
     return output.reset_index(drop=True)
+
+
+def build_ranked_priority_view(
+    feature_view: pd.DataFrame,
+    config: Mapping[str, Any] | None = None,
+) -> pd.DataFrame:
+    """Build scored, classified, and ranked priority outputs."""
+
+    priority_scores = build_priority_score_view(feature_view, config)
+    classified_scores = add_priority_classification(priority_scores)
+    return rank_priority_scores(classified_scores)
