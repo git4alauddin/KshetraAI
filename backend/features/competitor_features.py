@@ -112,10 +112,10 @@ def _sales_decline_proxy(retailer_pos_clean: pd.DataFrame) -> pd.DataFrame:
     proxy = pd.DataFrame({"entity_id": entity_ids})
     proxy["recent_units"] = proxy["entity_id"].map(recent_units).fillna(0)
     proxy["prior_units"] = proxy["entity_id"].map(prior_units).fillna(0)
-    proxy["sales_decline_proxy_score"] = _clamp_score(
-        ((proxy["prior_units"] - proxy["recent_units"]) / proxy["prior_units"].replace(0, pd.NA)).fillna(0)
-        * 100
-    )
+    prior_units = pd.to_numeric(proxy["prior_units"], errors="coerce").fillna(0)
+    recent_units = pd.to_numeric(proxy["recent_units"], errors="coerce").fillna(0)
+    decline_ratio = ((prior_units - recent_units) / prior_units.where(prior_units.ne(0))).fillna(0)
+    proxy["sales_decline_proxy_score"] = _clamp_score(decline_ratio * 100)
     return proxy.loc[:, ["entity_id", "sales_decline_proxy_score"]]
 
 
@@ -159,4 +159,3 @@ def _ensure_columns(
 
 def _clean_text_series(values: pd.Series) -> pd.Series:
     return values.astype("string").fillna("").str.strip()
-

@@ -11,6 +11,7 @@ from collections.abc import Mapping
 import pandas as pd
 
 from backend.data.joins.entity_joiner import build_canonical_views
+from backend.features.feature_pipeline import build_feature_output_views
 
 
 PRIORITY_FOUNDATION_VIEW_NAMES = (
@@ -36,3 +37,10 @@ def build_priority_foundation_views(
         for view_name in PRIORITY_FOUNDATION_VIEW_NAMES
     }
 
+
+def build_priority_feature_view(
+    processed_datasets: Mapping[str, pd.DataFrame],
+) -> pd.DataFrame:
+    """Return the Build 02 prioritization-ready feature view."""
+
+    return build_feature_output_views(processed_datasets)["priority_feature_view"]
