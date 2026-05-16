@@ -1,2 +1,80 @@
-# Baseline configuration placeholder.
+# Build 05 baseline configuration.
+#
+# These configured baselines provide deterministic prototype defaults until
+# historical rolling baselines are derived from processed data. They do not
+# implement detection, scoring, recommendations, explanations, or learning.
 
+baseline_policy:
+  baseline_score_range:
+    min: 0
+    max: 100
+  default_source: configured_static_baseline
+  allow_entity_specific_overrides: true
+  missing_baseline_behavior: explicit_warning_skip_detector
+  stale_baseline_behavior: warn_and_continue
+  stale_after_days: 30
+  deterministic_join_keys:
+    - entity_id
+    - territory_id
+
+baseline_groups:
+  agronomic:
+    source_view: anomaly_feature_view
+    baseline_window_days: 30
+    signals:
+      ndvi_stress_baseline_score:
+        source_signal: ndvi_stress_score
+        default_value: 35
+      pest_disease_risk_baseline_score:
+        source_signal: pest_disease_risk_score
+        default_value: 30
+      weather_risk_baseline_score:
+        source_signal: weather_risk_score
+        default_value: 40
+
+  sales:
+    source_view: anomaly_feature_view
+    baseline_window_days: 30
+    signals:
+      sales_opportunity_baseline_score:
+        source_signal: sales_opportunity_score
+        default_value: 45
+      historical_sales_baseline_score:
+        source_signal: historical_sales_score
+        default_value: 50
+
+  inventory:
+    source_view: anomaly_feature_view
+    baseline_window_days: 14
+    signals:
+      inventory_need_baseline_score:
+        source_signal: inventory_need_score
+        default_value: 45
+      stockout_risk_baseline_score:
+        source_signal: stockout_risk_score
+        default_value: 40
+
+  competitive:
+    source_view: anomaly_feature_view
+    baseline_window_days: 30
+    signals:
+      competitive_pressure_baseline_score:
+        source_signal: competitive_pressure_score
+        default_value: 35
+
+  operational:
+    source_view: anomaly_feature_view
+    baseline_window_days: 30
+    signals:
+      relationship_need_baseline_score:
+        source_signal: relationship_need_score
+        default_value: 45
+
+baseline_output_schema:
+  - entity_id
+  - territory_id
+  - baseline_signal
+  - baseline_value
+  - baseline_source
+  - baseline_window_days
+  - baseline_generated_at

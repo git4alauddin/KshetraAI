@@ -1,2 +1,189 @@
-# Anomaly threshold configuration placeholder.
+# Build 05 anomaly and opportunity detection thresholds.
+#
+# This file defines deterministic alert configuration only. It does not
+# implement anomaly detection logic, priority scoring, recommendations,
+# explanation text, API behavior, frontend behavior, or ML models.
 
+score_range:
+  min: 0
+  max: 100
+
+severity_levels:
+  critical:
+    label: Critical
+    severity_rank: 4
+    min_score: 80
+    max_score: 100
+  high:
+    label: High
+    severity_rank: 3
+    min_score: 65
+    max_score: 79.999
+  moderate:
+    label: Moderate
+    severity_rank: 2
+    min_score: 50
+    max_score: 64.999
+  low:
+    label: Low
+    severity_rank: 1
+    min_score: 0
+    max_score: 49.999
+
+alert_categories:
+  - agronomic_anomaly
+  - sales_opportunity
+  - sales_risk
+  - inventory_risk
+  - competitive_event
+  - operational_gap
+
+confidence_levels:
+  - High
+  - Medium
+  - Low
+
+detection_policy:
+  require_entity_id: true
+  require_supporting_evidence: true
+  clamp_severity_score_to_range: true
+  deterministic_sort_keys:
+    - entity_id
+    - alert_type
+    - detector_id
+
+detectors:
+  agronomic_crop_stress_escalation:
+    detector_id: AGRONOMIC_CROP_STRESS_ESCALATION
+    alert_type: Possible crop stress escalation
+    category: agronomic_anomaly
+    current_signal: ndvi_stress_score
+    baseline_signal: ndvi_stress_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 20
+    high_deviation_score: 35
+    critical_deviation_score: 50
+    severity_signal_weights:
+      current_signal_weight: 0.60
+      deviation_weight: 0.40
+    confidence_level: Medium
+    evidence_fields:
+      - ndvi_stress_score
+      - ndvi_stress_baseline_score
+      - weather_risk_score
+
+  pest_weather_risk_escalation:
+    detector_id: AGRONOMIC_PEST_WEATHER_RISK_ESCALATION
+    alert_type: Possible pest or disease risk escalation
+    category: agronomic_anomaly
+    current_signal: pest_disease_risk_score
+    baseline_signal: pest_disease_risk_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 15
+    high_deviation_score: 30
+    critical_deviation_score: 45
+    severity_signal_weights:
+      current_signal_weight: 0.65
+      deviation_weight: 0.35
+    confidence_level: High
+    evidence_fields:
+      - pest_disease_risk_score
+      - pest_disease_risk_baseline_score
+      - weather_risk_score
+      - crop_stage_risk_score
+
+  sales_demand_spike_opportunity:
+    detector_id: SALES_DEMAND_SPIKE_OPPORTUNITY
+    alert_type: Demand spike opportunity
+    category: sales_opportunity
+    current_signal: sales_opportunity_score
+    baseline_signal: sales_opportunity_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 20
+    high_deviation_score: 35
+    critical_deviation_score: 50
+    severity_signal_weights:
+      current_signal_weight: 0.55
+      deviation_weight: 0.45
+    confidence_level: High
+    evidence_fields:
+      - sales_opportunity_score
+      - sales_opportunity_baseline_score
+      - seasonal_product_relevance
+
+  sales_decline_risk:
+    detector_id: SALES_DECLINE_RISK
+    alert_type: Sales decline warning
+    category: sales_risk
+    current_signal: historical_sales_score
+    baseline_signal: historical_sales_baseline_score
+    deviation_direction: decrease
+    minimum_deviation_score: 20
+    high_deviation_score: 35
+    critical_deviation_score: 50
+    severity_signal_weights:
+      current_signal_weight: 0.40
+      deviation_weight: 0.60
+    confidence_level: Medium
+    evidence_fields:
+      - historical_sales_score
+      - historical_sales_baseline_score
+      - competitive_pressure_score
+
+  inventory_stockout_risk:
+    detector_id: INVENTORY_STOCKOUT_RISK
+    alert_type: Possible stock-out risk
+    category: inventory_risk
+    current_signal: inventory_need_score
+    baseline_signal: inventory_need_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 15
+    high_deviation_score: 30
+    critical_deviation_score: 45
+    severity_signal_weights:
+      current_signal_weight: 0.70
+      deviation_weight: 0.30
+    confidence_level: High
+    evidence_fields:
+      - inventory_need_score
+      - inventory_need_baseline_score
+      - stockout_risk_score
+      - sales_velocity_score
+
+  competitive_pressure_escalation:
+    detector_id: COMPETITIVE_PRESSURE_ESCALATION
+    alert_type: Competitive pressure escalation
+    category: competitive_event
+    current_signal: competitive_pressure_score
+    baseline_signal: competitive_pressure_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 15
+    high_deviation_score: 30
+    critical_deviation_score: 45
+    severity_signal_weights:
+      current_signal_weight: 0.65
+      deviation_weight: 0.35
+    confidence_level: Medium
+    evidence_fields:
+      - competitive_pressure_score
+      - competitive_pressure_baseline_score
+      - sales_opportunity_score
+
+  operational_coverage_gap:
+    detector_id: OPERATIONAL_COVERAGE_GAP
+    alert_type: Coverage gap alert
+    category: operational_gap
+    current_signal: relationship_need_score
+    baseline_signal: relationship_need_baseline_score
+    deviation_direction: increase
+    minimum_deviation_score: 20
+    high_deviation_score: 35
+    critical_deviation_score: 50
+    severity_signal_weights:
+      current_signal_weight: 0.60
+      deviation_weight: 0.40
+    confidence_level: Medium
+    evidence_fields:
+      - relationship_need_score
+      - relationship_need_baseline_score
+      - account_priority_score
