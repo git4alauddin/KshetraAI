@@ -741,6 +741,29 @@ Architecture & Governance Complete
 → Controlled Implementation Phase Starting
 ```
 
+---
+
+# Build Progress
+
+| Build | Component | Status | Implementation Control Doc |
+|---|---|---|---|
+| 01 | Dataset & Schema Setup | Not Started | [`01_dataset_schema_setup_build.md`](docs/implementation/01_dataset_schema_setup_build.md) |
+| 02 | Feature Generation Pipeline | Not Started | [`02_feature_generation_pipeline.md`](docs/implementation/02_feature_generation_pipeline.md) |
+| 03 | Dynamic Prioritization Engine | Not Started | [`03_dynamic_prioritization_engine.md`](docs/implementation/03_dynamic_prioritization_engine.md) |
+| 04 | Contextual Decision Engine | Not Started | [`04_contextual_decision_engine.md`](docs/implementation/04_contextual_decision_engine.md) |
+| 05 | Anomaly & Opportunity Detection Engine | Not Started | [`05_anomaly_and_opportunity_detection_engine.md`](docs/implementation/05_anomaly_and_opportunity_detection_engine.md) |
+| 06 | Explainability & Trust Engine | Not Started | [`06_explainability_and_trust_engine.md`](docs/implementation/06_explainability_and_trust_engine.md) |
+| 07 | Outcome Learning & Feedback Engine | Not Started | [`07_outcome_learning_and_feedback_engine.md`](docs/implementation/07_outcome_learning_and_feedback_engine.md) |
+| 08 | FastAPI Backend Integration | Not Started | [`08_fastApi_backend_integration.md`](docs/implementation/08_fastApi_backend_integration.md) |
+| 09 | Frontend Dashboard & Workflow Layer | Not Started | [`09_frontend_dashboard_and_workflow_layer.md`](docs/implementation/09_frontend_dashboard_and_workflow_layer.md) |
+| 10 | Demo Integration, Testing & Final Polish | Not Started | [`10_demo_integration_testing_final_polish.md`](docs/implementation/10_demo_integration_testing_final_polish.md) |
+
+Status values:
+
+```text
+Not Started → In Progress → Under Review → Complete
+```
+
 Completed:
 
 - architecture design
