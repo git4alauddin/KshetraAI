@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,12 @@ RULE_FILE_ORDER = (
     "sales_rules.yaml",
     "relationship_rules.yaml",
     "competitor_rules.yaml",
+)
+CONTEXTUAL_DECISION_OUTPUT_VIEW_ORDER = (
+    "rule_match_trace_log",
+    "recommendation_outputs",
+    "recommendation_trace_log",
+    "advisory_outputs",
 )
 ENTITY_CONTEXT_COLUMNS = (
     "entity_id",
@@ -219,6 +226,60 @@ def build_rule_match_view(
     return output.reset_index(drop=True)
 
 
+def build_contextual_decision_output_views(
+    contextual_view: pd.DataFrame,
+    rules: Sequence[ContextualRule] | None = None,
+) -> dict[str, pd.DataFrame]:
+    """Build stable Build 04 recommendation and trace output views."""
+
+    from backend.engines.advisory_engine import build_advisory_view
+    from backend.engines.recommendation_engine import build_recommendation_view
+
+    loaded_rules = tuple(rules) if rules is not None else load_contextual_rules()
+    rule_match_view = build_rule_match_view(contextual_view, loaded_rules)
+    recommendation_outputs = build_recommendation_view(contextual_view, loaded_rules)
+    recommendation_trace_log = _select_existing_columns(
+        recommendation_outputs,
+        (
+            "entity_id",
+            "matched_rule_id",
+            "rule_type",
+            "confidence_level",
+            "evidence_signals",
+            "recommendation_trace",
+        ),
+    )
+    advisory_outputs = build_advisory_view(recommendation_outputs)
+
+    return {
+        "rule_match_trace_log": rule_match_view,
+        "recommendation_outputs": recommendation_outputs,
+        "recommendation_trace_log": recommendation_trace_log,
+        "advisory_outputs": advisory_outputs,
+    }
+
+
+def write_contextual_decision_output_views(
+    output_views: Mapping[str, pd.DataFrame],
+    output_dir: Path | str,
+) -> dict[str, Path]:
+    """Write Build 04 output views as deterministic CSV files."""
+
+    resolved_output_dir = Path(output_dir).expanduser().resolve()
+    resolved_output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_paths: dict[str, Path] = {}
+    for view_name in CONTEXTUAL_DECISION_OUTPUT_VIEW_ORDER:
+        output_path = resolved_output_dir / f"{view_name}.csv"
+        _serialize_complex_columns(output_views[view_name]).to_csv(
+            output_path,
+            index=False,
+            lineterminator="\n",
+        )
+        output_paths[view_name] = output_path
+    return output_paths
+
+
 def _validate_rule_mapping(
     rule: Mapping[str, Any],
     config: Mapping[str, Any],
@@ -256,6 +317,29 @@ def _validate_rule_mapping(
             raise ContextualRuleMatchingError(
                 f"Condition field {condition['field']} is missing from evidence_fields for {rule_id}."
             )
+
+
+def _select_existing_columns(
+    dataframe: pd.DataFrame,
+    columns: Sequence[str],
+) -> pd.DataFrame:
+    return dataframe.loc[:, [column for column in columns if column in dataframe.columns]].copy()
+
+
+def _serialize_complex_columns(dataframe: pd.DataFrame) -> pd.DataFrame:
+    output = dataframe.copy()
+    for column in output.columns:
+        if output[column].map(lambda value: isinstance(value, (dict, list, tuple))).any():
+            output[column] = output[column].map(_stable_json)
+    return output
+
+
+def _stable_json(value: Any) -> str:
+    if isinstance(value, tuple):
+        value = list(value)
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, sort_keys=True, separators=(",", ":"))
+    return value
 
 
 def _validate_required_condition_fields(

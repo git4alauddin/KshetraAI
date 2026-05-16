@@ -11,6 +11,10 @@ from collections.abc import Mapping
 import pandas as pd
 
 from backend.data.joins.entity_joiner import build_canonical_views
+from backend.engines.contextual_decision_engine import (
+    build_contextual_decision_output_views,
+    write_contextual_decision_output_views,
+)
 from backend.features.feature_pipeline import build_feature_output_views
 
 
@@ -42,3 +46,20 @@ def build_contextual_feature_view(
     """Return the Build 02 contextual recommendation-ready feature view."""
 
     return build_feature_output_views(processed_datasets)["contextual_feature_view"]
+
+
+def build_contextual_decision_views(
+    contextual_view: pd.DataFrame,
+) -> dict[str, pd.DataFrame]:
+    """Return Build 04 recommendation and trace output-ready views."""
+
+    return build_contextual_decision_output_views(contextual_view)
+
+
+def write_contextual_decision_views(
+    output_views: Mapping[str, pd.DataFrame],
+    output_dir,
+):
+    """Write Build 04 recommendation and trace views to CSV."""
+
+    return write_contextual_decision_output_views(output_views, output_dir)
