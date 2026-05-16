@@ -8,6 +8,7 @@ from backend.features.feature_pipeline import (
     build_feature_output_views,
     write_feature_output_views,
 )
+from backend.features.feature_registry import list_feature_names
 from backend.pipelines.build_context_view import build_contextual_feature_view
 from backend.pipelines.build_priority_view import build_priority_feature_view
 
@@ -42,7 +43,11 @@ class Build02FeaturePipelineTest(unittest.TestCase):
         self.assertIn("inventory_need_score", priority.columns)
         self.assertIn("competitive_pressure_score", priority.columns)
         self.assertIn("travel_cost_score", priority.columns)
-        self.assertTrue(priority.filter(like="_score").apply(lambda col: col.between(0, 100).all()).all())
+        for feature_name in list_feature_names():
+            self.assertFalse(priority[feature_name].isna().any())
+            self.assertTrue(priority[feature_name].between(0, 100).all())
+        self.assertEqual(len(first["contextual_feature_view"]), len(priority))
+        self.assertEqual(len(first["anomaly_feature_view"]), len(priority))
 
     def test_priority_and_context_pipeline_wrappers_return_expected_views(self):
         datasets = _sample_pipeline_datasets()
