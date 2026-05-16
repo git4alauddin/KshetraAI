@@ -130,7 +130,21 @@ kshetraai/
 
 # Goal
 
-Create the foundational dataset required for the prototype.
+Create the foundational dataset layer required for the prototype.
+
+The internal operational dataset is now company-provided and should be used as the source of truth.
+
+Confidential source files live in:
+
+```text
+private-data/
+```
+
+The pipeline should read those files locally and produce clean derived outputs in:
+
+```text
+datasets/processed/
+```
 
 ---
 
@@ -138,7 +152,7 @@ Create the foundational dataset required for the prototype.
 
 ## 1. Define schema tables
 
-Implement:
+Implement canonical mappings for:
 
 - representatives
 - territories
@@ -156,20 +170,37 @@ Implement:
 
 ---
 
-## 2. Create synthetic data
+## 2. Load company-provided internal data
 
-Generate:
+Use:
 
-- realistic retailers/farmers
-- crop-stage combinations
-- weather conditions
-- inventory conditions
-- sales patterns
-- competitor scenarios
+- `reps_territory.csv`
+- `retailers.csv`
+- `retailer_visit_log.csv`
+- `retailer_inventory_weekly.csv`
+- `retailer_pos.csv`
+- `growers.csv`
+- `digital_funnel_weekly.csv`
+- `whatsapp_campaign.csv`
 
 ---
 
-## 3. Validate logical consistency
+## 3. Create controlled gap-fill data only where required
+
+Create or fetch:
+
+- weather conditions
+- pest/disease signals
+- NDVI/crop stress signals
+- competitor scenarios
+- travel feasibility signals
+- demo outcome seed data, if needed
+
+These should not replace available internal operational data.
+
+---
+
+## 4. Validate logical consistency
 
 Example:
 
@@ -182,9 +213,10 @@ High humidity + rainfall + cotton flowering
 
 # Deliverables
 
-- CSV/SQLite/PostgreSQL dataset
-- Synthetic data generator scripts
-- Initial feature-ready dataset
+- clean validated internal source views
+- source-to-canonical mapping documentation
+- controlled gap-fill datasets for missing public/external signals
+- initial feature-ready dataset
 
 ---
 

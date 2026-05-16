@@ -63,6 +63,62 @@ The prototype will use the following main entities:
 
 ---
 
+# 3A. Actual Internal Data Source Baseline
+
+KshetraAI now has company-provided internal operational data for the hackathon.
+
+These files are treated as the internal data source of truth for V1:
+
+| Source File | Role in KshetraAI |
+|---|---|
+| `private-data/reps_territory.csv` | Representatives and territory assignment |
+| `private-data/retailers.csv` | Retailer master and territory mapping |
+| `private-data/retailer_visit_log.csv` | Historical rep activity and visit coverage |
+| `private-data/retailer_inventory_weekly.csv` | Retailer-SKU weekly inventory snapshots |
+| `private-data/retailer_pos.csv` | Retail point-of-sale transaction history |
+| `private-data/growers.csv` | Grower profile, crop calendar, farm size, and engagement context |
+| `private-data/digital_funnel_weekly.csv` | Weekly digital campaign funnel performance |
+| `private-data/whatsapp_campaign.csv` | Grower WhatsApp campaign delivery and engagement |
+
+The `private-data/` directory is confidential and must not be committed.
+
+The pipeline should read from `private-data/` locally and write only derived,
+implementation-approved outputs into `datasets/processed/`.
+
+---
+
+# 3B. Internal vs External Data Responsibility
+
+V1 data is split into two categories:
+
+| Category | Source Strategy |
+|---|---|
+| Internal operational data | Use company-provided files in `private-data/` |
+| Public/external agricultural data | Use accessible public data where practical, otherwise curated/simulated gap-fill data |
+
+The following internal tables should not be synthesized by default:
+
+- representatives
+- territories
+- retailers
+- growers
+- retailer POS/sales
+- retailer inventory
+- visit logs
+- campaign engagement
+
+The following may still require public sourcing, controlled derivation, or synthetic gap-fill:
+
+- weather_signals
+- pest_signals
+- ndvi_signals
+- competitor_signals
+- travel_signals
+- recommendation_log
+- outcome_log
+
+---
+
 # 4. Table 1 — Representatives
 
 ## Purpose
@@ -434,7 +490,26 @@ outcome_log
 
 # 18. Minimum Prototype Dataset Size
 
-For a strong demo, use:
+For a strong demo, use the available company-provided internal data as the primary base.
+
+The current internal dataset already provides:
+
+| Data Item | Available Count |
+|---|---:|
+| Territories | 500 |
+| Reps | 500 |
+| Retailers | 4,000 |
+| Growers | 6,000 |
+| Retailer POS records | 235,042 |
+| Retailer inventory snapshots | 310,544 |
+| Retailer/grower visit log records | 30,000 |
+| WhatsApp campaign records | 4,479 |
+| Digital funnel weekly records | 104 |
+
+For demo scope, the pipeline may create a smaller filtered sample from this real data.
+The sample should preserve referential integrity and realistic temporal behavior.
+
+The earlier minimum-size guidance remains useful only for fallback or demo sampling:
 
 | Data Item | Suggested Count |
 |---|---|
@@ -572,34 +647,52 @@ travel_cost_score
 
 ---
 
-# 24. Synthetic Data Generation Strategy
+# 24. Data Preparation Strategy
 
-## Step 1 — Create base entities
+## Step 1 — Load company-provided internal data
 
-Generate:
+Load:
 
 - Reps
 - Territories
-- Retailers/farmers
-- Crops
-- Product categories
+- Retailers
+- Growers
+- Retailer inventory
+- Retailer POS
+- Visit logs
+- Campaign engagement
 
 ---
 
-## Step 2 — Add contextual signals
+## Step 2 — Build canonical internal views
 
-For each entity, generate:
+Derive:
+
+- representative table from `reps_territory.csv`
+- territory table from `reps_territory.csv`
+- retailer visit entities from `retailers.csv`
+- grower visit entities from `growers.csv`
+- sales signals from `retailer_pos.csv`
+- inventory signals from `retailer_inventory_weekly.csv`
+- visit history from `retailer_visit_log.csv`
+- campaign engagement from `digital_funnel_weekly.csv` and `whatsapp_campaign.csv`
+
+---
+
+## Step 3 — Add public or gap-fill contextual signals
+
+For each territory/entity where possible, add:
 
 - Weather scores
 - Pest alert status
 - NDVI stress
 - Crop stage
-- Sales signals
-- Inventory signals
+- Competitor context
+- Travel feasibility
 
 ---
 
-## Step 3 — Add realistic relationships
+## Step 4 — Preserve realistic relationships
 
 Examples:
 
@@ -620,7 +713,7 @@ Competitor promotion + regional sales drop
 
 ---
 
-## Step 4 — Generate recommendations
+## Step 5 — Generate recommendations
 
 Run the scoring engine to create:
 
@@ -631,9 +724,12 @@ Run the scoring engine to create:
 
 ---
 
-## Step 5 — Generate outcomes
+## Step 6 — Generate outcomes
 
-Create sample outcomes based on probability.
+Outcome logs are not provided in the internal source data.
+
+For V1, outcomes should be captured from the prototype workflow.
+For demo bootstrapping, sample outcomes may be created only as controlled demo data.
 
 Example:
 
@@ -714,13 +810,18 @@ Outcome Capture
 Learning Feedback
 ```
 
+Internal operational data should come from `private-data/`.
+
+Synthetic data should be limited to missing public/external signals or controlled demo outcome bootstrapping.
+
 ---
 
 # 28. Final One-Line Definition
 
 ```text
-A practical synthetic data schema
-that converts agricultural, commercial,
-inventory, operational, and competitive signals
+A practical data schema
+that converts company-provided internal operational data,
+public agricultural context,
+and controlled gap-fill signals
 into usable intelligence for field-force decision-making.
 ```

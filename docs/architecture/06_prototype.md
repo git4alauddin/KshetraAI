@@ -262,15 +262,16 @@ Fields:
 
 ## Module 1 — Data Loader
 
-Loads sample/synthetic data:
+Loads company-provided internal data and controlled gap-fill data:
 
-- Retailers/farmers
-- Territory data
-- Weather signals
-- Pest alerts
-- Inventory
-- POS sales
-- CRM/visit logs
+- reps and territories from `reps_territory.csv`
+- retailers from `retailers.csv`
+- growers from `growers.csv`
+- inventory from `retailer_inventory_weekly.csv`
+- POS sales from `retailer_pos.csv`
+- CRM/visit logs from `retailer_visit_log.csv`
+- campaign engagement from `digital_funnel_weekly.csv` and `whatsapp_campaign.csv`
+- weather, pest, NDVI, competitor, travel, and demo outcomes from public sources or controlled gap-fill where required
 
 ---
 
@@ -364,20 +365,33 @@ Stores:
 The prototype can use:
 
 ```text
-curated synthetic dataset
+company-provided internal operational data
 ```
 
-If real provided data is incomplete, create a realistic mock dataset with:
+Confidential source files live in:
 
-- 10–20 retailers/farmers
-- 2–3 territories
-- 3–4 crops
+```text
+private-data/
+```
+
+This data covers:
+
+- reps and territories
+- retailers
+- growers
+- retailer inventory
+- retailer POS sales
+- visit logs
+- digital and WhatsApp campaign engagement
+
+Create synthetic or curated gap-fill data only for fields not directly provided:
+
 - weather risk fields
 - pest alert fields
-- inventory fields
-- sales history fields
-- visit history fields
-- outcome fields
+- NDVI/crop stress fields
+- competitor activity fields
+- travel feasibility fields
+- demo outcome fields, if workflow outcomes are not yet available
 
 ---
 

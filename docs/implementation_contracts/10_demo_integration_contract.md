@@ -430,7 +430,8 @@ No internet connectivity.
 
 Preferred:
 
-- local synthetic data
+- company-provided internal data
+- local controlled gap-fill data for unavailable public/external signals
 - local APIs
 - cached assets
 - deterministic workflows

@@ -423,10 +423,10 @@ KshetraAI/
 │   ├── layouts/                  # Page layouts
 │   ├── styles/                   # Styling assets
 │   └── utils/                    # Frontend utilities
-├── datasets/                     # Prototype and synthetic datasets
-│   ├── raw/                      # Source input files
+├── datasets/                     # Derived datasets and controlled gap-fill data
+│   ├── raw/                      # Non-confidential source inputs, if any
 │   ├── processed/                # Generated processed views
-│   └── synthetic/                # Curated demo-ready synthetic data
+│   └── synthetic/                # Gap-fill/demo seed data for unavailable signals
 ├── demo/                         # End-to-end demo workflow assets
 │   ├── scenarios/                # Demo scenarios and storylines
 │   ├── scripts/                  # Demo helper scripts
@@ -439,6 +439,9 @@ KshetraAI/
 ├── tests/                        # Automated tests
 └── README.md                     # Project overview
 ```
+
+Private company-provided source files may be kept locally in `private-data/`.
+That directory is confidential, ignored by Git, and should only be read by the data pipeline.
 
 ---
 
@@ -696,7 +699,7 @@ The project is designed to run:
 
 - locally
 - deterministically
-- with synthetic datasets
+- with company-provided internal data and controlled gap-fill datasets
 - without mandatory cloud infrastructure
 
 This ensures:

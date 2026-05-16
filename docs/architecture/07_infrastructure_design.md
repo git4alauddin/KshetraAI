@@ -92,6 +92,14 @@ The system consumes multiple heterogeneous data sources.
 
 ## Internal Enterprise Signals
 
+For V1, internal enterprise signals are provided as confidential local CSV files in:
+
+```text
+private-data/
+```
+
+These files must remain outside versioned project outputs and must not be committed.
+
 ### Retail POS Data
 - Product sales
 - Demand trends
@@ -107,10 +115,37 @@ The system consumes multiple heterogeneous data sources.
 - Rep activity
 - Follow-up tracking
 
+### Grower and Campaign Engagement Data
+- Grower crop calendars
+- Product scan events
+- Offline campaign attendance
+- Digital funnel metrics
+- WhatsApp delivery/open/click engagement
+
 ### Competitive Signals
 - Promotions
 - Market pressure
 - Product availability
+
+For V1, competitor signals are not directly provided in the internal dataset.
+They should be sourced publicly, derived as a clearly documented proxy, or created as controlled demo gap-fill data.
+
+---
+
+## V1 Internal Data Files
+
+| File | Infrastructure Role |
+|---|---|
+| `reps_territory.csv` | Rep and territory dimension |
+| `retailers.csv` | Retailer dimension |
+| `retailer_visit_log.csv` | CRM/visit activity fact |
+| `retailer_inventory_weekly.csv` | Inventory fact |
+| `retailer_pos.csv` | POS/sales fact |
+| `growers.csv` | Grower profile and crop-calendar dimension |
+| `digital_funnel_weekly.csv` | Campaign funnel fact |
+| `whatsapp_campaign.csv` | WhatsApp engagement fact |
+
+The data ingestion layer should treat these as read-only source files.
 
 ---
 
@@ -522,7 +557,8 @@ Therefore the hackathon prototype focuses on:
 
 ## Simplifications
 
-- Simulated data pipelines
+- Company-provided internal CSV data
+- Controlled gap-fill for unavailable public/external signals
 - Batch feature generation
 - Rule-based initial logic
 - Limited geographic scope
