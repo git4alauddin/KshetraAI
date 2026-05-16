@@ -279,67 +279,73 @@ Build 01 is complete only when:
 
 ## Source Inventory
 
-- [ ] `private-data/` is ignored by Git
-- [ ] all expected source files are present
-- [ ] `__MACOSX` helper files are ignored by loader logic
-- [ ] data dictionary is reviewed
+- [x] `private-data/` is ignored by Git
+- [x] all expected source files are present
+- [x] `__MACOSX` helper files are ignored by loader logic
+- [x] data dictionary is reviewed
 
 ## Schema Validation
 
-- [ ] source schema definitions exist
-- [ ] required columns are enforced
-- [ ] missing required columns produce explicit errors
-- [ ] duplicate key checks are implemented
-- [ ] invalid date checks are implemented
-- [ ] invalid JSON checks are implemented
+- [x] source schema definitions exist
+- [x] required columns are enforced
+- [x] missing required columns produce explicit errors
+- [x] duplicate key checks are implemented
+- [x] invalid date checks are implemented
+- [x] invalid JSON checks are implemented
 
 ## Referential Integrity
 
-- [ ] retailer POS links to retailer master
-- [ ] inventory links to retailer master
-- [ ] retailers link to territory master
-- [ ] visit logs link to rep master
-- [ ] visit logs link to territory master
-- [ ] WhatsApp records link to grower master
+- [x] retailer POS links to retailer master
+- [x] inventory links to retailer master
+- [x] retailers link to territory master
+- [x] visit logs link to rep master
+- [x] visit logs link to territory master
+- [x] WhatsApp records link to grower master
 
 ## Normalization
 
-- [ ] IDs are stripped and consistently typed
-- [ ] dates are normalized
-- [ ] booleans are normalized
-- [ ] categorical labels are normalized
-- [ ] JSON fields are parsed or validated
-- [ ] output column order is stable
+- [x] IDs are stripped and consistently typed
+- [x] dates are normalized
+- [x] booleans are normalized
+- [x] categorical labels are normalized
+- [x] JSON fields are parsed or validated
+- [x] output column order is stable
 
 ## Output Views
 
-- [ ] representatives view exists
-- [ ] territories view exists
-- [ ] retailers view exists
-- [ ] growers view exists
-- [ ] visit_entities view exists
-- [ ] retailer POS clean view exists
-- [ ] retailer inventory clean view exists
-- [ ] retailer visit log clean view exists
-- [ ] campaign engagement clean view exists
+- [x] representatives view exists
+- [x] territories view exists
+- [x] retailers view exists
+- [x] growers view exists
+- [x] visit_entities view exists
+- [x] retailer POS clean view exists
+- [x] retailer inventory clean view exists
+- [x] retailer visit log clean view exists
+- [x] campaign engagement clean view exists
 
 ## Architecture Compliance
 
-- [ ] no scoring logic added
-- [ ] no recommendation logic added
-- [ ] no anomaly logic added
-- [ ] no explainability logic added
-- [ ] no API/frontend changes added
-- [ ] no private source file mutation
-- [ ] only allowed files were modified
+- [x] no scoring logic added
+- [x] no recommendation logic added
+- [x] no anomaly logic added
+- [x] no explainability logic added
+- [x] no API/frontend changes added
+- [x] no private source file mutation
+- [x] only allowed files were modified
 
 ## Testing
 
-- [ ] schema validation tests pass
-- [ ] normalization tests pass
-- [ ] referential integrity tests pass
-- [ ] deterministic output test passes
-- [ ] missing file/column error tests pass
+- [x] schema validation tests pass
+- [x] normalization tests pass
+- [x] referential integrity tests pass
+- [x] deterministic output test passes
+- [x] missing file/column error tests pass
+
+## Build 01 Verification
+
+- [x] Build 01 unit tests pass with `python -m unittest tests.test_build01_csv_loader tests.test_build01_schema_validator tests.test_build01_value_normalizer tests.test_build01_entity_joiner tests.test_build01_pipeline_runner`
+- [x] Real company source data passes a no-write pipeline smoke run with `Build01PipelineConfig(write_outputs=False)`
+- [x] No generated private-derived row outputs are left in `datasets/processed/`
 
 ---
 
