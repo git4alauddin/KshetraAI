@@ -1,2 +1,123 @@
-# Confidence rule configuration placeholder.
+# Build 06 confidence rule configuration.
+#
+# These rules define deterministic confidence wording and evidence thresholds.
+# They do not implement scoring, recommendations, anomaly detection, API
+# behavior, frontend behavior, or learning recalibration.
 
+confidence_policy:
+  supported_levels:
+    - High
+    - Medium
+    - Low
+  default_level: Low
+  require_reasoning_text: true
+  require_evidence_count: true
+  deterministic_sort_keys:
+    - confidence_rank
+    - rule_id
+
+confidence_levels:
+  High:
+    confidence_rank: 3
+    interpretation: Multiple aligned strong signals
+    reasoning_template: "multiple strong evidence signals are aligned"
+    minimum_evidence_items: 3
+    minimum_trace_completeness: 0.80
+  Medium:
+    confidence_rank: 2
+    interpretation: Partial supporting evidence
+    reasoning_template: "some supporting evidence is available"
+    minimum_evidence_items: 2
+    minimum_trace_completeness: 0.50
+  Low:
+    confidence_rank: 1
+    interpretation: Weak or incomplete evidence
+    reasoning_template: "available evidence is limited or incomplete"
+    minimum_evidence_items: 1
+    minimum_trace_completeness: 0.00
+
+confidence_rules:
+  CONFIDENCE_FROM_PRIORITY_TRACE:
+    rule_id: CONFIDENCE_FROM_PRIORITY_TRACE
+    applies_to:
+      - priority
+    evidence_sources:
+      - priority_trace
+      - component_scores
+      - top_contributing_signals
+    high_when:
+      minimum_evidence_items: 3
+      minimum_trace_completeness: 0.80
+    medium_when:
+      minimum_evidence_items: 2
+      minimum_trace_completeness: 0.50
+    low_when:
+      minimum_evidence_items: 1
+      minimum_trace_completeness: 0.00
+
+  CONFIDENCE_FROM_RECOMMENDATION_EVIDENCE:
+    rule_id: CONFIDENCE_FROM_RECOMMENDATION_EVIDENCE
+    applies_to:
+      - recommendation
+    evidence_sources:
+      - matched_rule_id
+      - evidence_signals
+      - recommendation_trace
+    high_when:
+      minimum_evidence_items: 3
+      minimum_trace_completeness: 0.80
+    medium_when:
+      minimum_evidence_items: 2
+      minimum_trace_completeness: 0.50
+    low_when:
+      minimum_evidence_items: 1
+      minimum_trace_completeness: 0.00
+
+  CONFIDENCE_FROM_ALERT_EVIDENCE:
+    rule_id: CONFIDENCE_FROM_ALERT_EVIDENCE
+    applies_to:
+      - anomaly
+    evidence_sources:
+      - supporting_evidence
+      - anomaly_trace
+      - severity_trace
+    high_when:
+      minimum_evidence_items: 3
+      minimum_trace_completeness: 0.80
+    medium_when:
+      minimum_evidence_items: 2
+      minimum_trace_completeness: 0.50
+    low_when:
+      minimum_evidence_items: 1
+      minimum_trace_completeness: 0.00
+
+  CONFIDENCE_FROM_EVIDENCE_COMPLETENESS:
+    rule_id: CONFIDENCE_FROM_EVIDENCE_COMPLETENESS
+    applies_to:
+      - confidence
+      - evidence_summary
+    evidence_sources:
+      - evidence_items
+      - source_trace_ids
+    high_when:
+      minimum_evidence_items: 3
+      minimum_trace_completeness: 0.80
+    medium_when:
+      minimum_evidence_items: 2
+      minimum_trace_completeness: 0.50
+    low_when:
+      minimum_evidence_items: 1
+      minimum_trace_completeness: 0.00
+
+safety_language:
+  forbidden_certainty_phrases:
+    - "definitely infected"
+    - "confirmed disease"
+    - "guaranteed"
+    - "will definitely"
+    - "must be purchased"
+    - "certain outcome"
+  confidence_wording_rules:
+    - "Confidence describes evidence strength, not real-world certainty."
+    - "Low confidence explanations must mention limited or incomplete evidence."
+    - "Risk explanations must preserve possible or flagged language."

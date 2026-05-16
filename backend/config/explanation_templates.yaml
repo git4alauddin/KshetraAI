@@ -1,2 +1,177 @@
-# Explanation template configuration placeholder.
+# Build 06 explanation template configuration.
+#
+# These templates define controlled, deterministic explanation wording only.
+# They do not implement scoring, recommendations, anomaly detection, API
+# behavior, frontend behavior, or uncontrolled generative reasoning.
 
+template_policy:
+  generation_mode: deterministic_template
+  require_evidence_items: true
+  require_source_trace_ids: true
+  forbid_uncontrolled_llm_generation: true
+  safety_validation_statuses:
+    - Safe
+    - Needs Review
+  deterministic_sort_keys:
+    - entity_id
+    - explanation_type
+    - source_output_id
+
+output_schema:
+  - entity_id
+  - explanation_type
+  - source_output_type
+  - source_output_id
+  - summary_text
+  - evidence_items
+  - confidence_level
+  - confidence_reasoning
+  - source_trace_ids
+  - template_used
+  - safety_validation_status
+
+trace_output_schema:
+  - entity_id
+  - explanation_type
+  - source_output_type
+  - source_output_id
+  - evidence_used
+  - template_used
+  - confidence_rule_used
+  - safety_validation_status
+
+explanation_types:
+  priority:
+    label: Priority Explanation
+    source_output_type: priority
+    required_trace_fields:
+      - priority_score
+      - priority_level
+      - priority_trace
+    default_template_id: PRIORITY_SIGNAL_SUMMARY
+  recommendation:
+    label: Recommendation Explanation
+    source_output_type: recommendation
+    required_trace_fields:
+      - matched_rule_id
+      - recommended_actions
+      - evidence_signals
+    default_template_id: RECOMMENDATION_RULE_SUMMARY
+  anomaly:
+    label: Anomaly Explanation
+    source_output_type: anomaly_alert
+    required_trace_fields:
+      - alert_id
+      - alert_type
+      - supporting_evidence
+      - anomaly_trace
+    default_template_id: ANOMALY_ALERT_SUMMARY
+  confidence:
+    label: Confidence Explanation
+    source_output_type: confidence
+    required_trace_fields:
+      - confidence_level
+      - confidence_reasoning
+    default_template_id: CONFIDENCE_REASON_SUMMARY
+  evidence_summary:
+    label: Evidence Summary
+    source_output_type: evidence
+    required_trace_fields:
+      - evidence_items
+      - source_trace_ids
+    default_template_id: EVIDENCE_SIGNAL_SUMMARY
+
+templates:
+  PRIORITY_SIGNAL_SUMMARY:
+    explanation_type: priority
+    source_output_type: priority
+    confidence_rule_id: CONFIDENCE_FROM_PRIORITY_TRACE
+    required_evidence_fields:
+      - priority_score
+      - priority_level
+      - top_contributing_signals
+    placeholders:
+      - priority_level
+      - priority_score
+      - top_evidence_summary
+    text_template: "{entity_label} is marked {priority_level} priority with a score of {priority_score} because {top_evidence_summary}."
+    safety_notes:
+      - "Explain the ranking only; do not create recommendations."
+      - "Use observed signal contribution evidence only."
+
+  RECOMMENDATION_RULE_SUMMARY:
+    explanation_type: recommendation
+    source_output_type: recommendation
+    confidence_rule_id: CONFIDENCE_FROM_RECOMMENDATION_EVIDENCE
+    required_evidence_fields:
+      - matched_rule_id
+      - recommended_actions
+      - evidence_signals
+    placeholders:
+      - recommended_action_summary
+      - matched_rule_id
+      - top_evidence_summary
+    text_template: "{recommended_action_summary} is suggested because rule {matched_rule_id} matched supported evidence: {top_evidence_summary}."
+    safety_notes:
+      - "Explain the existing recommendation only; do not add new actions."
+      - "Avoid product performance guarantees."
+
+  ANOMALY_ALERT_SUMMARY:
+    explanation_type: anomaly
+    source_output_type: anomaly_alert
+    confidence_rule_id: CONFIDENCE_FROM_ALERT_EVIDENCE
+    required_evidence_fields:
+      - alert_id
+      - alert_type
+      - severity_level
+      - supporting_evidence
+    placeholders:
+      - alert_type
+      - severity_level
+      - top_evidence_summary
+    text_template: "{alert_type} was flagged at {severity_level} severity because {top_evidence_summary}."
+    safety_notes:
+      - "Describe possible operational risk or opportunity only."
+      - "Do not claim a real-world outcome is certain."
+
+  CONFIDENCE_REASON_SUMMARY:
+    explanation_type: confidence
+    source_output_type: confidence
+    confidence_rule_id: CONFIDENCE_FROM_EVIDENCE_COMPLETENESS
+    required_evidence_fields:
+      - confidence_level
+      - evidence_items
+      - confidence_reasoning
+    placeholders:
+      - confidence_level
+      - confidence_reasoning
+    text_template: "Confidence is {confidence_level} because {confidence_reasoning}."
+    safety_notes:
+      - "Confidence explains evidence strength, not certainty."
+
+  EVIDENCE_SIGNAL_SUMMARY:
+    explanation_type: evidence_summary
+    source_output_type: evidence
+    confidence_rule_id: CONFIDENCE_FROM_EVIDENCE_COMPLETENESS
+    required_evidence_fields:
+      - evidence_items
+      - source_trace_ids
+    placeholders:
+      - top_evidence_summary
+    text_template: "The main supporting evidence is {top_evidence_summary}."
+    safety_notes:
+      - "Summarize supplied evidence only."
+
+safety_terms:
+  forbidden_phrases:
+    - "definitely infected"
+    - "confirmed disease"
+    - "guaranteed"
+    - "will definitely"
+    - "must be purchased"
+    - "certain outcome"
+  required_uncertainty_terms_for_risk:
+    - Possible
+    - risk
+    - may
+    - flagged
