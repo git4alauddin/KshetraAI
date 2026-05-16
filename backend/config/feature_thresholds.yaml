@@ -1,2 +1,106 @@
-# Feature threshold configuration placeholder.
+# Build 02 feature threshold configuration.
+#
+# This file defines shared threshold bands and per-feature configuration keys.
+# It does not implement feature calculations, prioritization, recommendations,
+# anomaly detection, or explainability text generation.
+
+score_range:
+  min: 0
+  max: 100
+
+score_bands:
+  low:
+    min: 0
+    max: 30
+  moderate:
+    min: 31
+    max: 60
+  high:
+    min: 61
+    max: 80
+  critical:
+    min: 81
+    max: 100
+
+feature_defaults:
+  missing_numeric_value: null
+  missing_category_value: unknown
+  clamp_scores_to_range: true
+  deterministic_sort_keys:
+    - entity_id
+    - territory_id
+
+features:
+  weather_risk_score:
+    category: agronomic
+    warning_threshold: 61
+    critical_threshold: 81
+  pest_disease_risk_score:
+    category: agronomic
+    warning_threshold: 61
+    critical_threshold: 81
+  crop_stage_risk_score:
+    category: agronomic
+    warning_threshold: 61
+    critical_threshold: 81
+  ndvi_stress_score:
+    category: agronomic
+    warning_threshold: 61
+    critical_threshold: 81
+  historical_sales_score:
+    category: sales
+    warning_threshold: 61
+    critical_threshold: 81
+  seasonal_product_relevance:
+    category: sales
+    warning_threshold: 61
+    critical_threshold: 81
+  purchase_history_score:
+    category: sales
+    warning_threshold: 61
+    critical_threshold: 81
+  crop_acreage_score:
+    category: sales
+    warning_threshold: 61
+    critical_threshold: 81
+  sales_opportunity_score:
+    category: sales
+    warning_threshold: 61
+    critical_threshold: 81
+  stock_level_score:
+    category: inventory
+    warning_threshold: 61
+    critical_threshold: 81
+  sales_velocity_score:
+    category: inventory
+    warning_threshold: 61
+    critical_threshold: 81
+  stockout_risk_score:
+    category: inventory
+    warning_threshold: 61
+    critical_threshold: 81
+  inventory_need_score:
+    category: inventory
+    warning_threshold: 61
+    critical_threshold: 81
+  relationship_need_score:
+    category: relationship
+    warning_threshold: 61
+    critical_threshold: 81
+  competitive_pressure_score:
+    category: competitive
+    warning_threshold: 61
+    critical_threshold: 81
+  account_priority_score:
+    category: relationship
+    warning_threshold: 61
+    critical_threshold: 81
+  campaign_engagement_score:
+    category: relationship
+    warning_threshold: 61
+    critical_threshold: 81
+  travel_cost_score:
+    category: travel
+    warning_threshold: 61
+    critical_threshold: 81
 
