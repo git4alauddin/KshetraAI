@@ -170,15 +170,23 @@ The pipeline should generate normalized feature outputs including:
 | Feature | Purpose |
 |---|---|
 | `weather_risk_score` | Agronomic weather risk |
-| `pest_risk_score` | Pest/disease operational risk |
+| `pest_disease_risk_score` | Pest/disease operational risk |
 | `ndvi_stress_score` | Crop stress intensity |
 | `inventory_need_score` | Stock replenishment urgency |
 | `sales_opportunity_score` | Commercial opportunity strength |
-| `relationship_gap_score` | Rep engagement gap |
+| `relationship_need_score` | Rep engagement gap |
 | `competitive_pressure_score` | Competitor market pressure |
-| `travel_feasibility_score` | Operational routing feasibility |
+| `travel_cost_score` | Operational routing cost |
 | `account_priority_score` | Strategic account importance |
 | `campaign_engagement_score` | Grower/retailer engagement quality |
+
+Implementation aliases are preserved in the feature registry for older wording:
+
+| Alias | Canonical Feature |
+|---|---|
+| `pest_risk_score` | `pest_disease_risk_score` |
+| `relationship_gap_score` | `relationship_need_score` |
+| `travel_feasibility_score` | `travel_cost_score` |
 
 ---
 
@@ -664,7 +672,70 @@ This build is complete when:
 
 ---
 
-# 31. Final One-Line Definition
+# 31. Completion Checklist
+
+## Configuration & Registry
+
+- [x] feature threshold configuration exists
+- [x] feature registry metadata exists
+- [x] all registry features use `0-100` valid ranges
+- [x] source dependencies are documented per feature
+- [x] generation logic is human-readable
+- [x] normalization strategy is documented
+- [x] explainability category is documented
+- [x] alias mappings preserve doc wording while using canonical architecture names
+
+## Feature Builders
+
+- [x] agronomic feature builders exist
+- [x] sales feature builders exist
+- [x] inventory feature builders exist
+- [x] relationship feature builders exist
+- [x] competitor feature builders exist
+- [x] travel feature builders exist
+- [x] missing required inputs fail explicitly
+- [x] generated feature scores are clamped to `0-100`
+- [x] feature outputs are deterministic for identical inputs
+
+## Output Views
+
+- [x] `priority_feature_view` is generated or ready to generate
+- [x] `contextual_feature_view` is generated or ready to generate
+- [x] `anomaly_feature_view` is generated or ready to generate
+- [x] `feature_registry` output is generated or ready to generate
+- [x] output column order is stable
+- [x] entity mapping is stable
+- [x] feature view writer supports deterministic CSV output
+
+## Architecture Compliance
+
+- [x] no priority scoring engine added
+- [x] no ranking logic added
+- [x] no recommendation logic added
+- [x] no anomaly alert logic added
+- [x] no explainability text generation added
+- [x] no API/frontend changes added
+- [x] no private source data mutation
+- [x] no generated processed outputs are committed
+
+## Testing
+
+- [x] feature registry tests pass
+- [x] agronomic feature tests pass
+- [x] sales and inventory feature tests pass
+- [x] relationship, competitor, and travel feature tests pass
+- [x] feature pipeline tests pass
+- [x] Build 01 regression tests pass
+
+## Build 02 Verification
+
+- [x] Build 02 unit tests pass with `python -m unittest tests.test_build02_feature_registry tests.test_build02_agronomic_features tests.test_build02_sales_inventory_features tests.test_build02_relationship_competitor_travel_features tests.test_build02_feature_pipeline`
+- [x] Build 01 regression tests pass with `python -m unittest tests.test_build01_csv_loader tests.test_build01_schema_validator tests.test_build01_value_normalizer tests.test_build01_entity_joiner tests.test_build01_pipeline_runner`
+- [x] No generated private-derived row outputs are left in `datasets/processed/`
+
+---
+
+# 32. Final One-Line Definition
 
 ```text
 A deterministic feature engineering pipeline
@@ -677,7 +748,7 @@ for downstream decision engines.
 
 ---
 
-# 32. Task Breakdown & Execution Order
+# 33. Task Breakdown & Execution Order
 
 Use `docs/implementation/build_execution_prompt.md` while working through this build.
 
