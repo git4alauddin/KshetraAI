@@ -1,2 +1,127 @@
-# Outcome metric configuration placeholder.
+# Build 07 outcome metric configuration.
+#
+# This file defines deterministic outcome logging schemas, allowed values, and
+# metric formulas only. It does not implement scoring, recommendation
+# generation, anomaly detection, explanation generation, APIs, frontend
+# behavior, autonomous retraining, or production weight changes.
 
+outcome_policy:
+  deterministic_processing: true
+  require_known_recommendation_id: true
+  require_entity_id: true
+  require_rep_id: true
+  require_non_negative_order_value: true
+  default_submitted_at: configured_static_outcome_submission
+  deterministic_sort_keys:
+    - entity_id
+    - recommendation_id
+    - outcome_id
+
+valid_feedback_categories:
+  - useful
+  - not_useful
+  - wrong_timing
+  - incorrect_risk
+  - customer_not_interested
+  - order_followup_needed
+  - no_feedback
+
+valid_outcome_statuses:
+  visit_completed:
+    allowed_values:
+      - true
+      - false
+  recommendation_followed:
+    allowed_values:
+      - true
+      - false
+  sale_made:
+    allowed_values:
+      - true
+      - false
+  order_placed:
+    allowed_values:
+      - true
+      - false
+  alert_validated:
+    allowed_values:
+      - true
+      - false
+      - unknown
+
+outcome_log_schema:
+  - outcome_id
+  - recommendation_id
+  - alert_id
+  - entity_id
+  - rep_id
+  - visit_completed
+  - recommendation_followed
+  - sale_made
+  - order_placed
+  - order_value
+  - alert_validated
+  - feedback_category
+  - rep_feedback
+  - submitted_at
+  - outcome_trace
+
+performance_metric_schema:
+  - metric_id
+  - metric_name
+  - numerator
+  - denominator
+  - metric_value
+  - metric_unit
+  - metric_trace
+
+metric_definitions:
+  visit_completion_rate:
+    metric_id: VISIT_COMPLETION_RATE
+    metric_name: visit_completion_rate
+    numerator_field: visit_completed
+    denominator_scope: all_outcomes
+    metric_unit: ratio
+    description: Share of logged outcomes where the visit was completed.
+
+  recommendation_acceptance_rate:
+    metric_id: RECOMMENDATION_ACCEPTANCE_RATE
+    metric_name: recommendation_acceptance_rate
+    numerator_field: recommendation_followed
+    denominator_scope: all_outcomes
+    metric_unit: ratio
+    description: Share of logged outcomes where the recommendation was followed.
+
+  order_conversion_rate:
+    metric_id: ORDER_CONVERSION_RATE
+    metric_name: order_conversion_rate
+    numerator_field: order_placed
+    denominator_scope: completed_visits
+    metric_unit: ratio
+    description: Share of completed visits that produced an order.
+
+  alert_validation_rate:
+    metric_id: ALERT_VALIDATION_RATE
+    metric_name: alert_validation_rate
+    numerator_field: alert_validated
+    denominator_scope: alert_outcomes
+    metric_unit: ratio
+    description: Share of known alert outcomes that were validated in the field.
+
+  average_order_value:
+    metric_id: AVERAGE_ORDER_VALUE
+    metric_name: average_order_value
+    value_field: order_value
+    denominator_scope: placed_orders
+    metric_unit: currency
+    description: Average value for outcomes where an order was placed.
+
+  feedback_positive_rate:
+    metric_id: FEEDBACK_POSITIVE_RATE
+    metric_name: feedback_positive_rate
+    positive_feedback_categories:
+      - useful
+      - order_followup_needed
+    denominator_scope: feedback_outcomes
+    metric_unit: ratio
+    description: Share of feedback outcomes with positive usefulness signals.

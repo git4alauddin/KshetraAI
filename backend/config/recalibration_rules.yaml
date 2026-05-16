@@ -1,2 +1,94 @@
-# Recalibration rule configuration placeholder.
+# Build 07 recalibration signal configuration.
+#
+# These rules generate human-reviewable suggestions only. They do not mutate
+# priority weights, decision rules, anomaly thresholds, explanation templates,
+# APIs, frontend behavior, or any production logic automatically.
 
+recalibration_policy:
+  mode: human_review_only
+  requires_human_review: true
+  automatic_weight_updates_allowed: false
+  automatic_rule_updates_allowed: false
+  automatic_threshold_updates_allowed: false
+  deterministic_sort_keys:
+    - signal_type
+    - source_metric
+    - affected_component
+
+signal_schema:
+  - signal_id
+  - signal_type
+  - source_metric
+  - affected_component
+  - trigger_condition
+  - suggestion_text
+  - requires_human_review
+  - signal_trace
+
+signal_types:
+  - weight_review
+  - rule_review
+  - alert_threshold_review
+  - confidence_review
+
+recalibration_rules:
+  inventory_weight_positive_review:
+    rule_id: INVENTORY_WEIGHT_POSITIVE_REVIEW
+    signal_type: weight_review
+    source_metric: order_conversion_rate
+    affected_component: inventory_need
+    trigger:
+      operator: gte
+      threshold: 0.70
+      minimum_denominator: 5
+    suggestion_text: "Inventory-driven outcomes are converting well; review whether inventory urgency deserves higher priority weight."
+    requires_human_review: true
+
+  recommendation_rule_low_acceptance_review:
+    rule_id: RECOMMENDATION_RULE_LOW_ACCEPTANCE_REVIEW
+    signal_type: rule_review
+    source_metric: recommendation_acceptance_rate
+    affected_component: contextual_decision_rules
+    trigger:
+      operator: lte
+      threshold: 0.40
+      minimum_denominator: 5
+    suggestion_text: "Recommendation acceptance is low; review contextual rule relevance and timing before changing rules."
+    requires_human_review: true
+
+  anomaly_alert_validation_review:
+    rule_id: ANOMALY_ALERT_VALIDATION_REVIEW
+    signal_type: alert_threshold_review
+    source_metric: alert_validation_rate
+    affected_component: anomaly_thresholds
+    trigger:
+      operator: lte
+      threshold: 0.50
+      minimum_denominator: 5
+    suggestion_text: "Alert validation is low; review anomaly thresholds and supporting evidence requirements."
+    requires_human_review: true
+
+  confidence_calibration_review:
+    rule_id: CONFIDENCE_CALIBRATION_REVIEW
+    signal_type: confidence_review
+    source_metric: feedback_positive_rate
+    affected_component: confidence_rules
+    trigger:
+      operator: lte
+      threshold: 0.50
+      minimum_denominator: 5
+    suggestion_text: "Positive feedback is limited; review confidence wording and evidence requirements."
+    requires_human_review: true
+
+safety_constraints:
+  forbidden_actions:
+    - mutate_priority_weights
+    - rewrite_contextual_rules
+    - change_anomaly_thresholds
+    - update_confidence_templates
+    - retrain_model
+    - deploy_automatic_changes
+  required_signal_language:
+    - review
+    - suggestion
+    - human
