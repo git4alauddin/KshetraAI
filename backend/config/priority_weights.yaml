@@ -1,2 +1,59 @@
-# Priority engine weights placeholder.
+# Build 03 priority scoring weights.
+#
+# This file defines deterministic weighting only. It does not implement
+# recommendations, anomaly detection, explainability text, or learning logic.
 
+score_range:
+  min: 0
+  max: 100
+
+component_weights:
+  agronomic_urgency: 0.30
+  sales_opportunity: 0.25
+  inventory_need: 0.20
+  relationship_need: 0.10
+  competitive_pressure: 0.10
+  travel_cost: -0.05
+
+component_policy:
+  core_urgency_components:
+    - agronomic_urgency
+    - sales_opportunity
+    - inventory_need
+    - relationship_need
+    - competitive_pressure
+  penalty_components:
+    - travel_cost
+  final_score_formula: weighted_core_urgency_minus_travel_penalty
+  clamp_final_score_to_range: true
+
+signal_weights:
+  agronomic_urgency:
+    pest_disease_risk_score: 0.35
+    crop_stage_risk_score: 0.25
+    weather_risk_score: 0.20
+    ndvi_stress_score: 0.20
+
+  sales_opportunity:
+    historical_sales_score: 0.25
+    seasonal_product_relevance: 0.25
+    sales_opportunity_score: 0.20
+    purchase_history_score: 0.15
+    crop_acreage_score: 0.15
+
+  inventory_need:
+    stock_level_score: 0.30
+    sales_velocity_score: 0.25
+    stockout_risk_score: 0.25
+    inventory_need_score: 0.20
+
+  relationship_need:
+    relationship_need_score: 0.50
+    account_priority_score: 0.30
+    campaign_engagement_score: 0.20
+
+  competitive_pressure:
+    competitive_pressure_score: 1.00
+
+  travel_cost:
+    travel_cost_score: 1.00

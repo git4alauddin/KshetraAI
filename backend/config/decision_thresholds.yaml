@@ -1,2 +1,36 @@
-# Contextual decision threshold configuration placeholder.
+# Build 03 priority classification thresholds.
+#
+# These thresholds classify priority scores only. Contextual recommendation
+# rules for later builds must stay outside this file unless explicitly approved.
 
+score_range:
+  min: 0
+  max: 100
+
+priority_levels:
+  critical:
+    label: Critical
+    severity_rank: 4
+    min_score: 80
+    max_score: 100
+  high:
+    label: High
+    severity_rank: 3
+    min_score: 65
+    max_score: 79.999
+  medium:
+    label: Medium
+    severity_rank: 2
+    min_score: 50
+    max_score: 64.999
+  low:
+    label: Low
+    severity_rank: 1
+    min_score: 0
+    max_score: 49.999
+
+classification_policy:
+  ordered_from_highest_priority: true
+  min_score_inclusive: true
+  max_score_inclusive: true
+  fail_on_out_of_range_score: true
