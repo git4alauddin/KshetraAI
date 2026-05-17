@@ -9,6 +9,8 @@ from __future__ import annotations
 from fastapi import FastAPI
 
 from backend.api.routes.health_routes import router as health_router
+from backend.api.routes.planning_routes import router as planning_router
+from backend.api.routes.recommendation_routes import router as recommendation_router
 
 
 API_TITLE = "KshetraAI Backend"
@@ -24,6 +26,8 @@ def create_app() -> FastAPI:
         description="Controlled API layer for KshetraAI operational intelligence.",
     )
     app.include_router(health_router)
+    app.include_router(planning_router)
+    app.include_router(recommendation_router)
     return app
 
 

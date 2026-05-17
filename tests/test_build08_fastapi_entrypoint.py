@@ -21,8 +21,8 @@ class Build08FastAPIEntrypointTest(unittest.TestCase):
         self.assertEqual(app.title, API_TITLE)
         self.assertEqual(app.version, API_VERSION)
         self.assertIn("/health", routes)
-        self.assertNotIn("/daily-plan", routes)
-        self.assertNotIn("/recommendations/{entity_id}", routes)
+        self.assertIn("/daily-plan", routes)
+        self.assertIn("/recommendations/{entity_id}", routes)
 
 
 if __name__ == "__main__":
