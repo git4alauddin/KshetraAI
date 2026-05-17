@@ -47,6 +47,15 @@ cd frontend
 npm run build
 ```
 
+Run Build 10 demo workflow verification:
+
+```powershell
+python demo\scripts\verify_demo_workflow.py
+```
+
+The verifier should show no `FAIL` rows. `WARN` rows are acceptable during early
+Build 10 only when processed demo outputs have not been captured yet.
+
 Start backend locally:
 
 ```powershell
