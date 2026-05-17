@@ -395,7 +395,7 @@ I7 --> I12["Delegates to Build 07<br/>log_outcome(...)"]
 %% Build 09 / Client Layer
 %% ----------------------------
 
-I1 --> J["Build 09<br/>Frontend Dashboard & Workflow Layer<br/>(Next)"]
+I1 --> J["Build 09<br/>Frontend Dashboard & Workflow Layer"]
 
 J --> J1["Daily Plan View"]
 J --> J2["Recommendation View"]
@@ -407,7 +407,7 @@ J --> J5["Outcome Submission Flow"]
 %% Build 10 / Demo
 %% ----------------------------
 
-J --> K["Build 10<br/>Demo Integration, Testing & Final Polish"]
+J --> K["Build 10<br/>Demo Integration, Testing & Final Polish<br/>(Next)"]
 
 K --> K1["Judge-Facing Workflow"]
 K --> K2["End-to-End Scenario"]
@@ -972,8 +972,8 @@ Architecture & Governance Complete
 | 06 | Explainability & Trust Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`06_explainability_and_trust_engine.md`](docs/implementation/06_explainability_and_trust_engine.md) |
 | 07 | Outcome Learning & Feedback Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`07_outcome_learning_and_feedback_engine.md`](docs/implementation/07_outcome_learning_and_feedback_engine.md) |
 | 08 | FastAPI Backend Integration | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`08_fastApi_backend_integration.md`](docs/implementation/08_fastApi_backend_integration.md) |
-| 09 | Frontend Dashboard & Workflow Layer | ![In Progress](https://img.shields.io/badge/In--Progress-blue) | [`09_frontend_dashboard_and_workflow_layer.md`](docs/implementation/09_frontend_dashboard_and_workflow_layer.md) |
-| 10 | Demo Integration, Testing & Final Polish | ![Not Started](https://img.shields.io/badge/Not--Started-lightgrey) | [`10_demo_integration_testing_final_polish.md`](docs/implementation/10_demo_integration_testing_final_polish.md) |
+| 09 | Frontend Dashboard & Workflow Layer | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`09_frontend_dashboard_and_workflow_layer.md`](docs/implementation/09_frontend_dashboard_and_workflow_layer.md) |
+| 10 | Demo Integration, Testing & Final Polish | ![In Progress](https://img.shields.io/badge/In--Progress-blue) | [`10_demo_integration_testing_final_polish.md`](docs/implementation/10_demo_integration_testing_final_polish.md) |
 
 Status values:
 
@@ -997,11 +997,12 @@ Completed:
 - Build 06 explainability and trust engine
 - Build 07 outcome learning and feedback engine
 - Build 08 FastAPI backend integration
+- Build 09 frontend dashboard and workflow layer
 
 Next:
 
 ```text
-Build 09: Frontend Dashboard & Workflow Layer.
+Build 10: Demo Integration, Testing & Final Polish.
 ```
 
 ---
@@ -1017,4 +1018,3 @@ through transparent,
 adaptive,
 and operationally grounded intelligence workflows.
 ```
-
