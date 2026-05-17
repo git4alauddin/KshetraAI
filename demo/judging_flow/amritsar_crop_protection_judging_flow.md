@@ -1,4 +1,4 @@
-# Wardha Cotton Judging Flow
+# Amritsar Crop Protection Judging Flow
 
 ## Goal
 
@@ -18,7 +18,7 @@ the field outcome is captured for future improvement.
 
 | Order | Screen Or Endpoint | Presenter Action | Judge Takeaway |
 |---|---|---|---|
-| 1 | Dashboard | Show `REP001`, `TERR_WARDHA_01`, and `2026-05-17` | The workflow starts from a controlled field context |
+| 1 | Dashboard | Show `REP_0164`, `TER_0164`, and `2026-05-17` | The workflow starts from a controlled field context |
 | 2 | Daily Plan | Open ranked visit plan | The system prioritizes visits from signals |
 | 3 | Recommendation | Open top entity details | The rep gets a concrete next best action |
 | 4 | Explanation | Show evidence and confidence | The recommendation is traceable |

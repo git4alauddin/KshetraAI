@@ -1,4 +1,4 @@
-# Wardha Cotton Demo Scenario
+# Amritsar Crop Protection Demo Scenario
 
 ## Purpose
 
@@ -13,17 +13,17 @@ stable processed outputs, and the existing backend API contract.
 
 | Field | Value |
 |---|---|
-| Scenario ID | `WARDHA_COTTON_001` |
-| Rep ID | `REP001` |
-| Territory ID | `TERR_WARDHA_01` |
+| Scenario ID | `AMRITSAR_CROP_PROTECTION_001` |
+| Rep ID | `REP_0164` |
+| Territory ID | `TER_0164` |
 | Plan Date | `2026-05-17` |
-| Region Story | Wardha cotton belt |
-| Primary Crop | Cotton |
-| Commercial Context | Fungicide demand is increasing |
-| Operational Risk | Low fungicide stock at priority retailer |
-| Agronomic Risk | Possible fungal disease pressure after rainfall and crop stress |
-| Alert Focus | Stock-out risk and crop stress |
-| Expected Action | Visit priority retailer, discuss fungicide advisory, validate stock need, and capture outcome |
+| Region Story | Amritsar west territory |
+| Primary Crop | Mixed Rabi crop protection context |
+| Commercial Context | Crop protection demand and stock movement signals are active |
+| Operational Risk | Low stock or fast-moving SKU risk at priority retailer |
+| Agronomic Risk | Context depends on generated feature and alert outputs |
+| Alert Focus | Stock-out risk and opportunity signals |
+| Expected Action | Visit priority retailer, review stock position, discuss relevant advisory, and capture outcome |
 
 ## Demo Narrative
 
@@ -57,7 +57,7 @@ date: 2026-05-17
 The selected entity should come from the first ranked entity returned by:
 
 ```text
-GET /daily-plan?rep_id=REP001&territory_id=TERR_WARDHA_01&date=2026-05-17
+GET /daily-plan?rep_id=REP_0164&territory_id=TER_0164&date=2026-05-17
 ```
 
 If the processed output has no matching rows during local development, use
@@ -107,17 +107,17 @@ returned by the API when available:
 
 ```json
 {
-  "recommendation_id": "REC_WARDHA_COTTON_001",
+  "recommendation_id": "<matched_rule_id>",
   "entity_id": "<selected_entity_id>",
-  "rep_id": "REP001",
+  "rep_id": "REP_0164",
   "visit_completed": true,
   "recommendation_followed": true,
   "sale_made": true,
   "order_placed": true,
   "order_value": 25000,
   "alert_validated": true,
-  "feedback_category": "accepted",
-  "rep_feedback": "Retailer confirmed fungicide demand and requested restocking.",
+  "feedback_category": "useful",
+  "rep_feedback": "Retailer confirmed demand and requested follow-up stock planning.",
   "alert_id": "<alert_id_if_available>"
 }
 ```

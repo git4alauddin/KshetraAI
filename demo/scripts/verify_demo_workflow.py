@@ -24,9 +24,9 @@ from fastapi.routing import APIRoute
 from backend.main import create_app
 
 
-SCENARIO_ID = "WARDHA_COTTON_001"
-REP_ID = "REP001"
-TERRITORY_ID = "TERR_WARDHA_01"
+SCENARIO_ID = "AMRITSAR_CROP_PROTECTION_001"
+REP_ID = "REP_0164"
+TERRITORY_ID = "TER_0164"
 PLAN_DATE = "2026-05-17"
 
 EXPECTED_ROUTES = (
@@ -39,8 +39,8 @@ EXPECTED_ROUTES = (
 )
 
 REQUIRED_DEMO_DOCS = (
-    "demo/scenarios/wardha_cotton_scenario.md",
-    "demo/judging_flow/wardha_cotton_judging_flow.md",
+    "demo/scenarios/amritsar_crop_protection_scenario.md",
+    "demo/judging_flow/amritsar_crop_protection_judging_flow.md",
     "demo/runbook.md",
 )
 

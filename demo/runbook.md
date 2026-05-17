@@ -11,14 +11,14 @@ presentation.
 Use:
 
 ```text
-demo/scenarios/wardha_cotton_scenario.md
+demo/scenarios/amritsar_crop_protection_scenario.md
 ```
 
 Fixed inputs:
 
 ```text
-rep_id: REP001
-territory_id: TERR_WARDHA_01
+rep_id: REP_0164
+territory_id: TER_0164
 date: 2026-05-17
 ```
 
@@ -56,6 +56,15 @@ python demo\scripts\verify_demo_workflow.py
 The verifier should show no `FAIL` rows. `WARN` rows are acceptable during early
 Build 10 only when processed demo outputs have not been captured yet.
 
+Generate derived demo outputs from the local ignored company data:
+
+```powershell
+python demo\scripts\generate_demo_outputs.py
+```
+
+This writes ignored processed CSVs under `datasets/processed/` and sanitized
+API-level sample JSON files under `demo/sample_outputs/`.
+
 Start backend locally:
 
 ```powershell
@@ -87,10 +96,10 @@ Check the endpoints in this order:
 
 ```text
 GET /health
-GET /daily-plan?rep_id=REP001&territory_id=TERR_WARDHA_01&date=2026-05-17
+GET /daily-plan?rep_id=REP_0164&territory_id=TER_0164&date=2026-05-17
 GET /recommendations/{entity_id}
 GET /explanations/{entity_id}
-GET /alerts?territory_id=TERR_WARDHA_01
+GET /alerts?territory_id=TER_0164
 POST /outcomes
 ```
 
@@ -112,8 +121,8 @@ Use the first ranked entity from `/daily-plan` as `{entity_id}`.
 
 | Evidence | Location |
 |---|---|
-| Scenario definition | `demo/scenarios/wardha_cotton_scenario.md` |
-| Judge flow | `demo/judging_flow/wardha_cotton_judging_flow.md` |
+| Scenario definition | `demo/scenarios/amritsar_crop_protection_scenario.md` |
+| Judge flow | `demo/judging_flow/amritsar_crop_protection_judging_flow.md` |
 | Sample API outputs | `demo/sample_outputs/` |
 | Screenshots | `demo/screenshots/` |
 | Presentation notes | `demo/presentation_notes/` |

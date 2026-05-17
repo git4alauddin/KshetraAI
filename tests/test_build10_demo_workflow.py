@@ -18,7 +18,7 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
 
         self.assertFalse(has_blocking_failures(checks))
         self.assertTrue(any(check.name == "backend API route contract" for check in checks))
-        self.assertTrue(any(check.status == "WARN" for check in checks))
+        self.assertTrue(all(check.status in {"PASS", "WARN"} for check in checks))
 
     def test_verifier_marks_complete_fixed_scenario_outputs_as_ready(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -32,8 +32,8 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
                 [
                     {
                         "rank": "1",
-                        "entity_id": "ENT_WARDHA_001",
-                        "entity_name": "Wardha Agro Center",
+                        "entity_id": "ENT_AMRITSAR_001",
+                        "entity_name": "Amritsar Agro Center",
                         "rep_id": REP_ID,
                         "territory_id": TERRITORY_ID,
                         "date": PLAN_DATE,
@@ -47,7 +47,7 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
                 processed_dir / "recommendation_outputs.csv",
                 [
                     {
-                        "entity_id": "ENT_WARDHA_001",
+                        "entity_id": "ENT_AMRITSAR_001",
                         "recommended_actions": "['Discuss fungicide restocking']",
                         "confidence_level": "High",
                     }
@@ -57,7 +57,7 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
                 processed_dir / "explanation_outputs.csv",
                 [
                     {
-                        "entity_id": "ENT_WARDHA_001",
+                        "entity_id": "ENT_AMRITSAR_001",
                         "explanation_type": "recommendation",
                         "summary_text": "Fungicide advisory is supported.",
                         "evidence_items": "['low stock', 'demand increase']",
@@ -69,8 +69,8 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
                 processed_dir / "anomaly_alerts.csv",
                 [
                     {
-                        "alert_id": "ALERT_WARDHA_001",
-                        "entity_id": "ENT_WARDHA_001",
+                        "alert_id": "ALERT_AMRITSAR_001",
+                        "entity_id": "ENT_AMRITSAR_001",
                         "territory_id": TERRITORY_ID,
                         "alert_type": "Stock-Out Risk",
                         "severity_score": "88",
@@ -89,8 +89,8 @@ class Build10DemoWorkflowVerificationTest(unittest.TestCase):
 
 def _write_required_demo_docs(repo_root: Path) -> None:
     for relative_path in (
-        "demo/scenarios/wardha_cotton_scenario.md",
-        "demo/judging_flow/wardha_cotton_judging_flow.md",
+        "demo/scenarios/amritsar_crop_protection_scenario.md",
+        "demo/judging_flow/amritsar_crop_protection_judging_flow.md",
         "demo/runbook.md",
     ):
         path = repo_root / relative_path

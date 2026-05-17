@@ -1,0 +1,191 @@
+{
+  "date": "2026-05-17",
+  "ranked_entities": [
+    {
+      "entity_id": "RTL_01300",
+      "entity_name": "RTL_01300",
+      "main_reason": "Highest signal: inventory need (92.5)",
+      "priority_level": "Low",
+      "priority_score": 37.1125,
+      "rank": 1
+    },
+    {
+      "entity_id": "RTL_01293",
+      "entity_name": "RTL_01293",
+      "main_reason": "Highest signal: sales opportunity (60.3)",
+      "priority_level": "Low",
+      "priority_score": 28.585,
+      "rank": 385
+    },
+    {
+      "entity_id": "RTL_01296",
+      "entity_name": "RTL_01296",
+      "main_reason": "Highest signal: sales opportunity (55.35)",
+      "priority_level": "Low",
+      "priority_score": 26.9375,
+      "rank": 891
+    },
+    {
+      "entity_id": "RTL_01297",
+      "entity_name": "RTL_01297",
+      "main_reason": "Highest signal: inventory need (58.6)",
+      "priority_level": "Low",
+      "priority_score": 26.32,
+      "rank": 1148
+    },
+    {
+      "entity_id": "RTL_01292",
+      "entity_name": "RTL_01292",
+      "main_reason": "Highest signal: inventory need (57.55)",
+      "priority_level": "Low",
+      "priority_score": 24.86,
+      "rank": 1888
+    },
+    {
+      "entity_id": "RTL_01291",
+      "entity_name": "RTL_01291",
+      "main_reason": "Highest signal: sales opportunity (50.15)",
+      "priority_level": "Low",
+      "priority_score": 24.4075,
+      "rank": 2109
+    },
+    {
+      "entity_id": "RTL_01295",
+      "entity_name": "RTL_01295",
+      "main_reason": "Highest signal: inventory need (66.35)",
+      "priority_level": "Low",
+      "priority_score": 23.845,
+      "rank": 2370
+    },
+    {
+      "entity_id": "RTL_01299",
+      "entity_name": "RTL_01299",
+      "main_reason": "Highest signal: sales opportunity (44.1)",
+      "priority_level": "Low",
+      "priority_score": 21.535,
+      "rank": 3369
+    },
+    {
+      "entity_id": "RTL_01301",
+      "entity_name": "RTL_01301",
+      "main_reason": "Highest signal: sales opportunity (49.05)",
+      "priority_level": "Low",
+      "priority_score": 21.2625,
+      "rank": 3454
+    },
+    {
+      "entity_id": "RTL_01294",
+      "entity_name": "RTL_01294",
+      "main_reason": "Highest signal: inventory need (49.7)",
+      "priority_level": "Low",
+      "priority_score": 21.2025,
+      "rank": 3470
+    },
+    {
+      "entity_id": "RTL_01298",
+      "entity_name": "RTL_01298",
+      "main_reason": "Highest signal: inventory need (42.75)",
+      "priority_level": "Low",
+      "priority_score": 20.375,
+      "rank": 3675
+    },
+    {
+      "entity_id": "GRW_00248",
+      "entity_name": "GRW_00248",
+      "main_reason": "Highest signal: relationship need (28.5)",
+      "priority_level": "Low",
+      "priority_score": 5.275,
+      "rank": 4046
+    },
+    {
+      "entity_id": "GRW_05914",
+      "entity_name": "GRW_05914",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 3.4375,
+      "rank": 5134
+    },
+    {
+      "entity_id": "GRW_01799",
+      "entity_name": "GRW_01799",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 3.0875,
+      "rank": 5914
+    },
+    {
+      "entity_id": "GRW_04266",
+      "entity_name": "GRW_04266",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 2.9375,
+      "rank": 6395
+    },
+    {
+      "entity_id": "GRW_03572",
+      "entity_name": "GRW_03572",
+      "main_reason": "Highest signal: relationship need (28.5)",
+      "priority_level": "Low",
+      "priority_score": 2.85,
+      "rank": 6647
+    },
+    {
+      "entity_id": "GRW_02804",
+      "entity_name": "GRW_02804",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 2.7375,
+      "rank": 7095
+    },
+    {
+      "entity_id": "GRW_04496",
+      "entity_name": "GRW_04496",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 2.7375,
+      "rank": 7143
+    },
+    {
+      "entity_id": "GRW_04857",
+      "entity_name": "GRW_04857",
+      "main_reason": "Highest signal: relationship need (21.5)",
+      "priority_level": "Low",
+      "priority_score": 2.7375,
+      "rank": 7157
+    },
+    {
+      "entity_id": "GRW_05197",
+      "entity_name": "GRW_05197",
+      "main_reason": "Highest signal: relationship need (16.5)",
+      "priority_level": "Low",
+      "priority_score": 2.6625,
+      "rank": 7367
+    },
+    {
+      "entity_id": "GRW_00943",
+      "entity_name": "GRW_00943",
+      "main_reason": "Highest signal: relationship need (16.5)",
+      "priority_level": "Low",
+      "priority_score": 2.5875,
+      "rank": 7716
+    },
+    {
+      "entity_id": "GRW_03637",
+      "entity_name": "GRW_03637",
+      "main_reason": "Highest signal: relationship need (16.5)",
+      "priority_level": "Low",
+      "priority_score": 1.65,
+      "rank": 9922
+    },
+    {
+      "entity_id": "GRW_04926",
+      "entity_name": "GRW_04926",
+      "main_reason": "Highest signal: relationship need (16.5)",
+      "priority_level": "Low",
+      "priority_score": 1.65,
+      "rank": 9955
+    }
+  ],
+  "rep_id": "REP_0164",
+  "territory_id": "TER_0164"
+}

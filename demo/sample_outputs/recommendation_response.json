@@ -1,0 +1,11 @@
+{
+  "confidence_level": "Medium",
+  "entity_id": "RTL_01300",
+  "recommended_actions": [
+    "review_fast_moving_sku_availability",
+    "check_reorder_timing",
+    "plan_inventory_follow_up"
+  ],
+  "recommended_product_category": "Relevant Seasonal SKU",
+  "risk_or_opportunity": "Possible fast-moving stock pressure"
+}

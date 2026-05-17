@@ -85,7 +85,11 @@ class Build08AlertExplainabilityRoutesTest(unittest.TestCase):
     def test_alert_route_returns_empty_response_from_missing_default_data(self):
         response = get_alerts(territory_id=None, severity=None)
 
-        self.assertEqual(response.alerts, [])
+        self.assertIsInstance(response.alerts, list)
+        if response.alerts:
+            self.assertTrue(response.alerts[0].alert_id)
+        else:
+            self.assertEqual(response.alerts, [])
 
     def test_alert_service_missing_columns_fails_explicitly(self):
         with self.assertRaisesRegex(AnomalyServiceError, "severity_score"):

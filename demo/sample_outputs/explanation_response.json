@@ -1,0 +1,64 @@
+{
+  "entity_id": "RTL_01300",
+  "explanations": [
+    {
+      "confidence_level": "High",
+      "evidence_items": [
+        "inventory_need_baseline_score: 45.0",
+        "inventory_need_score: 92",
+        "sales_velocity_score: 100",
+        "stockout_risk_score: 92"
+      ],
+      "explanation_type": "anomaly",
+      "summary_text": "This anomaly alert was flagged at current severity because inventory need baseline score=45.0; inventory need score=92; sales velocity score=100."
+    },
+    {
+      "confidence_level": "High",
+      "evidence_items": [
+        "sales_opportunity_baseline_score: 45.0",
+        "sales_opportunity_score: 68",
+        "seasonal_product_relevance: 88"
+      ],
+      "explanation_type": "anomaly",
+      "summary_text": "This anomaly alert was flagged at current severity because sales opportunity baseline score=45.0; sales opportunity score=68; seasonal product relevance=88."
+    },
+    {
+      "confidence_level": "High",
+      "evidence_items": [
+        "inventory_need: 92.5",
+        "sales_opportunity: 66.05",
+        "relationship_need: 21.0",
+        "priority_score: 37.1125"
+      ],
+      "explanation_type": "priority",
+      "summary_text": "RTL_01300 is marked current priority with a score of 37.1125 because inventory need=92.5; sales opportunity=66.05; relationship need=21.0."
+    },
+    {
+      "confidence_level": "Medium",
+      "evidence_items": [
+        "sales_velocity_score: 100",
+        "stock_level_score: 87"
+      ],
+      "explanation_type": "recommendation",
+      "summary_text": "The existing recommendation is suggested because rule INVENTORY_FAST_MOVING_SKU_MONITORING matched supported evidence: sales velocity score=100; stock level score=87."
+    },
+    {
+      "confidence_level": "Medium",
+      "evidence_items": [
+        "inventory_need_score: 92",
+        "stockout_risk_score: 92"
+      ],
+      "explanation_type": "recommendation",
+      "summary_text": "The existing recommendation is suggested because rule INVENTORY_REPLENISHMENT_NEED_HIGH matched supported evidence: inventory need score=92; stockout risk score=92."
+    },
+    {
+      "confidence_level": "Medium",
+      "evidence_items": [
+        "historical_sales_score: 75",
+        "purchase_history_score: 78"
+      ],
+      "explanation_type": "recommendation",
+      "summary_text": "The existing recommendation is suggested because rule SALES_PURCHASE_HISTORY_OPPORTUNITY matched supported evidence: historical sales score=75; purchase history score=78."
+    }
+  ]
+}
