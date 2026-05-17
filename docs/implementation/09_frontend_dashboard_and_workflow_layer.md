@@ -607,3 +607,159 @@ Each task heading below is intended to be usable as the future commit heading. W
 | 7 | Build 09: Verify frontend workflow checklist | Confirm this build is UI-only and does not compute intelligence, change API schemas, or modify backend logic. | `docs/implementation/09_frontend_dashboard_and_workflow_layer.md` |
 
 Per-task completion rule: after the human commits and says done, verify the committed scope, confirm the matching checklist items, and propose the next task.
+
+---
+
+# 31. Build Verification Checklist
+
+Build status:
+
+```text
+Under Review
+```
+
+This build has implemented the frontend workflow layer as a backend-driven interface. The frontend consumes Build 08 API outputs, displays operational intelligence, and captures outcome feedback without duplicating backend scoring, recommendation, anomaly, explanation, or learning logic.
+
+## 31.1 Implemented Task Checklist
+
+| Order | Commit Heading | Verification Status | Evidence |
+|---|---|---|---|
+| 1 | Build 09: Create frontend application shell | Complete | Frontend Vite/React shell, dashboard layout, navigation, workflow state, and base styling are implemented under `frontend/`. |
+| 2 | Build 09: Implement API client and state hooks | Complete | `frontend/services/apiClient.ts` and hooks for health, daily plan, recommendation, alerts, explanations, and outcome submission are implemented. |
+| 3 | Build 09: Implement daily visit plan view | Complete | `frontend/pages/VisitPlan.tsx` renders ranked entities from `GET /daily-plan` with loading, error, and empty states. |
+| 4 | Build 09: Implement recommendation and explanation views | Complete | `frontend/pages/RecommendationView.tsx` renders `GET /recommendations/{entity_id}` and `GET /explanations/{entity_id}` outputs. |
+| 5 | Build 09: Implement alert and outcome views | Complete | `frontend/pages/AlertsView.tsx` consumes `GET /alerts`; `frontend/pages/OutcomeSubmission.tsx` and `frontend/components/OutcomeForm.tsx` submit `POST /outcomes`. |
+| 6 | Build 09: Add frontend workflow tests | Complete | `tests/test_build09_frontend_workflow.py` validates endpoint contracts, hook usage, UI states, outcome payload fields, and anti-intelligence boundaries. |
+| 7 | Build 09: Verify frontend workflow checklist | Complete | This verification section records completed scope, boundary checks, and test evidence. |
+
+## 31.2 API Integration Verification
+
+The frontend consumes backend endpoints only through:
+
+```text
+frontend/services/apiClient.ts
+```
+
+Verified endpoint coverage:
+
+| Endpoint | Frontend Consumer |
+|---|---|
+| `GET /health` | `useHealth` |
+| `GET /daily-plan` | `useDailyPlan`, `VisitPlan` |
+| `GET /recommendations/{entity_id}` | `useRecommendation`, `RecommendationView` |
+| `GET /alerts` | `useAlerts`, `AlertsView` |
+| `GET /explanations/{entity_id}` | `useExplanation`, `RecommendationView` |
+| `POST /outcomes` | `useSubmitOutcome`, `OutcomeSubmission`, `OutcomeForm` |
+
+No page component performs direct scattered API access. Page components use hooks, and hooks delegate to the API client.
+
+## 31.3 UI Workflow Verification
+
+The implemented frontend supports the intended workflow:
+
+```text
+Dashboard selection
+        ->
+Daily visit plan
+        ->
+Recommendation and explanation review
+        ->
+Alert review
+        ->
+Outcome submission
+```
+
+Verified UI states:
+
+- daily plan loading, error, empty, and populated states
+- recommendation loading, error, empty, and populated states
+- explanation loading, error, empty, and populated states
+- alert loading, error, empty, and populated states
+- outcome form validation, submit, error, and success states
+
+## 31.4 Outcome Capture Verification
+
+The outcome form captures and submits the required Build 09 fields:
+
+| Field | Status |
+|---|---|
+| `recommendation_id` | Captured |
+| `entity_id` | Captured |
+| `rep_id` | Captured |
+| `visit_completed` | Captured |
+| `recommendation_followed` | Captured |
+| `sale_made` | Captured |
+| `order_placed` | Captured |
+| `order_value` | Captured and validated |
+| `alert_validated` | Captured |
+| `rep_feedback` | Captured |
+| `feedback_category` | Captured as optional API-supported context |
+| `alert_id` | Captured as optional API-supported context |
+
+Validation preserves frontend responsibility only:
+
+- required identifiers must be present
+- order value must be zero or positive
+- submitted payload shape follows the existing API contract
+
+## 31.5 Anti-Drift Verification
+
+Build 09 did not modify forbidden implementation areas:
+
+```text
+backend/
+datasets/
+private-data/
+docs/architecture/
+docs/implementation_contracts/
+```
+
+The frontend does not:
+
+- calculate priority scores
+- infer recommendations
+- generate anomaly alerts
+- rewrite explanations
+- mutate API schemas
+- implement backend learning logic
+
+Frontend behavior is limited to:
+
+```text
+formatting backend responses,
+displaying operational intelligence,
+handling loading/error/empty states,
+and submitting user outcome inputs.
+```
+
+## 31.6 Verification Commands
+
+The following checks were run successfully:
+
+```powershell
+npm run build
+python -m unittest discover tests
+```
+
+Observed result:
+
+```text
+Frontend production build passed.
+Backend and contract regression suite passed with Build 09 workflow tests included.
+```
+
+## 31.7 Completion Decision
+
+Build 09 satisfies the completion criteria for a V1 prototype frontend:
+
+- frontend connects to backend APIs
+- daily plan is visible
+- recommendation detail is visible
+- anomaly alerts are visible
+- explanations are visible
+- outcome form submits through the API client
+- UI remains backend-driven
+- no frontend-side intelligence logic was introduced
+- architecture boundaries remain preserved
+
+Build 09 is ready for human review and final project status update.
