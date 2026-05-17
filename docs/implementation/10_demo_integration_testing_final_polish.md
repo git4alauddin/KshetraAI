@@ -496,6 +496,34 @@ This build is complete when:
 
 ---
 
+# 23.1 Final Verification Record
+
+Verified on `2026-05-17` against the implemented scenario:
+
+```text
+AMRITSAR_CROP_PROTECTION_001
+```
+
+| Verification Area | Result | Evidence |
+|---|---|---|
+| Demo acceptance checks | Passed | `python demo\scripts\run_acceptance_checks.py` |
+| Demo workflow verification | Passed | `python demo\scripts\verify_demo_workflow.py` |
+| Backend regression tests | Passed | `python -m unittest discover tests` |
+| Frontend production build | Passed | `npm run build` from `frontend/` |
+| Fixed scenario stability | Passed | Top entity remains `RTL_01300` for `REP_0164` / `TER_0164` |
+| Sample output sanitization | Passed | No forbidden raw private-data fields detected |
+| Architecture boundary check | Passed | Final polish changed documentation/status only |
+
+Final readiness notes:
+
+- the committed demo outputs are sanitized API-level artifacts
+- local `private-data/` remains outside Git
+- local `datasets/processed/` outputs remain derived runtime artifacts
+- no new scoring, recommendation, anomaly, explainability, or learning logic was added
+- Build 10 is ready for human review and demo rehearsal
+
+---
+
 # 24. Final One-Line Definition
 
 ```text
