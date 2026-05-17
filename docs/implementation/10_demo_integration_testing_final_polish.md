@@ -198,18 +198,21 @@ No architecture changes are allowed during final polish.
 
 The demo should use one clear scenario.
 
-Recommended scenario:
+Implemented scenario:
 
 | Field | Value |
 |---|---|
-| Rep | REP001 |
-| Territory | Wardha |
-| Primary Crop | Cotton |
-| Main Risk | Possible fungal disease risk |
-| Commercial Context | Fungicide demand increasing |
-| Inventory Context | Low fungicide stock |
-| Alert | Stock-out risk / crop stress |
-| Action | Visit retailer, inspect context, discuss fungicide advisory, recommend restocking |
+| Scenario ID | `AMRITSAR_CROP_PROTECTION_001` |
+| Rep | `REP_0164` |
+| Territory | `TER_0164` |
+| Selected Entity | `RTL_01300` |
+| Plan Date | `2026-05-17` |
+| Region | Amritsar west territory |
+| Main Risk | Possible fast-moving stock pressure |
+| Commercial Context | Crop protection demand and stock movement signals are active |
+| Inventory Context | Inventory need is the strongest priority signal for the selected retailer |
+| Alert | Stock-out risk / opportunity signal |
+| Action | Visit retailer, review SKU availability, check reorder timing, and capture outcome |
 
 ---
 
@@ -358,7 +361,7 @@ Recommended structure:
 demo/
 
 ├── scenarios/
-│   └── wardha_cotton_scenario.md
+│   └── amritsar_crop_protection_scenario.md
 │
 ├── sample_outputs/
 │   ├── daily_plan_response.json
@@ -370,7 +373,16 @@ demo/
 ├── screenshots/
 │
 ├── presentation_notes/
-│   └── demo_script.md
+│   ├── demo_script.md
+│   └── demo_checklist.md
+│
+├── judging_flow/
+│   └── amritsar_crop_protection_judging_flow.md
+│
+├── scripts/
+│   ├── generate_demo_outputs.py
+│   ├── verify_demo_workflow.py
+│   └── run_acceptance_checks.py
 │
 └── runbook.md
 ```

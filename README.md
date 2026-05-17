@@ -910,6 +910,32 @@ The demo focuses on:
 
 ---
 
+# Demo Scenario
+
+The current judge-facing demo uses a deterministic Amritsar crop protection workflow generated from the locally provided company data.
+
+Fixed demo context:
+
+```text
+rep_id: REP_0164
+territory_id: TER_0164
+date: 2026-05-17
+selected_entity: RTL_01300
+```
+
+Demo artifacts:
+
+- [`demo/runbook.md`](demo/runbook.md)
+- [`demo/scenarios/amritsar_crop_protection_scenario.md`](demo/scenarios/amritsar_crop_protection_scenario.md)
+- [`demo/judging_flow/amritsar_crop_protection_judging_flow.md`](demo/judging_flow/amritsar_crop_protection_judging_flow.md)
+- [`demo/presentation_notes/demo_script.md`](demo/presentation_notes/demo_script.md)
+- [`demo/presentation_notes/demo_checklist.md`](demo/presentation_notes/demo_checklist.md)
+- [`demo/sample_outputs/`](demo/sample_outputs/)
+
+The sample outputs are sanitized API-level artifacts. Raw private company data remains local and ignored by Git.
+
+---
+
 # Setup Philosophy
 
 The project is designed to run:

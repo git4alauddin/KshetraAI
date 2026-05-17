@@ -136,8 +136,8 @@ Use the first ranked entity from `/daily-plan` as `{entity_id}`.
 | Screenshots | `demo/screenshots/` |
 | Presentation notes | `demo/presentation_notes/` |
 
-Sample outputs and screenshots are captured in later Build 10 slices after the
-integrated workflow is verified.
+Sample outputs are committed as sanitized API-level JSON files. Screenshots may
+be captured later if a visual presentation package is required.
 
 ## Acceptance Criteria
 
