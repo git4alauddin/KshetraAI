@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from backend.api.routes.anomaly_routes import router as anomaly_router
 from backend.api.routes.explainability_routes import router as explainability_router
 from backend.api.routes.health_routes import router as health_router
+from backend.api.routes.outcome_routes import router as outcome_router
 from backend.api.routes.planning_routes import router as planning_router
 from backend.api.routes.recommendation_routes import router as recommendation_router
 
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
     app.include_router(recommendation_router)
     app.include_router(anomaly_router)
     app.include_router(explainability_router)
+    app.include_router(outcome_router)
     return app
 
 

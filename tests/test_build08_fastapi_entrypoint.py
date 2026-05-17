@@ -25,6 +25,7 @@ class Build08FastAPIEntrypointTest(unittest.TestCase):
         self.assertIn("/recommendations/{entity_id}", routes)
         self.assertIn("/alerts", routes)
         self.assertIn("/explanations/{entity_id}", routes)
+        self.assertIn("/outcomes", routes)
 
 
 if __name__ == "__main__":
