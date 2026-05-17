@@ -17,6 +17,7 @@ stable processed outputs, and the existing backend API contract.
 | Rep ID | `REP_0164` |
 | Territory ID | `TER_0164` |
 | Plan Date | `2026-05-17` |
+| Selected Entity | `RTL_01300` |
 | Region Story | Amritsar west territory |
 | Primary Crop | Mixed Rabi crop protection context |
 | Commercial Context | Crop protection demand and stock movement signals are active |

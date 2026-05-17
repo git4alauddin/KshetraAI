@@ -65,6 +65,15 @@ python demo\scripts\generate_demo_outputs.py
 This writes ignored processed CSVs under `datasets/processed/` and sanitized
 API-level sample JSON files under `demo/sample_outputs/`.
 
+Run final demo acceptance checks:
+
+```powershell
+python demo\scripts\run_acceptance_checks.py
+```
+
+This validates the committed sample outputs, presentation notes, scenario IDs,
+and workflow wiring.
+
 Start backend locally:
 
 ```powershell
