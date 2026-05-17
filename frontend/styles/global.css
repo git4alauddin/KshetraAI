@@ -331,9 +331,28 @@ input[readonly] {
 
 .alert-list,
 .explanation-stack,
-.outcome-form {
+.outcome-form,
+.visit-plan-list {
   display: grid;
   gap: 14px;
+}
+
+.state-panel {
+  justify-content: space-between;
+}
+
+.state-panel div {
+  display: grid;
+  gap: 4px;
+}
+
+.state-panel span {
+  color: #607066;
+}
+
+.state-panel-error {
+  border-color: #e2b8a8;
+  color: #7c2f1d;
 }
 
 .alert-row {

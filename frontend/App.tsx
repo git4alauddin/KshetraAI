@@ -22,7 +22,13 @@ export function App() {
         <Dashboard selection={selection} onSelectionChange={setSelection} onOpenPlan={() => setActiveStep("visit-plan")} />
       )}
       {activeStep === "visit-plan" && (
-        <VisitPlan selection={selection} onOpenRecommendation={() => setActiveStep("recommendation")} />
+        <VisitPlan
+          selection={selection}
+          onOpenRecommendation={(entityId) => {
+            setSelection({ ...selection, selectedEntityId: entityId });
+            setActiveStep("recommendation");
+          }}
+        />
       )}
       {activeStep === "recommendation" && (
         <RecommendationView selection={selection} onOpenAlerts={() => setActiveStep("alerts")} />
