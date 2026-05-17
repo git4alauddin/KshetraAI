@@ -49,8 +49,8 @@ Signals
 Use these values throughout the demo:
 
 ```text
-rep_id: REP001
-territory_id: TERR_WARDHA_01
+rep_id: REP_0164
+territory_id: TER_0164
 date: 2026-05-17
 ```
 
@@ -74,7 +74,7 @@ The demo should call these endpoints in order:
 | 2 | `GET /daily-plan` | Ranked daily visit plan |
 | 3 | `GET /recommendations/{entity_id}` | Next best action for selected entity |
 | 4 | `GET /explanations/{entity_id}` | Evidence-backed explanation |
-| 5 | `GET /alerts?territory_id=TERR_WARDHA_01` | Active anomaly or opportunity alerts |
+| 5 | `GET /alerts?territory_id=TER_0164` | Active anomaly or opportunity alerts |
 | 6 | `POST /outcomes` | Outcome accepted and logged |
 
 ## Expected Frontend Flow
@@ -133,7 +133,7 @@ returned by the API when available:
 ## Readiness Risks To Check
 
 - Processed output files may not exist yet.
-- Matching `REP001` and `TERR_WARDHA_01` rows must be confirmed.
+- Matching `REP_0164` and `TER_0164` rows must be confirmed.
 - Selected entity must have recommendation and explanation outputs.
 - Alerts should be available for the demo territory.
 - Outcome submission must return a clear confirmation.
