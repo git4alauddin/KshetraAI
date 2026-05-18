@@ -346,6 +346,19 @@ input[readonly] {
   gap: 14px;
 }
 
+.pagination-row {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.pagination-row span {
+  color: #52655a;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
 .state-panel {
   justify-content: space-between;
 }
@@ -448,5 +461,10 @@ input[readonly] {
 
   .score-block {
     text-align: left;
+  }
+
+  .pagination-row {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

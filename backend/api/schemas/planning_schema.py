@@ -15,6 +15,8 @@ class DailyPlanQuery(BaseModel):
     rep_id: str | None = Field(default=None, min_length=1)
     territory_id: str | None = Field(default=None, min_length=1)
     date: str | None = Field(default=None, min_length=1)
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=3, ge=1, le=50)
 
 
 class RankedEntityResponse(BaseModel):
@@ -34,4 +36,8 @@ class DailyPlanResponse(BaseModel):
     rep_id: str | None = None
     territory_id: str | None = None
     date: str | None = None
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=3, ge=1, le=50)
+    total_count: int = Field(default=0, ge=0)
+    total_pages: int = Field(default=0, ge=0)
     ranked_entities: list[RankedEntityResponse] = Field(default_factory=list)

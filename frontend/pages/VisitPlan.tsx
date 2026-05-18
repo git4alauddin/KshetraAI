@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { LoadingState } from "../components/LoadingState";
 import { PriorityCard, type PriorityCardData } from "../components/PriorityCard";
 import { useDailyPlan } from "../hooks/useDailyPlan";
@@ -9,13 +11,26 @@ type VisitPlanProps = {
   onOpenRecommendation: (entityId: string) => void;
 };
 
+const DAILY_PLAN_PAGE_SIZE = 3;
+
 export function VisitPlan({ selection, onOpenRecommendation }: VisitPlanProps) {
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selection.planDate, selection.repId, selection.territoryId]);
+
   const { data, error, isLoading, reload } = useDailyPlan({
     date: selection.planDate,
+    page,
+    pageSize: DAILY_PLAN_PAGE_SIZE,
     repId: selection.repId,
     territoryId: selection.territoryId
   });
   const rankedEntities = data?.ranked_entities ?? [];
+  const totalPages = data?.total_pages ?? 0;
+  const canGoPrevious = page > 1;
+  const canGoNext = totalPages > 0 && page < totalPages;
 
   return (
     <div className="page-stack">
@@ -43,7 +58,7 @@ export function VisitPlan({ selection, onOpenRecommendation }: VisitPlanProps) {
           </div>
           <div>
             <span>Endpoint</span>
-            <strong>GET /daily-plan</strong>
+            <strong>GET /daily-plan?page={page}&page_size={DAILY_PLAN_PAGE_SIZE}</strong>
           </div>
         </div>
       </section>
@@ -75,15 +90,38 @@ export function VisitPlan({ selection, onOpenRecommendation }: VisitPlanProps) {
       )}
 
       {!isLoading && !error && rankedEntities.length > 0 && (
-        <section className="visit-plan-list" aria-label="Ranked daily visit plan">
-          {rankedEntities.map((entity) => (
-            <PriorityCard
-              key={`${entity.rank}-${entity.entity_id}`}
-              priority={toPriorityCardData(entity)}
-              onOpenDetails={() => onOpenRecommendation(entity.entity_id)}
-            />
-          ))}
-        </section>
+        <>
+          <section className="visit-plan-list" aria-label="Ranked daily visit plan">
+            {rankedEntities.map((entity) => (
+              <PriorityCard
+                key={`${entity.rank}-${entity.entity_id}`}
+                priority={toPriorityCardData(entity)}
+                onOpenDetails={() => onOpenRecommendation(entity.entity_id)}
+              />
+            ))}
+          </section>
+          <section className="pagination-row" aria-label="Daily plan pagination">
+            <button
+              className="secondary-button"
+              disabled={!canGoPrevious}
+              onClick={() => setPage((currentPage) => Math.max(1, currentPage - 1))}
+              type="button"
+            >
+              Previous
+            </button>
+            <span>
+              Page {data?.page ?? page} of {totalPages || 1} - {data?.total_count ?? rankedEntities.length} ranked visits
+            </span>
+            <button
+              className="secondary-button"
+              disabled={!canGoNext}
+              onClick={() => setPage((currentPage) => currentPage + 1)}
+              type="button"
+            >
+              Next
+            </button>
+          </section>
+        </>
       )}
     </div>
   );

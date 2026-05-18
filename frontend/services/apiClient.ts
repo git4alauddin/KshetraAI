@@ -7,6 +7,8 @@ export type DailyPlanQuery = {
   repId?: string;
   territoryId?: string;
   date?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 export type RankedEntity = {
@@ -22,6 +24,10 @@ export type DailyPlanResponse = {
   rep_id: string | null;
   territory_id: string | null;
   date: string | null;
+  page: number;
+  page_size: number;
+  total_count: number;
+  total_pages: number;
   ranked_entities: RankedEntity[];
 };
 
@@ -108,6 +114,8 @@ export async function getDailyPlan(query: DailyPlanQuery = {}): Promise<DailyPla
   appendQueryParam(params, "rep_id", query.repId);
   appendQueryParam(params, "territory_id", query.territoryId);
   appendQueryParam(params, "date", query.date);
+  appendQueryParam(params, "page", query.page?.toString());
+  appendQueryParam(params, "page_size", query.pageSize?.toString());
   const queryString = params.toString();
   return apiFetch<DailyPlanResponse>(`/daily-plan${queryString ? `?${queryString}` : ""}`);
 }

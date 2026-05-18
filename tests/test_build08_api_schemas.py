@@ -43,6 +43,10 @@ class Build08APISchemasTest(unittest.TestCase):
                 "rep_id": "REP001",
                 "territory_id": "TERR_WARDHA_01",
                 "date": "2026-05-17",
+                "page": 1,
+                "page_size": 3,
+                "total_count": 0,
+                "total_pages": 0,
                 "ranked_entities": [
                     {
                         "rank": 1,
@@ -126,7 +130,10 @@ class Build08APISchemasTest(unittest.TestCase):
         self.assertEqual(response.status, "success")
 
     def test_schema_defaults_are_stable_empty_collections(self):
-        self.assertEqual(DailyPlanQuery().model_dump(), {"rep_id": None, "territory_id": None, "date": None})
+        self.assertEqual(
+            DailyPlanQuery().model_dump(),
+            {"rep_id": None, "territory_id": None, "date": None, "page": 1, "page_size": 3},
+        )
         self.assertEqual(DailyPlanResponse().ranked_entities, [])
         self.assertEqual(AlertsResponse().alerts, [])
         self.assertEqual(ExplanationResponse(entity_id="ENT001").explanations, [])
