@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { AlertPanel, type AlertPanelData } from "../components/AlertPanel";
 import { LoadingState } from "../components/LoadingState";
 import { useAlerts } from "../hooks/useAlerts";
@@ -9,11 +11,24 @@ type AlertsViewProps = {
   onOpenOutcome: () => void;
 };
 
+const ALERT_PAGE_SIZE = 3;
+
 export function AlertsView({ selection, onOpenOutcome }: AlertsViewProps) {
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [selection.territoryId]);
+
   const { data, error, isLoading, reload } = useAlerts({
+    page,
+    pageSize: ALERT_PAGE_SIZE,
     territoryId: selection.territoryId
   });
   const alerts = data?.alerts.map(toAlertPanelData) ?? [];
+  const totalPages = data?.total_pages ?? 0;
+  const canGoPrevious = page > 1;
+  const canGoNext = totalPages > 0 && page < totalPages;
 
   return (
     <div className="page-stack">
@@ -39,7 +54,7 @@ export function AlertsView({ selection, onOpenOutcome }: AlertsViewProps) {
           </div>
           <div>
             <span>Endpoint</span>
-            <strong>GET /alerts</strong>
+            <strong>GET /alerts?page={page}&page_size={ALERT_PAGE_SIZE}</strong>
           </div>
           <div>
             <span>Source</span>
@@ -74,7 +89,32 @@ export function AlertsView({ selection, onOpenOutcome }: AlertsViewProps) {
         </section>
       )}
 
-      {!isLoading && !error && alerts.length > 0 && <AlertPanel alerts={alerts} />}
+      {!isLoading && !error && alerts.length > 0 && (
+        <>
+          <AlertPanel alerts={alerts} />
+          <section className="pagination-row" aria-label="Alert pagination">
+            <button
+              className="secondary-button"
+              disabled={!canGoPrevious}
+              onClick={() => setPage((currentPage) => Math.max(1, currentPage - 1))}
+              type="button"
+            >
+              Previous
+            </button>
+            <span>
+              Page {data?.page ?? page} of {totalPages || 1} - {data?.total_count ?? alerts.length} alerts
+            </span>
+            <button
+              className="secondary-button"
+              disabled={!canGoNext}
+              onClick={() => setPage((currentPage) => currentPage + 1)}
+              type="button"
+            >
+              Next
+            </button>
+          </section>
+        </>
+      )}
     </div>
   );
 }

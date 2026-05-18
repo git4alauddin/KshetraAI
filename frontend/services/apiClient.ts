@@ -49,6 +49,10 @@ export type AlertResponse = {
 };
 
 export type AlertsResponse = {
+  page: number;
+  page_size: number;
+  total_count: number;
+  total_pages: number;
   alerts: AlertResponse[];
 };
 
@@ -124,10 +128,14 @@ export async function getRecommendation(entityId: string): Promise<Recommendatio
   return apiFetch<RecommendationResponse>(`/recommendations/${encodeURIComponent(entityId)}`);
 }
 
-export async function getAlerts(options: { territoryId?: string; severity?: string } = {}): Promise<AlertsResponse> {
+export async function getAlerts(
+  options: { territoryId?: string; severity?: string; page?: number; pageSize?: number } = {}
+): Promise<AlertsResponse> {
   const params = new URLSearchParams();
   appendQueryParam(params, "territory_id", options.territoryId);
   appendQueryParam(params, "severity", options.severity);
+  appendQueryParam(params, "page", options.page?.toString());
+  appendQueryParam(params, "page_size", options.pageSize?.toString());
   const queryString = params.toString();
   return apiFetch<AlertsResponse>(`/alerts${queryString ? `?${queryString}` : ""}`);
 }

@@ -39,6 +39,22 @@ ANOMALY_ALERTS = pd.DataFrame(
     ]
 )
 
+ANOMALY_ALERTS_WITH_FIVE_ROWS = pd.DataFrame(
+    [
+        {
+            "alert_id": f"ALERT_ENT{index:03d}_STOCK",
+            "entity_id": f"ENT{index:03d}",
+            "territory_id": "TERR001",
+            "alert_type": "Stock-Out Risk",
+            "severity_score": 90 - index,
+            "severity_level": "High",
+            "severity_rank": 3,
+            "confidence_level": "High",
+        }
+        for index in range(1, 6)
+    ]
+)
+
 EXPLANATION_OUTPUTS = pd.DataFrame(
     [
         {
@@ -77,10 +93,44 @@ class Build08AlertExplainabilityRoutesTest(unittest.TestCase):
         self.assertEqual(response.alerts[0].severity_score, 91.0)
         self.assertEqual(response.alerts[0].confidence_level, "High")
 
+    def test_alert_service_defaults_to_first_page_of_three_alerts(self):
+        response = get_alerts_response(anomaly_alerts=ANOMALY_ALERTS_WITH_FIVE_ROWS)
+
+        self.assertEqual(response.page, 1)
+        self.assertEqual(response.page_size, 3)
+        self.assertEqual(response.total_count, 5)
+        self.assertEqual(response.total_pages, 2)
+        self.assertEqual(len(response.alerts), 3)
+
+    def test_alert_service_allows_explicit_page_and_page_size_override(self):
+        response = get_alerts_response(
+            page=2,
+            page_size=2,
+            anomaly_alerts=ANOMALY_ALERTS_WITH_FIVE_ROWS,
+        )
+
+        self.assertEqual(response.page, 2)
+        self.assertEqual(response.page_size, 2)
+        self.assertEqual(response.total_count, 5)
+        self.assertEqual(len(response.alerts), 2)
+
+    def test_alert_service_rejects_invalid_pagination(self):
+        with self.assertRaisesRegex(AnomalyServiceError, "page"):
+            get_alerts_response(page=0, anomaly_alerts=ANOMALY_ALERTS_WITH_FIVE_ROWS)
+
     def test_alert_service_returns_stable_empty_response_without_processed_file(self):
         response = get_alerts_response(data_path="datasets/processed/missing_anomaly_alerts.csv")
 
-        self.assertEqual(response.model_dump(), {"alerts": []})
+        self.assertEqual(
+            response.model_dump(),
+            {
+                "page": 1,
+                "page_size": 3,
+                "total_count": 0,
+                "total_pages": 0,
+                "alerts": [],
+            },
+        )
 
     def test_alert_route_returns_empty_response_from_missing_default_data(self):
         response = get_alerts(territory_id=None, severity=None)

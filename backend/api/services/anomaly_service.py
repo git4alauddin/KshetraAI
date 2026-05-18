@@ -6,6 +6,7 @@ does not detect anomalies, calculate severity, or generate alert evidence.
 
 from __future__ import annotations
 
+from math import ceil
 from pathlib import Path
 from typing import Any
 
@@ -15,6 +16,8 @@ from backend.api.schemas.anomaly_schema import AlertResponse, AlertsResponse
 
 
 DEFAULT_ANOMALY_ALERTS_PATH = Path("datasets/processed/anomaly_alerts.csv")
+DEFAULT_ALERT_PAGE = 1
+DEFAULT_ALERT_PAGE_SIZE = 3
 
 
 class AnomalyServiceError(ValueError):
@@ -25,6 +28,8 @@ def get_alerts_response(
     *,
     territory_id: str | None = None,
     severity: str | None = None,
+    page: int = DEFAULT_ALERT_PAGE,
+    page_size: int = DEFAULT_ALERT_PAGE_SIZE,
     anomaly_alerts: pd.DataFrame | None = None,
     data_path: Path | str = DEFAULT_ANOMALY_ALERTS_PATH,
 ) -> AlertsResponse:
@@ -32,7 +37,7 @@ def get_alerts_response(
 
     source_view = anomaly_alerts if anomaly_alerts is not None else _load_view(data_path)
     if source_view.empty:
-        return AlertsResponse(alerts=[])
+        return AlertsResponse(page=page, page_size=page_size, total_count=0, total_pages=0, alerts=[])
 
     _require_columns(
         source_view,
@@ -45,9 +50,19 @@ def get_alerts_response(
             "confidence_level",
         ),
     )
+    _validate_pagination(page=page, page_size=page_size)
     filtered_view = _apply_filters(source_view, territory_id=territory_id, severity=severity)
-    alerts = [_alert_response(row) for row in filtered_view.to_dict(orient="records")]
-    return AlertsResponse(alerts=alerts)
+    total_count = len(filtered_view)
+    total_pages = ceil(total_count / page_size) if total_count else 0
+    page_view = _page_slice(filtered_view, page=page, page_size=page_size)
+    alerts = [_alert_response(row) for row in page_view.to_dict(orient="records")]
+    return AlertsResponse(
+        page=page,
+        page_size=page_size,
+        total_count=total_count,
+        total_pages=total_pages,
+        alerts=alerts,
+    )
 
 
 def _load_view(data_path: Path | str) -> pd.DataFrame:
@@ -74,6 +89,8 @@ def _apply_filters(
         for column in ("severity_rank", "entity_id", "alert_type", "alert_id")
         if column in output.columns
     ]
+    if not sort_columns:
+        return output.reset_index(drop=True)
     if "severity_rank" in sort_columns:
         return output.sort_values(
             sort_columns,
@@ -81,6 +98,12 @@ def _apply_filters(
             kind="mergesort",
         ).reset_index(drop=True)
     return output.sort_values(sort_columns, kind="mergesort").reset_index(drop=True)
+
+
+def _page_slice(anomaly_alerts: pd.DataFrame, *, page: int, page_size: int) -> pd.DataFrame:
+    start_index = (page - 1) * page_size
+    end_index = start_index + page_size
+    return anomaly_alerts.iloc[start_index:end_index].reset_index(drop=True)
 
 
 def _alert_response(row: dict[str, Any]) -> AlertResponse:
@@ -101,6 +124,15 @@ def _require_columns(dataframe: pd.DataFrame, required_columns: tuple[str, ...])
             "Anomaly alerts are missing columns: "
             + ", ".join(missing_columns)
         )
+
+
+def _validate_pagination(*, page: int, page_size: int) -> None:
+    if page < 1:
+        raise AnomalyServiceError("page must be at least 1.")
+    if page_size < 1:
+        raise AnomalyServiceError("page_size must be at least 1.")
+    if page_size > 50:
+        raise AnomalyServiceError("page_size must be at most 50.")
 
 
 def _text_value(value: Any, field: str) -> str:

@@ -6,12 +6,14 @@ import { useApiResource, type ApiResourceState } from "./useApiResource";
 type AlertQuery = {
   territoryId?: string;
   severity?: string;
+  page?: number;
+  pageSize?: number;
 };
 
 export function useAlerts(query: AlertQuery = {}): ApiResourceState<AlertsResponse> {
   const request = useCallback(
     () => getAlerts(query),
-    [query.severity, query.territoryId]
+    [query.page, query.pageSize, query.severity, query.territoryId]
   );
   return useApiResource(request);
 }

@@ -67,7 +67,9 @@ class Build09FrontendWorkflowTests(unittest.TestCase):
             "pages/AlertsView.tsx": [
                 "Loading alerts from backend API",
                 "Unable to load alerts",
-                "No active alerts returned"
+                "No active alerts returned",
+                "Alert pagination",
+                "page_size"
             ],
             "pages/OutcomeSubmission.tsx": [
                 "Unable to submit outcome",

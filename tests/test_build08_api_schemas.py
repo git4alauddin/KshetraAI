@@ -87,6 +87,8 @@ class Build08APISchemasTest(unittest.TestCase):
             ]
         )
 
+        self.assertEqual(response.page, 1)
+        self.assertEqual(response.page_size, 3)
         self.assertEqual(response.model_dump()["alerts"][0]["alert_type"], "Stock-Out Risk")
         self.assertEqual(response.model_dump()["alerts"][0]["severity_score"], 91.0)
 
@@ -135,7 +137,10 @@ class Build08APISchemasTest(unittest.TestCase):
             {"rep_id": None, "territory_id": None, "date": None, "page": 1, "page_size": 3},
         )
         self.assertEqual(DailyPlanResponse().ranked_entities, [])
-        self.assertEqual(AlertsResponse().alerts, [])
+        self.assertEqual(
+            AlertsResponse().model_dump(),
+            {"page": 1, "page_size": 3, "total_count": 0, "total_pages": 0, "alerts": []},
+        )
         self.assertEqual(ExplanationResponse(entity_id="ENT001").explanations, [])
 
     def test_invalid_scores_and_order_values_fail_validation(self):
