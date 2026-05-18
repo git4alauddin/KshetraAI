@@ -1,3 +1,5 @@
+import { statusToneClass } from "../utils/statusTone";
+
 export type AlertPanelData = {
   alertId: string;
   entityId: string;
@@ -25,11 +27,26 @@ export function AlertPanel({ alerts }: AlertPanelProps) {
               <h3>{alert.alertType}</h3>
               <p>{alert.entityId}</p>
             </div>
-            <div className="score-block">
-              <strong>{alert.severityScore.toFixed(1)}</strong>
-              <span>{alert.severityLevel}</span>
+            <div className="alert-status-grid">
+              <div className="alert-status-block">
+                <span>Score</span>
+                <div>
+                  <strong>{alert.severityScore.toFixed(1)}</strong>
+                </div>
+              </div>
+              <div className="alert-status-block">
+                <span>Severity</span>
+                <div>
+                  <span className={statusToneClass(alert.severityLevel)}>{alert.severityLevel}</span>
+                </div>
+              </div>
+              <div className="alert-status-block">
+                <span>Confidence</span>
+                <div>
+                  <span className={statusToneClass(alert.confidenceLevel)}>{alert.confidenceLevel}</span>
+                </div>
+              </div>
             </div>
-            <span className="confidence-pill">{alert.confidenceLevel}</span>
           </article>
         ))}
       </div>

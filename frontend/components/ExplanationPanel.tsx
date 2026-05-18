@@ -1,3 +1,5 @@
+import { statusToneClass } from "../utils/statusTone";
+
 export type ExplanationPanelData = {
   explanationType: string;
   summaryText: string;
@@ -23,7 +25,7 @@ export function ExplanationPanel({ explanations }: ExplanationPanelProps) {
           <p className="eyebrow">Primary reason</p>
           <h3>{story.primarySummary}</h3>
         </div>
-        <span className="confidence-pill">{story.primaryConfidence}</span>
+        <span className={statusToneClass(story.primaryConfidence)}>{story.primaryConfidence}</span>
       </div>
 
       <div className="evidence-chip-list" aria-label="Key evidence">
@@ -50,7 +52,9 @@ export function ExplanationPanel({ explanations }: ExplanationPanelProps) {
           <article className="explanation-item" key={`${explanation.explanationType}-${explanation.summaryText}`}>
             <div className="explanation-title">
               <strong>{explanation.explanationType}</strong>
-              <span className="confidence-pill">{explanation.confidenceLevel}</span>
+              <span className={statusToneClass(explanation.confidenceLevel)}>
+                {explanation.confidenceLevel}
+              </span>
             </div>
             <p>{explanation.summaryText}</p>
             <ul className="evidence-list">

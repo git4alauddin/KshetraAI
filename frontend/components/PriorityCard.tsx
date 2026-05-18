@@ -1,3 +1,5 @@
+import { statusToneClass } from "../utils/statusTone";
+
 export type PriorityCardData = {
   rank: number;
   entityName: string;
@@ -25,13 +27,24 @@ export function PriorityCard({ priority, onOpenDetails }: PriorityCardProps) {
         </div>
         <p>{priority.mainReason}</p>
       </div>
-      <div className="score-block">
-        <strong>{priority.priorityScore.toFixed(1)}</strong>
-        <span>{priority.priorityLevel}</span>
+      <div className="priority-action-grid">
+        <div className="priority-action-block">
+          <span>Score</span>
+          <strong>{priority.priorityScore.toFixed(1)}</strong>
+        </div>
+        <div className="priority-action-block">
+          <span>Priority</span>
+          <div>
+            <span className={statusToneClass(priority.priorityLevel)}>{priority.priorityLevel}</span>
+          </div>
+        </div>
+        <div className="priority-action-block">
+          <span>Details</span>
+          <button className="secondary-button" onClick={onOpenDetails} type="button">
+            Actions
+          </button>
+        </div>
       </div>
-      <button className="secondary-button" onClick={onOpenDetails} type="button">
-        Open details
-      </button>
     </article>
   );
 }

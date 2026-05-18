@@ -124,6 +124,56 @@ class Build09FrontendWorkflowTests(unittest.TestCase):
             with self.subTest(marker=marker):
                 self.assertIn(marker, explanation_panel)
 
+    def test_status_labels_use_shared_color_tone_helper(self):
+        expected_files = [
+            "components/PriorityCard.tsx",
+            "components/AlertPanel.tsx",
+            "components/RecommendationPanel.tsx",
+            "components/ExplanationPanel.tsx",
+        ]
+        for file_path in expected_files:
+            with self.subTest(file=file_path):
+                self.assertIn("statusToneClass", self.read_frontend_file(file_path))
+
+        styles = self.read_frontend_file("styles/global.css")
+        for class_name in ("status-badge-low", "status-badge-medium", "status-badge-high"):
+            with self.subTest(class_name=class_name):
+                self.assertIn(class_name, styles)
+
+    def test_alert_panel_labels_severity_and_confidence(self):
+        alert_panel = self.read_frontend_file("components/AlertPanel.tsx")
+
+        expected_markers = [
+            "alert-status-grid",
+            "alert-status-block",
+            "Score",
+            "Severity",
+            "Confidence",
+            "alert.severityScore.toFixed(1)",
+            "statusToneClass(alert.severityLevel)",
+            "statusToneClass(alert.confidenceLevel)"
+        ]
+        for marker in expected_markers:
+            with self.subTest(marker=marker):
+                self.assertIn(marker, alert_panel)
+
+    def test_priority_card_uses_three_column_action_layout(self):
+        priority_card = self.read_frontend_file("components/PriorityCard.tsx")
+
+        expected_markers = [
+            "priority-action-grid",
+            "priority-action-block",
+            "Score",
+            "Priority",
+            "Details",
+            "priority.priorityScore.toFixed(1)",
+            "statusToneClass(priority.priorityLevel)",
+            "Actions"
+        ]
+        for marker in expected_markers:
+            with self.subTest(marker=marker):
+                self.assertIn(marker, priority_card)
+
     def test_frontend_does_not_recreate_backend_intelligence_logic(self):
         searched_paths = [
             path

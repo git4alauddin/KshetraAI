@@ -1,3 +1,5 @@
+import { statusToneClass } from "../utils/statusTone";
+
 export type RecommendationPanelData = {
   entityId: string;
   riskOrOpportunity: string;
@@ -28,7 +30,9 @@ export function RecommendationPanel({ recommendation }: RecommendationPanelProps
         </div>
         <div>
           <span>Confidence</span>
-          <strong>{recommendation.confidenceLevel}</strong>
+          <strong className={statusToneClass(recommendation.confidenceLevel)}>
+            {recommendation.confidenceLevel}
+          </strong>
         </div>
       </div>
       <p className="context-text">{recommendation.riskOrOpportunity}</p>
