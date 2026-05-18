@@ -398,6 +398,74 @@ input[readonly] {
   padding: 16px;
 }
 
+.explanation-summary {
+  align-items: start;
+  background: #f7faf8;
+  border: 1px solid #e2eae4;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 16px;
+}
+
+.explanation-summary h3 {
+  line-height: 1.45;
+  margin: 0;
+}
+
+.evidence-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.evidence-chip {
+  background: #edf4ef;
+  border: 1px solid #d7e4da;
+  border-radius: 8px;
+  color: #1f3f33;
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 8px 10px;
+}
+
+.signal-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.signal-card {
+  background: #fbfcfb;
+  border: 1px solid #e2eae4;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+}
+
+.signal-card strong {
+  font-size: 1.35rem;
+}
+
+.signal-card span {
+  color: #607066;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.trace-details {
+  display: grid;
+  gap: 14px;
+}
+
+.trace-details summary {
+  color: #1f3f33;
+  cursor: pointer;
+  font-weight: 900;
+}
+
 .explanation-title {
   align-items: center;
   display: flex;
@@ -449,6 +517,7 @@ input[readonly] {
   .form-grid,
   .detail-grid,
   .workflow-band,
+  .signal-grid,
   .toggle-grid {
     grid-template-columns: 1fr;
   }
@@ -466,5 +535,9 @@ input[readonly] {
   .pagination-row {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .explanation-summary {
+    grid-template-columns: 1fr;
   }
 }

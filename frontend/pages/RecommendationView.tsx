@@ -93,7 +93,7 @@ export function RecommendationView({ selection, onOpenAlerts }: RecommendationVi
         </section>
       )}
 
-      <div className="split-grid">
+      <>
         {recommendationData ? (
           <RecommendationPanel recommendation={recommendationData} />
         ) : showRecommendationEmpty ? (
@@ -129,7 +129,7 @@ export function RecommendationView({ selection, onOpenAlerts }: RecommendationVi
             </div>
           </section>
         )}
-      </div>
+      </>
     </div>
   );
 }

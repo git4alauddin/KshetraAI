@@ -104,6 +104,24 @@ class Build09FrontendWorkflowTests(unittest.TestCase):
         self.assertIn("Recommendation ID, entity ID, and rep ID are required.", outcome_form)
         self.assertIn("Order value must be zero or a positive number.", outcome_form)
 
+    def test_explanation_panel_groups_trace_rows_for_readability(self):
+        explanation_panel = self.read_frontend_file("components/ExplanationPanel.tsx")
+
+        expected_markers = [
+            "Primary reason",
+            "Key evidence",
+            "Supporting signals",
+            "Trace details",
+            "Recommendation rules matched",
+            "Operational alerts",
+            "canonicalEvidenceKey",
+            "sales_opportunity_score",
+            "inventory_need_score"
+        ]
+        for marker in expected_markers:
+            with self.subTest(marker=marker):
+                self.assertIn(marker, explanation_panel)
+
     def test_frontend_does_not_recreate_backend_intelligence_logic(self):
         searched_paths = [
             path
