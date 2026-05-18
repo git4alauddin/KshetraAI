@@ -13,10 +13,10 @@ export type WorkflowSelection = {
 };
 
 export const defaultWorkflowSelection: WorkflowSelection = {
-  repId: "REP001",
-  territoryId: "TERR_WARDHA_01",
+  repId: "REP_0164",
+  territoryId: "TER_0164",
   planDate: "2026-05-17",
-  selectedEntityId: "ENT001"
+  selectedEntityId: "RTL_01300"
 };
 
 export const workflowSteps: Array<{ id: WorkflowStep; label: string; description: string }> = [

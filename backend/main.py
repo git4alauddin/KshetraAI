@@ -7,6 +7,7 @@ all intelligence logic inside the existing backend modules.
 from __future__ import annotations
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.routes.anomaly_routes import router as anomaly_router
 from backend.api.routes.explainability_routes import router as explainability_router
@@ -18,6 +19,10 @@ from backend.api.routes.recommendation_routes import router as recommendation_ro
 
 API_TITLE = "KshetraAI Backend"
 API_VERSION = "0.1.0"
+LOCAL_FRONTEND_ORIGINS = (
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+)
 
 
 def create_app() -> FastAPI:
@@ -27,6 +32,13 @@ def create_app() -> FastAPI:
         title=API_TITLE,
         version=API_VERSION,
         description="Controlled API layer for KshetraAI operational intelligence.",
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=list(LOCAL_FRONTEND_ORIGINS),
+        allow_credentials=False,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["*"],
     )
     app.include_router(health_router)
     app.include_router(planning_router)
