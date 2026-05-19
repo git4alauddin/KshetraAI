@@ -37,3 +37,4 @@ datasets/processed/*
 !datasets/processed/.gitkeep
 
 private-data/
+public-data/
