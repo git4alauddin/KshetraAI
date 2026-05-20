@@ -1,4 +1,4 @@
-# Module 07: Outcome Learning and Feedback
+# Outcome Learning and Feedback
 
 ## Purpose
 

@@ -1,4 +1,4 @@
-# Module 02: Feature Generation
+# Feature Generation
 
 ## Purpose
 

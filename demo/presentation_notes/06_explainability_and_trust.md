@@ -1,4 +1,4 @@
-# Module 06: Explainability and Trust
+# Explainability and Trust
 
 ## Purpose
 

@@ -1,4 +1,4 @@
-# Module 01: Data Foundation
+# Data Foundation
 
 ## Purpose
 

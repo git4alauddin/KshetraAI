@@ -1,4 +1,4 @@
-# Module 04: Contextual Decision Engine
+# Contextual Decision Engine
 
 ## Purpose
 

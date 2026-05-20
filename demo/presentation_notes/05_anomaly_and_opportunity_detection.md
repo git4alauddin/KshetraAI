@@ -1,4 +1,4 @@
-# Module 05: Anomaly and Opportunity Detection
+# Anomaly and Opportunity Detection
 
 ## Purpose
 

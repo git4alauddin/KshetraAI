@@ -1,134 +1,131 @@
+<div align="center">
+
 # KshetraAI
 
-## AI-Guided Field Force Intelligence Platform
+### Explainable field-force intelligence for agricultural sales operations.
 
-# Project Overview
+**Syngenta Hackathon May 2026 | Stage 1 Submission**
 
-KshetraAI is an explainable agricultural field-force intelligence platform for helping sales representatives decide who to visit, what action to take, what risk needs attention, and why the system is recommending it.
+</div>
 
-The project turns static field operations into deterministic, signal-driven, explainable workflows using company-provided operational data and controlled demo outputs.
+KshetraAI helps a field representative decide:
+
+- who to visit
+- what action to take
+- what risk or opportunity needs attention
+- why the system is recommending it
+- what happened after the visit
+
+The project is built as a deterministic, explainable, human-governed prototype.
 
 ---
 
-# System Architecture Diagram
+# Problem
+
+Agricultural field representatives often work from static visit plans while field realities change quickly.
+
+Operational priorities can shift because of:
+
+- inventory movement
+- sales and demand signals
+- retailer engagement gaps
+- crop and weather context
+- anomaly or opportunity signals
+- field outcome feedback
+
+The core challenge is not only prediction. It is helping the representative make a clear, explainable operational decision.
+
+---
+
+# Solution
+
+KshetraAI converts available operational signals into a field-force workflow:
+
+```text
+Data -> Features -> Priority -> Action -> Alerts -> Explanation -> Outcome
+```
+
+The system is intentionally:
+
+- deterministic
+- explainable
+- modular
+- local-demo ready
+- human-governed
+
+---
+
+# What We Built
+
+- Data foundation for private/internal data and public-data signal preparation.
+- Feature generation pipeline for normalized decision signals.
+- Dynamic prioritization engine for ranked daily visit planning.
+- Contextual decision engine for next best actions.
+- Anomaly and opportunity detection for operational alerts.
+- Explainability layer for evidence, confidence, and reasoning.
+- Outcome capture foundation for field feedback.
+- FastAPI backend exposing the workflow through structured endpoints.
+- React + TypeScript frontend for the demo workflow.
+- Deterministic demo package with sample outputs and verification scripts.
+
+---
+
+# System Flow
 
 ```mermaid
 flowchart TD
-
-    A["Internal and Controlled Data Inputs"]
-    B["Data Pipeline<br/>loading, validation, normalization"]
-    C["Feature Generation<br/>priority, context, anomaly signals"]
-    D["Intelligence Engines"]
-    D1["Dynamic Prioritization"]
-    D2["Next Best Actions"]
-    D3["Anomaly and Opportunity Detection"]
-    E["Explainability Layer<br/>evidence, confidence, reasoning"]
-    F["FastAPI Backend<br/>thin orchestration layer"]
-    G["Frontend Dashboard<br/>daily plan, actions, alerts, outcomes"]
-    H["Outcome Feedback<br/>human-governed learning signals"]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> D1
-    D --> D2
-    D --> D3
-    D1 --> E
-    D2 --> E
-    D3 --> E
-    E --> F
+    A["Private / Public Data Inputs"] --> B["Data Foundation"]
+    B --> C["Feature Generation"]
+    C --> D["Priority Engine"]
+    C --> E["Contextual Decision Engine"]
+    C --> F["Anomaly Detection"]
+    D --> G["Explainability"]
+    E --> G
     F --> G
+    D --> H["FastAPI Backend"]
+    E --> H
+    F --> H
     G --> H
-    H -. "future recalibration support" .-> C
-
+    H --> I["Frontend Dashboard"]
+    I --> J["Outcome Capture"]
+    J -. "human-reviewed feedback foundation" .-> C
 ```
 
 ---
 
-# Core Capabilities
+# Demo Scenario
 
-- Daily visit prioritization based on operational, agronomic, inventory, and engagement signals.
-- Next best actions for each selected retailer or field entity.
-- Alert and anomaly detection for operational risks and opportunities.
-- Explainability for priorities, recommendations, alerts, and confidence levels.
-- Outcome capture for future human-reviewed learning and recalibration.
-
----
-
-# Current Build Status
-
-Current phase:
+The fixed demo path uses:
 
 ```text
-Architecture & Governance Complete
--> End-to-End Prototype Implemented
--> Final Review and Demo Readiness
+rep_id: REP_0164
+territory_id: TER_0164
+date: 2026-05-17
+selected_entity: RTL_01300
 ```
 
-| Build | Component | Status | Implementation Control Doc |
-|---|---|---|---|
-| 01 | Dataset & Schema Setup | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`01_dataset_schema_setup_build.md`](docs/implementation/01_dataset_schema_setup_build.md) |
-| 02 | Feature Generation Pipeline | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`02_feature_generation_pipeline.md`](docs/implementation/02_feature_generation_pipeline.md) |
-| 03 | Dynamic Prioritization Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`03_dynamic_prioritization_engine.md`](docs/implementation/03_dynamic_prioritization_engine.md) |
-| 04 | Contextual Decision Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`04_contextual_decision_engine.md`](docs/implementation/04_contextual_decision_engine.md) |
-| 05 | Anomaly & Opportunity Detection Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`05_anomaly_and_opportunity_detection_engine.md`](docs/implementation/05_anomaly_and_opportunity_detection_engine.md) |
-| 06 | Explainability & Trust Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`06_explainability_and_trust_engine.md`](docs/implementation/06_explainability_and_trust_engine.md) |
-| 07 | Outcome Learning & Feedback Engine | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`07_outcome_learning_and_feedback_engine.md`](docs/implementation/07_outcome_learning_and_feedback_engine.md) |
-| 08 | FastAPI Backend Integration | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`08_fastApi_backend_integration.md`](docs/implementation/08_fastApi_backend_integration.md) |
-| 09 | Frontend Dashboard & Workflow Layer | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`09_frontend_dashboard_and_workflow_layer.md`](docs/implementation/09_frontend_dashboard_and_workflow_layer.md) |
-| 10 | Demo Integration, Testing & Final Polish | ![Under Review](https://img.shields.io/badge/Under--Review-yellow) | [`10_demo_integration_testing_final_polish.md`](docs/implementation/10_demo_integration_testing_final_polish.md) |
-
-Next:
+Demo workflow:
 
 ```text
-Final review, demo rehearsal, and submission packaging.
+Dashboard -> Daily Plan -> Recommendation -> Explanation -> Alerts -> Outcome
 ```
 
 ---
 
-# Tech Stack
+# Submission Materials
 
-| Layer | Technology |
-|---|---|
-| Backend | Python + FastAPI |
-| Frontend | React + TypeScript + Vite |
-| Data Processing | Pandas + NumPy |
-| Config | YAML |
-| Testing | Python unittest / pytest-compatible tests + frontend build checks |
+| Material | Location | Purpose |
+|---|---|---|
+| Stage 1 Presentation Deck | [`demo/presentation_deck/Kisaan-KshetraAI-slides.pdf`](demo/presentation_deck/Kisaan-KshetraAI-slides.pdf) | Main presentation for the submission |
+| Judge Reference Appendix | [`demo/presentation_deck/kshetraai_judge_reference_appendix.pdf`](demo/presentation_deck/kshetraai_judge_reference_appendix.pdf) | Detailed module-wise technical reference supporting the deck |
 
----
-
-# Project Structure
-
-```text
-KshetraAI/
-|-- backend/                      # FastAPI backend and intelligence modules
-|   |-- api/                      # Thin API routes, schemas, and services
-|   |-- data/                     # Loading, validation, normalization, joins
-|   |-- features/                 # Feature generation pipeline
-|   |-- engines/                  # Priority and contextual decision engines
-|   |-- anomaly/                  # Alert and opportunity detection
-|   |-- explainability/           # Evidence and reasoning generation
-|   |-- learning/                 # Outcome capture and feedback views
-|   `-- main.py                   # Backend application entrypoint
-|-- frontend/                     # React dashboard
-|   |-- components/               # Reusable UI components
-|   |-- pages/                    # Daily plan, actions, alerts, outcomes
-|   |-- services/                 # API client functions
-|   |-- hooks/                    # API/data hooks
-|   `-- styles/                   # Global styling
-|-- datasets/                     # Generated local datasets and demo outputs
-|-- demo/                         # Judge-facing runbook, scripts, and sample outputs
-|-- docs/                         # Architecture, contracts, implementation docs, prompts
-|-- tests/                        # Backend and workflow tests
-`-- README.md
-```
+The repository includes setup instructions, demo scripts, sample outputs, and implementation files for reviewers who want to inspect or run the prototype.
 
 ---
 
-# Local Setup
+# How To Run
 
-Create and activate the Python virtual environment:
+Create and activate the Python environment:
 
 ```powershell
 python -m venv .venv
@@ -143,7 +140,7 @@ Run the backend:
 uvicorn backend.main:app --reload
 ```
 
-Open API docs:
+Open the API documentation:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -157,37 +154,96 @@ npm install
 npm run dev
 ```
 
-Run checks:
+Run core checks:
 
 ```powershell
-python -m unittest
+python -m unittest discover -s tests -p "test*.py"
+python demo\scripts\verify_demo_workflow.py
+python demo\scripts\run_acceptance_checks.py
+```
+
+Run the frontend production build:
+
+```powershell
 cd frontend
 npm run build
 ```
 
----
+Regenerate the judge appendix PDF:
 
-# Data Privacy Note
-
-Private company-provided source files may be kept locally in `private-data/`.
-
-That directory is confidential, ignored by Git, and should only be read by the data pipeline. Generated demo artifacts committed under `demo/sample_outputs/` should remain sanitized API-level outputs, not raw private data.
+```powershell
+python demo\scripts\build_judge_reference_pdf.py
+```
 
 ---
 
-# Documentation Map
+# Data Privacy
 
-- Architecture docs: [`docs/architecture/`](docs/architecture/)
-- Implementation contracts: [`docs/implementation_contracts/`](docs/implementation_contracts/)
-- Build execution docs: [`docs/implementation/`](docs/implementation/)
-- Ground truth checks: [`docs/ground_truth/`](docs/ground_truth/)
-- AI workflow prompts: [`docs/prompts/`](docs/prompts/)
-- Scoring references: [`docs/scoring/`](docs/scoring/)
-- Demo runbook: [`demo/runbook.md`](demo/runbook.md)
-- Judge-facing demo flow: [`demo/judging_flow/`](demo/judging_flow/)
+Private company-provided source files may be kept locally in:
+
+```text
+private-data/
+```
+
+That directory is confidential and ignored by Git.
+
+Public-domain fetched/reference inputs may be kept locally in:
+
+```text
+public-data/
+```
+
+That directory is also ignored by Git.
+
+Committed demo artifacts should remain processed, sanitized, or reference-level outputs. Raw private source data should not be committed or shared through the repository.
 
 ---
 
-# Demo Focus
+# Current Scope And Limits
 
-KshetraAI demonstrates how explainable AI systems can augment agricultural field operations through transparent, adaptive, and operationally grounded intelligence workflows.
+Implemented for the Stage 1 prototype:
+
+- local deterministic demo workflow
+- processed-output driven backend
+- frontend workflow for plan, action, alert, explanation, and outcome
+- saved judge-facing presentation and technical appendix
+
+Current limits:
+
+- no production database persistence
+- no authentication or role-based access
+- no cloud deployment
+- public NDVI and pest data are foundation/reference-level, not full live production integrations
+- anomaly thresholds are prototype-level and not production-calibrated
+- no map or route optimization view
+
+---
+
+# Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Python, FastAPI |
+| Data Processing | Pandas, NumPy |
+| Config | YAML |
+| Frontend | React, TypeScript, Vite |
+| Testing | Python unittest, frontend build checks |
+
+---
+
+# Repository Map
+
+```text
+backend/      FastAPI backend and intelligence modules
+frontend/     React dashboard workflow
+datasets/     Generated processed outputs
+demo/         Presentation materials, sample outputs, scripts, scenarios
+docs/         Architecture, implementation, contracts, ground-truth notes
+tests/        Backend and workflow tests
+```
+
+---
+
+# Final Note
+
+KshetraAI demonstrates how agricultural field execution can move from static planning to signal-driven prioritization, contextual action, transparent reasoning, and outcome capture.

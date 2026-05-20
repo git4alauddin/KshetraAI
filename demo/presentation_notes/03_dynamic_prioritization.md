@@ -1,4 +1,4 @@
-# Module 03: Dynamic Prioritization
+# Dynamic Prioritization
 
 ## Purpose
 

@@ -1,4 +1,4 @@
-# Module 08: FastAPI Backend Integration
+# FastAPI Backend Integration
 
 ## Purpose
 

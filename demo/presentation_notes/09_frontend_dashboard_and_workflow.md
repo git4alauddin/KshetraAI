@@ -1,4 +1,4 @@
-# Module 09: Frontend Dashboard and Workflow Layer
+# Frontend Dashboard and Workflow Layer
 
 ## Purpose
 
