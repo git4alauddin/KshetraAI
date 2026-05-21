@@ -175,6 +175,19 @@ Regenerate the judge appendix PDF:
 python demo\scripts\build_judge_reference_pdf.py
 ```
 
+For a cloud demo, the backend can serve committed sanitized sample outputs instead of local processed CSVs:
+
+```text
+KSHETRA_API_DATA_MODE=sample
+KSHETRA_CORS_ORIGINS=https://your-vercel-frontend-url
+```
+
+Set the frontend API base URL in Vercel:
+
+```text
+VITE_KSHETRA_API_BASE_URL=https://your-backend-url
+```
+
 ---
 
 # Data Privacy

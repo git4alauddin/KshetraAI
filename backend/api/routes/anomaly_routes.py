@@ -17,6 +17,11 @@ from backend.api.services.anomaly_service import (
     AnomalyServiceError,
     get_alerts_response,
 )
+from backend.api.services.sample_output_service import (
+    SampleOutputServiceError,
+    get_sample_alerts_response,
+    is_sample_data_mode,
+)
 
 
 router = APIRouter(tags=["alerts"])
@@ -32,11 +37,15 @@ def get_alerts(
     """Return existing anomaly alerts with optional API-level filters."""
 
     try:
+        if is_sample_data_mode():
+            return get_sample_alerts_response(page=page, page_size=page_size)
         return get_alerts_response(
             territory_id=territory_id,
             severity=severity,
             page=page,
             page_size=page_size,
         )
+    except SampleOutputServiceError as exc:
+        raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc
     except AnomalyServiceError as exc:
         raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc

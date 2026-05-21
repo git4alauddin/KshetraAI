@@ -6,6 +6,8 @@ all intelligence logic inside the existing backend modules.
 
 from __future__ import annotations
 
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,6 +25,7 @@ LOCAL_FRONTEND_ORIGINS = (
     "http://127.0.0.1:5173",
     "http://localhost:5173",
 )
+CORS_ORIGINS_ENV = "KSHETRA_CORS_ORIGINS"
 
 
 def create_app() -> FastAPI:
@@ -35,7 +38,7 @@ def create_app() -> FastAPI:
     )
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=list(LOCAL_FRONTEND_ORIGINS),
+        allow_origins=_allowed_cors_origins(),
         allow_credentials=False,
         allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=["*"],
@@ -47,6 +50,17 @@ def create_app() -> FastAPI:
     app.include_router(explainability_router)
     app.include_router(outcome_router)
     return app
+
+
+def _allowed_cors_origins() -> list[str]:
+    """Return local frontend origins plus optional deployed frontend origins."""
+
+    configured_origins = [
+        origin.strip()
+        for origin in os.getenv(CORS_ORIGINS_ENV, "").split(",")
+        if origin.strip()
+    ]
+    return list(LOCAL_FRONTEND_ORIGINS) + configured_origins
 
 
 app = create_app()

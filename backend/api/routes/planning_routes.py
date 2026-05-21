@@ -17,6 +17,11 @@ from backend.api.services.planning_service import (
     PlanningServiceError,
     get_daily_plan_response,
 )
+from backend.api.services.sample_output_service import (
+    SampleOutputServiceError,
+    get_sample_daily_plan_response,
+    is_sample_data_mode,
+)
 
 
 router = APIRouter(tags=["planning"])
@@ -33,6 +38,8 @@ def get_daily_plan(
     """Return existing ranked visit outputs as a daily plan response."""
 
     try:
+        if is_sample_data_mode():
+            return get_sample_daily_plan_response(page=page, page_size=page_size)
         return get_daily_plan_response(
             rep_id=rep_id,
             territory_id=territory_id,
@@ -40,5 +47,7 @@ def get_daily_plan(
             page=page,
             page_size=page_size,
         )
+    except SampleOutputServiceError as exc:
+        raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc
     except PlanningServiceError as exc:
         raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc

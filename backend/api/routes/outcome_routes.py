@@ -13,6 +13,11 @@ from backend.api.schemas.outcome_schema import (
     OutcomeSubmissionResponse,
 )
 from backend.api.services.outcome_service import OutcomeServiceError, submit_outcome_response
+from backend.api.services.sample_output_service import (
+    SampleOutputServiceError,
+    get_sample_outcome_response,
+    is_sample_data_mode,
+)
 
 
 router = APIRouter(tags=["outcomes"])
@@ -25,6 +30,10 @@ def submit_outcome(
     """Accept one field outcome submission."""
 
     try:
+        if is_sample_data_mode():
+            return get_sample_outcome_response()
         return submit_outcome_response(outcome_submission)
+    except SampleOutputServiceError as exc:
+        raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc
     except OutcomeServiceError as exc:
         raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc

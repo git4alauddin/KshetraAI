@@ -13,6 +13,11 @@ from backend.api.services.explainability_service import (
     ExplainabilityServiceError,
     get_explanation_response,
 )
+from backend.api.services.sample_output_service import (
+    SampleOutputServiceError,
+    get_sample_explanation_response,
+    is_sample_data_mode,
+)
 
 
 router = APIRouter(tags=["explanations"])
@@ -23,6 +28,10 @@ def get_entity_explanations(entity_id: str) -> ExplanationResponse:
     """Return existing explanations for one entity."""
 
     try:
+        if is_sample_data_mode():
+            return get_sample_explanation_response(entity_id)
         return get_explanation_response(entity_id)
+    except SampleOutputServiceError as exc:
+        raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc
     except ExplainabilityServiceError as exc:
         raise HTTPException(status_code=400, detail={"error": str(exc)}) from exc
