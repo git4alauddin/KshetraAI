@@ -175,18 +175,20 @@ Regenerate the judge appendix PDF:
 python demo\scripts\build_judge_reference_pdf.py
 ```
 
-For a cloud demo, the backend can serve committed sanitized sample outputs instead of local processed CSVs:
+For a Google Cloud Run demo, the backend can serve committed sanitized sample outputs instead of local processed CSVs:
 
 ```text
 KSHETRA_API_DATA_MODE=sample
-KSHETRA_CORS_ORIGINS=https://your-vercel-frontend-url
+KSHETRA_CORS_ORIGINS=https://your-cloud-run-frontend-url
 ```
 
-Set the frontend API base URL in Vercel:
+Set the frontend build-time API base URL:
 
 ```text
-VITE_KSHETRA_API_BASE_URL=https://your-backend-url
+VITE_KSHETRA_API_BASE_URL=https://your-cloud-run-backend-url
 ```
+
+Cloud Run deployment files and commands are available in [`deploy/cloud-run/`](deploy/cloud-run/).
 
 ---
 

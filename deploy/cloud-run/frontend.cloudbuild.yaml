@@ -1,0 +1,18 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - deploy/cloud-run/frontend.Dockerfile
+      - --build-arg
+      - VITE_KSHETRA_API_BASE_URL=${_API_BASE_URL}
+      - -t
+      - ${_IMAGE}
+      - .
+
+images:
+  - ${_IMAGE}
+
+substitutions:
+  _IMAGE: gcr.io/$PROJECT_ID/kshetraai-frontend
+  _API_BASE_URL: http://localhost:8000
