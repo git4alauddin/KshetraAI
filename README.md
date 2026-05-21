@@ -112,6 +112,17 @@ Dashboard -> Daily Plan -> Recommendation -> Explanation -> Alerts -> Outcome
 
 ---
 
+# Live Demo
+
+| Link | URL |
+|---|---|
+| Deployed application | [`https://kshetraai-frontend-968162341900.asia-south1.run.app`](https://kshetraai-frontend-968162341900.asia-south1.run.app) |
+| Backend API documentation | [`https://kshetraai-backend-968162341900.asia-south1.run.app/docs`](https://kshetraai-backend-968162341900.asia-south1.run.app/docs) |
+
+The deployed demo runs on Google Cloud Run and serves committed sanitized sample outputs for the judge-facing workflow.
+
+---
+
 # Submission Materials
 
 | Material | Location | Purpose |
