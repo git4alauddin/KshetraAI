@@ -20,8 +20,8 @@ Where:
 
 | Term | Meaning |
 |---|---|
-| `NIR` | Near-infrared reflectance |
-| `Red` | Red band reflectance |
+| `NIR` | Near-infrared reflectance. For Sentinel-2, use Band 8 (`B08`). |
+| `Red` | Red band reflectance. For Sentinel-2, use Band 4 (`B04`). |
 
 Healthy vegetation usually reflects more near-infrared light and absorbs more red light, which results in higher NDVI.
 
