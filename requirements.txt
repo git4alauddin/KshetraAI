@@ -1,6 +1,24 @@
-fastapi
-uvicorn
-pandas
-numpy
-PyYAML
-pydantic
+# Pinned so the demo behaves the same on every machine.
+# Core pipeline
+pandas==2.0.3
+numpy==1.26.4
+lightgbm==4.3.0
+shap==0.45.0
+ortools==9.9.3963
+scikit-learn==1.4.2
+plotly==5.18.0
+requests==2.31.0
+
+# API serving
+fastapi==0.110.0
+uvicorn==0.29.0
+pydantic==2.6.4
+
+# Optional. The project runs without these. Install them to turn on the
+# matching feature. SALAH uses one LLM provider, observability uses langfuse.
+# anthropic==0.49.0      # for SALAH with Claude
+# openai==1.30.0         # for SALAH with OpenAI
+# langfuse==2.36.0       # for tracing
+
+# Dev
+pytest==8.1.1

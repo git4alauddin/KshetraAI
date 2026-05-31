@@ -1,0 +1,96 @@
+{
+  "about": "Hand labelled field situations with a known right call. These do not come from the data. They come from how an experienced rep would actually handle the situation. The model gets scored against these to check it makes sensible calls, not just statistically average ones. Add more over time as you talk to real reps.",
+  "version": "1.0",
+  "cases": [
+    {
+      "id": "window_decay",
+      "tests": "prioritisation",
+      "situation": {
+        "description": "Two retailers, both score around 76, both 15km away. Retailer A is stocked out on Score 250 EC, mustard flowering started 5 days ago so half the spray window is left. Retailer B is stocked but rain forecast starts tomorrow for 6 days, humidity already 87 percent, so the window closes today.",
+        "retailer_a": {"score": 76, "stockout": true, "window_days_left": 5},
+        "retailer_b": {"score": 76, "stockout": false, "window_days_left": 0}
+      },
+      "expected": "retailer_b",
+      "reasoning": "Urgency is not the current state, it is the time left to act. B's window shuts today, A still has runway. The model should weight remaining window, not just current signals."
+    },
+    {
+      "id": "pull_signal",
+      "tests": "prioritisation",
+      "situation": {
+        "description": "Model recommends Retailer C as top (score 91). On arrival the owner is busy with a family event and asks to come back later. Meanwhile Retailer E, not in the top 10 (score 61), messaged on WhatsApp yesterday saying stock is running out and asking when the rep will come.",
+        "retailer_c": {"score": 91, "available": false},
+        "retailer_e": {"score": 61, "inbound_request": true}
+      },
+      "expected": "retailer_e",
+      "reasoning": "An inbound request is a pull signal and beats an algorithmic push. A retailer who reaches out has expressed need, which converts far better than inferred need. The model should let an inbound request override the ranking."
+    },
+    {
+      "id": "competitor_intel",
+      "tests": "next_best_action",
+      "situation": {
+        "description": "At Retailer F (recommended, score 79) the owner says a competitor is selling the same molecule 18 percent cheaper and 3 big farmers are switching. The system has no competitor pricing data.",
+        "competitor_discount_pct": 18,
+        "system_has_competitor_data": false
+      },
+      "expected": "capture_and_counter",
+      "reasoning": "The rep should capture the competitor intel into the system (turning a blind spot into a signal) and counter with value not price: efficacy data, local proof, bundled agronomic support. Walking away or matching price are both wrong."
+    },
+    {
+      "id": "network_effect",
+      "tests": "prioritisation",
+      "situation": {
+        "description": "A small retailer (score 52, low priority) serves 3 large farmers each with 50 acres of mustard flowering this week. A bigger retailer (score 78) serves general walk in demand.",
+        "small_retailer": {"score": 52, "downstream_acres": 150, "crop_stage_critical": true},
+        "big_retailer": {"score": 78, "downstream_acres": 40}
+      },
+      "expected": "small_retailer",
+      "reasoning": "Retailer score misses downstream demand concentration. 150 acres of flowering mustard behind a small shop is more revenue at risk than a higher scored shop with diffuse demand. The model should fold downstream grower acreage into the score."
+    },
+    {
+      "id": "stale_signal",
+      "tests": "anomaly",
+      "situation": {
+        "description": "A retailer shows up as URGENT because stock is low. On arrival they have plenty of stock. They returned unsold product last week, which is why the weekly snapshot showed low stock. The urgency is an artifact of stale data.",
+        "shows_urgent": true,
+        "actual_stock_healthy": true,
+        "recent_return_event": true
+      },
+      "expected": "suppress_alert",
+      "reasoning": "A return event explains the low stock without real urgency. The system should reconcile returns against the inventory snapshot before flagging stockout urgency, or at least flag low confidence."
+    },
+    {
+      "id": "preventive_spread",
+      "tests": "anomaly",
+      "situation": {
+        "description": "The adjacent district has a confirmed blast disease outbreak in wheat. Your district has none yet. But 3 of your retailers serve farmers whose fields border that district.",
+        "adjacent_outbreak": true,
+        "own_district_outbreak": false,
+        "border_retailers": 3
+      },
+      "expected": "preemptive_visit_border",
+      "reasoning": "Waiting for the outbreak to cross the border is reactive. The 3 border retailers should be promoted preemptively. The model should treat adjacent district pest signals as a spatial risk feature, not ignore them because they are out of territory."
+    },
+    {
+      "id": "weather_vs_route",
+      "tests": "prioritisation",
+      "situation": {
+        "description": "Rain tomorrow means today is the last spray day for a high weather risk retailer. But visiting it adds 40km to the route and means missing 2 other planned visits.",
+        "weather_critical_retailer_detour_km": 40,
+        "visits_missed_if_detour": 2
+      },
+      "expected": "context_dependent",
+      "reasoning": "There is no fixed right answer, which is the point. The model should surface the tradeoff explicitly (1 weather critical visit vs 2 routine visits plus 40km) and let the rep decide, rather than silently optimising one objective."
+    },
+    {
+      "id": "rep_gaming",
+      "tests": "outcome_learning",
+      "situation": {
+        "description": "The system measures acceptance rate. A rep knows visiting a friend's shop (not recommended) always converts because of the relationship. Following the model would lower their apparent acceptance rate.",
+        "friend_shop_recommended": false,
+        "friend_shop_converts": true
+      },
+      "expected": "log_as_pull_not_penalise",
+      "reasoning": "The friend shop conversion is real value even if off plan. The system should learn from it (the relationship is a signal it is missing) rather than penalise the rep for not following the ranking. Acceptance rate alone is a gameable metric, outcome matters more."
+    }
+  ]
+}

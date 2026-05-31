@@ -1,275 +1,150 @@
-<div align="center">
-
 # KshetraAI
 
-### Explainable field-force intelligence for agricultural sales operations.
+A field force intelligence system for agri input sales in India. It looks at a
+sales rep's territory and works out who to visit today, in what order, what to
+pitch, and why. Then it measures whether those recommendations were any good and
+gets better from the outcomes.
 
-**Syngenta Hackathon May 2026 | Stage 1 Submission**
+Built around a real problem: a rep covers hundreds of retailers across a
+district, the right thing to do changes daily with weather and crop stage and
+stock levels, and most of that signal never reaches the person standing at the
+counter. This turns the scattered signals into a daily plan with a reason
+attached to every stop.
 
-</div>
+It runs end to end on synthetic data out of the box, so you can clone it and see
+the whole thing work in one command. No proprietary dataset needed.
 
-KshetraAI helps a field representative decide:
-
-- who to visit
-- what action to take
-- what risk or opportunity needs attention
-- why the system is recommending it
-- what happened after the visit
-
-The project is built as a deterministic, explainable, human-governed prototype.
-
----
-
-# Problem
-
-Agricultural field representatives often work from static visit plans while field realities change quickly.
-
-Operational priorities can shift because of:
-
-- inventory movement
-- sales and demand signals
-- retailer engagement gaps
-- crop and weather context
-- anomaly or opportunity signals
-- field outcome feedback
-
-The core challenge is not only prediction. It is helping the representative make a clear, explainable operational decision.
-
----
-
-# Solution
-
-KshetraAI converts available operational signals into a field-force workflow:
-
-```text
-Data -> Features -> Priority -> Action -> Alerts -> Explanation -> Outcome
+```
+python generate_data.py      # make a synthetic season of data
+python run_pipeline.py        # clean, train, rank, route, detect, evaluate
+open frontend/index.html      # see the dashboard
 ```
 
-The system is intentionally:
+## What is actually interesting here
 
-- deterministic
-- explainable
-- modular
-- local-demo ready
-- human-governed
+Most recommendation projects stop at "here is a ranked list". The parts that
+took real thought:
 
----
+**The recommendations explain themselves.** Every stop comes with the top
+signals that pushed it up the list, in plain language, from SHAP. A rep does not
+trust a black box, and neither should a judge.
 
-# What We Built
+**It measures its own quality.** There is a real evaluation suite, not just an
+accuracy number. precision at k against actual conversions, whether the SHAP
+explanations line up with real outcomes, whether reps who follow the model do
+better than reps who do not, and a hand labelled golden set of field situations
+the model gets scored against. This is the part that separates "looks like it
+works" from "here is the evidence it works".
 
-- Data foundation for private/internal data and public-data signal preparation.
-- Feature generation pipeline for normalized decision signals.
-- Dynamic prioritization engine for ranked daily visit planning.
-- Contextual decision engine for next best actions.
-- Anomaly and opportunity detection for operational alerts.
-- Explainability layer for evidence, confidence, and reasoning.
-- Outcome capture foundation for field feedback.
-- FastAPI backend exposing the workflow through structured endpoints.
-- React + TypeScript frontend for the demo workflow.
-- Deterministic demo package with sample outputs and verification scripts.
+**Next best action is a grounded LLM agent, not a lookup table.** SALAH takes the
+structured signals the pipeline computed and writes the actual pitch a rep can
+use, in english, hindi, or hinglish. The grounding matters: the model only ever
+sees real signals, so it cannot drift into making things up. Falls back to a rule
+based response when no API key is set, so the demo never breaks.
 
----
+**It is observable.** Every prediction and LLM call can be traced through
+Langfuse for latency, cost, and output inspection. Turns off cleanly into a no op
+when not configured.
 
-# System Flow
+**The feature engineering does not leak.** Training and serving compute features
+through the exact same code with an as_of date, so the model sees in production
+exactly what it saw in training. This sounds obvious and is the bug in most ML
+projects.
 
-```mermaid
-flowchart TD
-    A["Private / Public Data Inputs"] --> B["Data Foundation"]
-    B --> C["Feature Generation"]
-    C --> D["Priority Engine"]
-    C --> E["Contextual Decision Engine"]
-    C --> F["Anomaly Detection"]
-    D --> G["Explainability"]
-    E --> G
-    F --> G
-    D --> H["FastAPI Backend"]
-    E --> H
-    F --> H
-    G --> H
-    H --> I["Frontend Dashboard"]
-    I --> J["Outcome Capture"]
-    J -. "human-reviewed feedback foundation" .-> C
+## How it fits together
+
+```
+generate_data.py        synthetic season, makes the repo self contained
+        |
+run_pipeline.py
+        |
+   data_io  ->  signals  ->  features  ->  labels
+        |
+   ranker (LambdaRank, NDCG@5)  +  scoring (rule + ML blend)
+        |
+   route (OR-Tools TSP)  +  anomaly (CHETAVANI)  +  explain (SHAP)
+        |
+   evaluation (precision@k, faithfulness, golden set)
+   salah_agent (LLM next best action)
+   observability (Langfuse tracing)
+        |
+   outputs/*.csv  +  *.json
+        |
+   build_frontend.py  ->  frontend/data.js  ->  index.html
+        |
+   api/main.py  serves it all over REST
 ```
 
----
+## Running it
 
-# Demo Scenario
+### Locally
 
-The fixed demo path uses:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
-```text
-rep_id: REP_0164
-territory_id: TER_0164
-date: 2026-05-17
-selected_entity: RTL_01300
+python generate_data.py
+python run_pipeline.py
+
+# serve it
+uvicorn api.main:app --reload --port 8000   # then open /docs
+# or just open the dashboard
+open frontend/index.html
 ```
 
-Demo workflow:
+### With Docker
 
-```text
-Dashboard -> Daily Plan -> Recommendation -> Explanation -> Alerts -> Outcome
+```bash
+cp .env.example .env         # optional, add API keys to enable SALAH and tracing
+docker compose run pipeline  # generate data and train
+docker compose up api        # serve on localhost:8000
 ```
 
----
+### On Colab
 
-# Live Demo
+Open run_on_colab.ipynb, runs the whole thing on free compute in about 5 to 8
+minutes. Good if your laptop is slow.
 
-| Link | URL |
-|---|---|
-| Deployed application | [`https://kshetraai-frontend-968162341900.asia-south1.run.app`](https://kshetraai-frontend-968162341900.asia-south1.run.app) |
-| Backend API documentation | [`https://kshetraai-backend-968162341900.asia-south1.run.app/docs`](https://kshetraai-backend-968162341900.asia-south1.run.app/docs) |
+## Turning on the optional bits
 
-The deployed demo runs on Google Cloud Run and serves committed sanitized sample outputs for the judge-facing workflow.
+Everything runs without any keys. To light up the extra features, copy
+.env.example to .env and fill in what you have:
 
----
+  ANTHROPIC_API_KEY or OPENAI_API_KEY   SALAH writes real LLM pitches instead of
+                                        the rule based fallback
+  LANGFUSE_PUBLIC_KEY + SECRET_KEY      predictions and LLM calls get traced
 
-# Submission Materials
+## Layout
 
-| Material | Location | Purpose |
-|---|---|---|
-| Stage 1 Presentation Deck | [`demo/presentation_deck/Kisaan-KshetraAI-slides.pdf`](demo/presentation_deck/Kisaan-KshetraAI-slides.pdf) | Main presentation for the submission |
-| Judge Reference Appendix | [`demo/presentation_deck/kshetraai_judge_reference_appendix.pdf`](demo/presentation_deck/kshetraai_judge_reference_appendix.pdf) | Detailed module-wise technical reference supporting the deck |
+```
+generate_data.py      synthetic data generator (run first)
+run_pipeline.py        the whole pipeline, end to end
+build_frontend.py      wires outputs into the dashboard
+run_on_colab.ipynb     cloud run
 
-The repository includes setup instructions, demo scripts, sample outputs, and implementation files for reviewers who want to inspect or run the prototype.
+src/                   all the logic, see src/README.md
+data/                  golden_dataset.json, see data/README.md
+api/                   FastAPI service, see api/README.md
+tests/                 pytest, see tests/README.md
+frontend/              brutalist dashboard, see frontend/README.md
+docs/                  architecture diagram and the full writeup
 
----
-
-# How To Run
-
-Create and activate the Python environment:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -U pip
-python -m pip install -r requirements.txt
+Dockerfile, docker-compose.yml, .env.example
 ```
 
-Run the backend:
+## What it does not do, honestly
 
-```powershell
-uvicorn backend.main:app --reload
-```
+Single season of synthetic data, so do not read the numbers as real performance,
+read them as proof the machinery works. Some signals are tehsil level not
+retailer level because the source data does not carry retailer attribution. NDVI
+is a weather based proxy, not satellite. Competitor pricing is not modelled
+because there is no data for it, though the golden set has a case for how it
+should be handled. The uplift estimate is a proxy, not causal. All of this is
+called out in the code and the docs rather than hidden.
 
-Open the API documentation:
+## Where it came from
 
-```text
-http://127.0.0.1:8000/docs
-```
-
-Run the frontend:
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Run core checks:
-
-```powershell
-python -m unittest discover -s tests -p "test*.py"
-python demo\scripts\verify_demo_workflow.py
-python demo\scripts\run_acceptance_checks.py
-```
-
-Run the frontend production build:
-
-```powershell
-cd frontend
-npm run build
-```
-
-Regenerate the judge appendix PDF:
-
-```powershell
-python demo\scripts\build_judge_reference_pdf.py
-```
-
-For a Google Cloud Run demo, the backend can serve committed sanitized sample outputs instead of local processed CSVs:
-
-```text
-KSHETRA_API_DATA_MODE=sample
-KSHETRA_CORS_ORIGINS=https://your-cloud-run-frontend-url
-```
-
-Set the frontend build-time API base URL:
-
-```text
-VITE_KSHETRA_API_BASE_URL=https://your-cloud-run-backend-url
-```
-
-Cloud Run deployment files and commands are available in [`deploy/cloud-run/`](deploy/cloud-run/).
-
----
-
-# Data Privacy
-
-Private company-provided source files may be kept locally in:
-
-```text
-private-data/
-```
-
-That directory is confidential and ignored by Git.
-
-Public-domain fetched/reference inputs may be kept locally in:
-
-```text
-public-data/
-```
-
-That directory is also ignored by Git.
-
-Committed demo artifacts should remain processed, sanitized, or reference-level outputs. Raw private source data should not be committed or shared through the repository.
-
----
-
-# Current Scope And Limits
-
-Implemented for the Stage 1 prototype:
-
-- local deterministic demo workflow
-- processed-output driven backend
-- frontend workflow for plan, action, alert, explanation, and outcome
-- saved judge-facing presentation and technical appendix
-
-Current limits:
-
-- no production database persistence
-- no authentication or role-based access
-- no cloud deployment
-- public NDVI and pest data are foundation/reference-level, not full live production integrations
-- anomaly thresholds are prototype-level and not production-calibrated
-- no map or route optimization view
-
----
-
-# Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Backend | Python, FastAPI |
-| Data Processing | Pandas, NumPy |
-| Config | YAML |
-| Frontend | React, TypeScript, Vite |
-| Testing | Python unittest, frontend build checks |
-
----
-
-# Repository Map
-
-```text
-backend/      FastAPI backend and intelligence modules
-frontend/     React dashboard workflow
-datasets/     Generated processed outputs
-demo/         Presentation materials, sample outputs, scripts, scenarios
-docs/         Architecture, implementation, contracts, ground-truth notes
-tests/        Backend and workflow tests
-```
-
----
-
-# Final Note
-
-KshetraAI demonstrates how agricultural field execution can move from static planning to signal-driven prioritization, contextual action, transparent reasoning, and outcome capture.
+This started as a submission for a field force intelligence track and grew into a
+standalone project. The history is in CHANGELOG.md, including the thirty issues
+from the original review and how each was fixed.
