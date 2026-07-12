@@ -1,0 +1,32 @@
+# Two services: one that runs the pipeline once to produce outputs, and the API
+# that serves them. The pipeline writes to a shared volume the API reads from.
+#
+#   docker compose run pipeline      # generate data, train, build outputs
+#   docker compose up api            # serve on localhost:8000
+#
+# Env vars (API keys for SALAH, Langfuse) come from a .env file, see .env.example.
+
+services:
+  pipeline:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./outputs:/app/outputs
+      - ./models:/app/models
+      - ./processed:/app/processed
+      - ./raw_data:/app/raw_data
+      - ./frontend:/app/frontend
+    command: >
+      sh -c "python generate_data.py && python run_pipeline.py"
+
+  api:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./models:/app/models
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000

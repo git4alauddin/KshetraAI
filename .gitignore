@@ -1,40 +1,12 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
 .venv/
-venv/
-
-# Node / frontend
-node_modules/
-dist/
-build/
-.next/
-
-# Environment and local config
+__pycache__/
+*.pyc
 .env
-.env.*
-!.env.example
-
-# Editor and OS files
-.vscode/
-.idea/
+raw_data/*.csv
+outputs/*
+models/*.txt
+models/*.json
+processed/*
+frontend/data.js
 .DS_Store
-Thumbs.db
-
-# Logs and generated output
-*.log
-coverage/
-htmlcov/
-
-# Local data files
-datasets/raw/*
-datasets/processed/*
-!datasets/raw/.gitkeep
-!datasets/processed/.gitkeep
-
-private-data/
-public-data/
+.ipynb_checkpoints/
